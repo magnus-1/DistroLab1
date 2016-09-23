@@ -8,10 +8,14 @@
   <p>
     tim sak <%= (new java.util.Date()).toLocaleString()%>
     tt <%= (new ui.Del()).getA() %>
+
     <form action="TestServlet">
       <input name="testInput" />
     <input name="testInput2" />
       <input type="submit" />
+  </form>
+  <form action="TestServlet">
+    <input name="showInventory" type="submit" value="all">
   </form>
   </p>
   </body>
