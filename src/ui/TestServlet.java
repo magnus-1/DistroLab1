@@ -2,6 +2,7 @@ package ui;
 
 import bo.BusinessFacade;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +21,10 @@ public class TestServlet extends HttpServlet implements javax.servlet.Servlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("running");
         response.setContentType("text/html;charset-UTF-8");
+        if (request.getParameter("testInv") != null) {
 
+            return;
+        }
         String inventoryRequset = request.getParameter("showInventory");
         if (inventoryRequset == null || !inventoryRequset.equals("all")) {
             System.out.println("no get of showInventory");

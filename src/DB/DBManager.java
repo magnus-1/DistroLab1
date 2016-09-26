@@ -8,6 +8,9 @@ public final class DBManager {
     private DBManager(){
     }
 
+    public ProductDAO getProductDAO() {
+        return new ProductDAO(null);
+    }
     // dubble check looking
     public static DBManager getInstance() {
         DBManager current = db;

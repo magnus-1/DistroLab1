@@ -96,6 +96,11 @@ tim sak <%= (new java.util.Date()).toLocaleString()%>
     </table>
 </div>
 
+<form action="ClientServlet" method="get">
+    <input name="showProducts">
+    <input type="submit" value="Test av inv">
+</form>
+
 <form action="TestServlet">
     <input name="testInput"/>
     <input name="testInput2"/>
@@ -103,6 +108,9 @@ tim sak <%= (new java.util.Date()).toLocaleString()%>
 </form>
 <form action="TestServlet">
     <input name="showInventory" type="submit" value="all">
+</form>
+<form action="TestServlet">
+    <input name="testInv" type="submit" value="testInv">
 </form>
 </p>
 </body>
