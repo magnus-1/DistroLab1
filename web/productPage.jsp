@@ -14,6 +14,17 @@
     <title>Title</title>
 
 </head>
+<style>
+    .shoppingCart {
+        float: left;
+        margin: 10px;
+        padding: 10px;
+        max-width: 400px;
+        height: 300px;
+        border: 1px solid black;
+    }
+</style>
+
 
 <body>
 
