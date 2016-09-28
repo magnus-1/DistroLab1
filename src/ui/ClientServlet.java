@@ -22,6 +22,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         String showProducts = request.getParameter("showProducts");
         if (showProducts != null) {
             request.setAttribute("products",BusinessFacade.productsForSale());
+            request.setAttribute("shoppingcart",BusinessFacade.productsForSale());
             request.getRequestDispatcher("productPage.jsp").forward(request,response);
         }
 

@@ -6,6 +6,7 @@ package DB;
 public final class DBManager {
     private static volatile DBManager db = null;
     private DBManager(){
+
     }
 
     public ProductDAO getProductDAO() {

@@ -1,5 +1,7 @@
 <%@ page import="java.util.Collection" %>
-<%@ page import="ui.ProductInfo" %><%--
+<%@ page import="ui.ProductInfo" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--
   Created by IntelliJ IDEA.
   User: o_0
   Date: 2016-09-26
@@ -17,39 +19,56 @@
 
 
 <table style="width:100%">
-     
     <tr>
            
-        <th>ItemTitle</th>
+        <th align="left">ItemTitle</th>
            
-        <th>Description</th>
+        <th align="left">Description</th>
            
-        <th>Price</th>
+        <th align="left">Price</th>
            
         <th></th>
          
     </tr>
 
-    <% Collection<ProductInfo> prods = (Collection<ProductInfo>)request.getAttribute("products");
-    for (ProductInfo p :prods ) { %>
 
+
+    <c:forEach items="${products}" var="product">
     <tr>
-        <td><%= p.getProductTitle() %>
-        </td>
-        <td><%= p.getDescription() %> </td>
-        <td>$ <%= p.getPrice() %>
-        </td>
+        <td><c:out value="${product.productTitle}" /></td>
+        <td><c:out value="${product.description}" /></td>
+        <td><c:out value="${product.price}" /></td>
         <td>
             <form action="TestServlet">
-                <input name="productToBuy" type="hidden" value=<%= p.getProductId() %>>
+                <input name="productToBuy" type="hidden" value="${product.productId}">
                 <input name="addToCart" type="submit" value="Add To Cart"/>
             </form>
         </td>
-
     </tr>
-    <% } %>
+    </c:forEach>
+</table>
 
 
+<table style="width:50%">
+    <tr>
+           
+        <th align="left">CartItem</th>
+           
+        <th align="left">cartPrice</th>
+           
+        <th></th>
+         
+    </tr>
+
+
+
+    <c:forEach items="${shoppingcart}" var="cart">
+        <tr>
+            <td><c:out value="${cart.productTitle}" /></td>
+            <td><c:out value="${cart.price}" /></td>
+
+        </tr>
+    </c:forEach>
 </table>
 
     </body>
