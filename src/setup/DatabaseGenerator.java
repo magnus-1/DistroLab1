@@ -7,9 +7,9 @@ import java.sql.*;
  */
 public class DatabaseGenerator {
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost/";
+    static final String DB_URL = "jdbc:mysql://localhost:3306/";
 
-    static final String USERNAME = "username";
+    static final String USERNAME = "webshopapp";
     static final String PASSWORD = "password";
 
 
@@ -27,7 +27,9 @@ public class DatabaseGenerator {
             stmt = connection.createStatement();
 
             String database = "CREATE DATABASE IF NOT EXISTS Webshop;";
-            stmt.executeUpdate(database);
+            stmt.execute(database);
+            String useShop = "USE Webshop;";
+            stmt.execute(useShop);
             System.out.println("Database created successfully...");
 
             String tProduct = "CREATE TABLE T_PRODUCT (" +
