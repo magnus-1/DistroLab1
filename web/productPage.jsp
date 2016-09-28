@@ -72,6 +72,16 @@
     </tr>
 
 
+    <c:forEach items="${cookie}" var="mycookie" >
+        <tr>
+            <td><p>Key: <c:out value="${mycookie.key}" /></p></td>
+            <td><p>Value: <c:out value="${mycookie.value}" /></p></td>
+
+            <td><p>Value: <c:out value="${mycookie.value.name}" /></p></td>
+            <td><p>Value: <c:out value="${mycookie.value.value}" /></p></td>
+
+        </tr>
+    </c:forEach>
 
     <c:forEach items="${shoppingcart}" var="cart">
         <tr>

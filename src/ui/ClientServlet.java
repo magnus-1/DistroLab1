@@ -19,11 +19,26 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
+//        Cookie cookie = new Cookie("nuckel1", "hdsad");
+//        cookie.setMaxAge(120);
+//        Cookie[] cookies1 = request.getCookies();
+//        for (Cookie c: cookies1) {
+//            Cookie t = new Cookie(c.getName(), c.getValue() + "1");
+//            cookie.setMaxAge(1000);
+//            response.addCookie(t);
+//            System.out.println(t);
+//        }
+//        response.addCookie(cookie);
+
         String showProducts = request.getParameter("showProducts");
         if (showProducts != null) {
             request.setAttribute("products",BusinessFacade.productsForSale());
+
             request.setAttribute("shoppingcart",BusinessFacade.productsForSale());
             request.getRequestDispatcher("productPage.jsp").forward(request,response);
+            return;
         }
 
         String arg = request.getParameter("productToBuy");
