@@ -32,4 +32,14 @@ public class DatabasFacade {
         DBManager db = DBManager.getInstance();
         return db.getProductDAO().getProducts(builder);
     }
+
+    public static Collection<BoProduct> getProducts(BoProductBuilder builder,Collection<Integer> productIds) {
+        DBManager db = DBManager.getInstance();
+        return db.getProductDAO().getProductsById(builder,productIds);
+    }
+
+    public static void addProduct(BoProduct product) {
+        DBManager db = DBManager.getInstance();
+        db.getProductDAO().insertProduct(product);
+    }
 }

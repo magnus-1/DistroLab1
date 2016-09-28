@@ -1,11 +1,12 @@
 package bo;
 
 import DB.BoProductBuilder;
+import DB.ProductInterface;
 
 /**
  * Created by o_0 on 2016-09-26.
  */
-public class BoProduct {
+public class BoProduct implements ProductInterface {
     private String productTitle;
     private String description;
     private int productId;

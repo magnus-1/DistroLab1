@@ -72,7 +72,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
     }
 
 
-    private Cookie addProductToCartCookie(Cookie[] cookies, String value) {
+    public Cookie addProductToCartCookie(Cookie[] cookies, String value) {
         String TAG = "AddProductToCartCookie";
         Cookie newCookie = null;
         boolean weFoundShopingcart = false;
@@ -106,14 +106,14 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         return newCookie;
     }
 
-    private Collection<Integer> parseShoppingCartCookie(Cookie cookie) {
+    public Collection<Integer> parseShoppingCartCookie(Cookie cookie) {
         String delimiter = ":";
         Collection<Integer> result = new ArrayList<>();
         if (cookie == null) {
             return result;
         }
 
-
+        //System.out.println("name: " +cookie.getName() + " value:" + cookie.getValue());
         if (cookie.getName().equals("shoppingcart")) {
             String productIDs = cookie.getValue();
             if (productIDs == null) {
@@ -129,7 +129,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         return result;
     }
 
-    private Collection<Integer> parseShoppingCartCookie(Cookie[] cookies) {
+    public Collection<Integer> parseShoppingCartCookie(Cookie[] cookies) {
         Collection<Integer> result = new ArrayList<>();
         for (Cookie c : cookies) {
             if (c.getName().equals("shoppingcart")) {

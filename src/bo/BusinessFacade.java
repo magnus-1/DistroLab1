@@ -1,6 +1,7 @@
 package bo;
 
 import DB.DatabasFacade;
+import DB.ProductInterface;
 import ui.ProductInfo;
 
 import java.util.ArrayList;
@@ -31,7 +32,13 @@ public class BusinessFacade {
 
 
     public static Collection<ProductInfo> getProducts(Collection<Integer> productIDs){
-        return getProducts();
+        ArrayList<ProductInfo> productInfos = new ArrayList<>();
+        Collection<BoProduct> currentInventory = DatabasFacade.getProducts(BoProduct.getBuilder(),productIDs);
+        for (BoProduct p : currentInventory) {
+            productInfos.add(new ProductInfo(p.getProductTitle(),p.getDescription(),p.getProductId(),p.getPrice()));
+        }
+        System.out.println("productsInfos form getProducts: "+ productInfos.toString());
+        return productInfos;
     }
 
     static public void addToShoppingCart(ProductInfo info) {
