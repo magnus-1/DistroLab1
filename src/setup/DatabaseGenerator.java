@@ -9,8 +9,8 @@ public class DatabaseGenerator {
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost:3306/";
 
-    static final String USERNAME = "webshopapp";
-    static final String PASSWORD = "password";
+    static final String USERNAME = "root";
+    static final String PASSWORD = "yxa apa ved";
 
 
     public static void main(String[] args) {

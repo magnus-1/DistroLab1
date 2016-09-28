@@ -50,8 +50,8 @@
         <td><c:out value="${product.description}" /></td>
         <td><c:out value="${product.price}" /></td>
         <td>
-            <form action="TestServlet">
-                <input name="productToBuy" type="hidden" value="${product.productId}">
+            <form action="ClientServlet">
+                <input name="productToAdd" type="hidden" value="${product.productId}">
                 <input name="addToCart" type="submit" value="Add To Cart"/>
             </form>
         </td>

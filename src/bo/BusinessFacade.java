@@ -20,13 +20,18 @@ public class BusinessFacade {
 //        return itemInfos;
 //    }
 
-    public static Collection<ProductInfo> productsForSale() {
+    public static Collection<ProductInfo> getProducts() {
         ArrayList<ProductInfo> productInfos = new ArrayList<>();
         Collection<BoProduct> currentInventory = DatabasFacade.getProducts(BoProduct.getBuilder());
         for (BoProduct p : currentInventory) {
             productInfos.add(new ProductInfo(p.getProductTitle(),p.getDescription(),p.getProductId(),p.getPrice()));
         }
         return productInfos;
+    }
+
+
+    public static Collection<ProductInfo> getProducts(Collection<Integer> productIDs){
+        return getProducts();
     }
 
     static public void addToShoppingCart(ProductInfo info) {
