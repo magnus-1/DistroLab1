@@ -6,17 +6,17 @@ import java.util.Collection;
  * Created by o_0 on 2016-09-23.
  */
 public class ShoppingCart {
-    private Collection<ItemInfo> items;
+    private Collection<ProductInfo> items;
 
-    public ShoppingCart(Collection<ItemInfo> items) {
+    public ShoppingCart(Collection<ProductInfo> items) {
         this.items = items;
     }
 
-    public Collection<ItemInfo> getItems() {
+    public Collection<ProductInfo> getItems() {
         return items;
     }
 
-    public void setItems(Collection<ItemInfo> items) {
+    public void setItems(Collection<ProductInfo> items) {
         this.items = items;
     }
 }
