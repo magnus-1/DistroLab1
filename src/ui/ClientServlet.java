@@ -29,7 +29,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         if (request.getParameter(UIProtocol.ADD_TO_CART) != null) {
             productsInShoppingCart = addToCart(request, response);
         } else if (request.getParameter(UIProtocol.REMOVE_FROM_CART) != null) {
-            productsInShoppingCart = addToCart(request, response);
+            productsInShoppingCart = removeFromCart(request, response);
         } else {
             productsInShoppingCart = parseShoppingCartCookie(request.getCookies());
         }
@@ -67,7 +67,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         String productToRemove = request.getParameter("productToRemove");
 
         // TODO: 2016-09-29 bli klar
-        Cookie newCartCookie = addProductToCartCookie(request.getCookies(), productToRemove);
+        Cookie newCartCookie = removeProductFromCartCookie(request.getCookies(), productToRemove);
         if (newCartCookie == null) {
             System.out.println("doGet:addToCart: newCartCookie = null");
         } else {
