@@ -3,6 +3,7 @@ package bo;
 import DB.DBManager;
 import DB.DatabasFacade;
 import ui.ProductInfo;
+import ui.UserInfo;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -70,6 +71,14 @@ public class AdminBuissnessFacade {
     }
     static public void updateProduct(ProductInfo productInfo){
         DBManager.getInstance().getProductDAO().insertProduct(buildBoProduct(productInfo));
+    }
+    static public void addUser(UserInfo userInfo){
+    }
+    static public void deleteUser(int userID){
+
+    }
+    static public void updateUser(UserInfo userInfo){
+
     }
 
 
