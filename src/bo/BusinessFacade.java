@@ -41,6 +41,14 @@ public class BusinessFacade {
         return productInfos;
     }
 
+    static public Double totalShoppingPrice(Collection<ProductInfo> cart) {
+        double sum = 0.0;
+        for (ProductInfo p: cart) {
+            sum += p.getPrice();
+        }
+        return new Double(sum);
+    }
+
     static public void addToShoppingCart(ProductInfo info) {
     }
     static public Collection<ProductInfo> getShoppingCart() {

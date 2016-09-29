@@ -23,6 +23,8 @@ public class DatabaseGenerator {
         String useShop = "USE Webshop;";
         stmt.execute(useShop);
         System.out.println("Database created successfully...");
+        String dropStuff = "DROP TABLE T_PRODUCT";
+        stmt.execute(dropStuff);
 
         String tProduct = "CREATE TABLE IF NOT EXISTS T_PRODUCT (" +
                 "productID INT NOT NULL AUTO_INCREMENT," +
