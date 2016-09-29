@@ -21,8 +21,13 @@ public class ProductDAO {
     }
     private static final String sqlGetProductById = "SELECT * FROM T_PRODUCT WHERE productID = ?";
     private static final String sqlGetAllProduct = "SELECT * FROM T_PRODUCT";
+    private static final String sqlInsertProduct = "INSERT INTO T_PRODUCT (productTitle,description,price,quantity) VALUES (?,?,?,?)";
+    private static final String COLUMN_PRODUCT_ID = "productID";
+    private static final String COLUMN_PRODUCT_TITLE = "productTitle";
+    private static final String COLUMN_DESCRIPTION = "productTitle";
+    private static final String COLUMN_PRICE = "price";
+    private static final String COLUMN_QUANTITY = "quantity";
 
-    private static final String sqlInsertProduct = "INSERT INTO T_PRODUCT (productTitle,description,price) VALUES (?,?,?)";
 
 //    productID INT N
 //    productTitle V
@@ -38,6 +43,7 @@ public class ProductDAO {
             ps.setString(1,product.getProductTitle());
             ps.setString(2,product.getDescription());
             ps.setDouble(3,product.getPrice());
+            ps.setInt(4,product.getQuantity());
             ps.execute();
 
         } catch (SQLException e) {
@@ -61,10 +67,11 @@ public class ProductDAO {
             ps.setInt(1,productId.intValue());
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
-                builder.productId(resultSet.getInt("productID"))
-                        .productTitle(resultSet.getString("productTitle"))
-                        .description(resultSet.getString("description"))
-                        .price(resultSet.getDouble("price"));
+                builder.productId(resultSet.getInt(COLUMN_PRODUCT_ID))
+                        .productTitle(resultSet.getString(COLUMN_PRODUCT_TITLE))
+                        .description(resultSet.getString(COLUMN_DESCRIPTION))
+                        .price(resultSet.getDouble(COLUMN_PRICE))
+                        .quantity(resultSet.getInt(COLUMN_QUANTITY));
                 foundIt = true;
             }
         } catch (SQLException e) {
@@ -95,10 +102,11 @@ public class ProductDAO {
             System.out.println("DB:dao:getProducts:resultset:" + resultSet.toString());
             while (resultSet.next()) {
                 builder.clear();
-                builder.productId(resultSet.getInt("productID"))
-                        .productTitle(resultSet.getString("productTitle"))
-                        .description(resultSet.getString("description"))
-                        .price(resultSet.getDouble("price"));
+                builder.productId(resultSet.getInt(COLUMN_PRODUCT_ID))
+                        .productTitle(resultSet.getString(COLUMN_PRODUCT_TITLE))
+                        .description(resultSet.getString(COLUMN_DESCRIPTION))
+                        .price(resultSet.getDouble(COLUMN_PRICE))
+                        .quantity(resultSet.getInt(COLUMN_QUANTITY));
                 boProducts.add(builder.build());
             }
         } catch (SQLException e) {
