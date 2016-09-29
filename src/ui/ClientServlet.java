@@ -107,6 +107,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
     }
 
     public Collection<Integer> parseShoppingCartCookie(Cookie cookie) {
+        String TAG = "parseShoppingCartCookie:";
         String delimiter = ":";
         Collection<Integer> result = new ArrayList<>();
         if (cookie == null) {
@@ -122,10 +123,14 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
             StringTokenizer tokenizer = new StringTokenizer(productIDs, delimiter);
             while (tokenizer.hasMoreTokens()) {
                 String id = tokenizer.nextToken();
-                result.add(Integer.parseInt(id));
+                try{
+                    result.add(Integer.parseInt(id));
+                }catch (NumberFormatException nfe){
+                    System.out.println(TAG + " could not parse \"" + id + "\" to integer..");
+                }
             }
         }
-        System.out.println("ParseShoppingCart: ProductIDs in cart = " + result.toString());
+        System.out.println(TAG + " ProductIDs in cart = " + result.toString());
         return result;
     }
 
