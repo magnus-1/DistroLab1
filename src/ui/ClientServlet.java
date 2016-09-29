@@ -66,7 +66,6 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
     public Collection<Integer> removeFromCart(HttpServletRequest request, HttpServletResponse response) {
         String productToRemove = request.getParameter("productToRemove");
 
-        // TODO: 2016-09-29 bli klar
         Cookie newCartCookie = removeProductFromCartCookie(request.getCookies(), productToRemove);
         if (newCartCookie == null) {
             System.out.println("doGet:addToCart: newCartCookie = null");
