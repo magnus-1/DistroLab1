@@ -63,14 +63,23 @@ public class AdminBuissnessFacade {
     }
 
     static public void addProduct(ProductInfo productInfo){
-        BoProduct boProduct = BoProduct.getBuilder()
+        DBManager.getInstance().getProductDAO().insertProduct(buildBoProduct(productInfo));
+    }
+    static public void deleteProduct(int productId){
+        DBManager.getInstance().getProductDAO().deleteProduct(productId);
+    }
+    static public void updateProduct(ProductInfo productInfo){
+        DBManager.getInstance().getProductDAO().insertProduct(buildBoProduct(productInfo));
+    }
+
+
+    static private BoProduct buildBoProduct(ProductInfo productInfo){
+        return BoProduct.getBuilder()
                 .productId(productInfo.getProductId())
                 .productTitle(productInfo.getProductTitle())
                 .description(productInfo.getDescription())
                 .price(productInfo.getPrice())
                 .quantity(productInfo.getQuantity())
                 .build();
-
-        DBManager.getInstance().getProductDAO().insertProduct(boProduct);
     }
 }

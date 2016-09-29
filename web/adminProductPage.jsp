@@ -15,22 +15,11 @@
     <title>Title</title>
 
 </head>
-<style>
-    .shoppingCart {
-        float: left;
-        margin: 10px;
-        padding: 10px;
-        max-width: 400px;
-        height: 300px;
-        border: 1px solid black;
-    }
-</style>
-
 
 <body>
+<h2>Admin/Products</h2>
 
-
-<table style="width:100%">
+<table style="width:75%">
     <tr>
            
         <th align="left">ItemTitle</th>
@@ -97,51 +86,6 @@
         </tr>
     </c:forEach>
 </table>
-
-
-<table style="width:50%">
-    <tr>
-           
-        <th align="left">CartItem</th>
-           
-        <th align="left">cartPrice</th>
-
-        <th align="left"></th>
-
-           
-        <th></th>
-         
-    </tr>
-
-
-    <%--<c:forEach items="${cookie}" var="mycookie" >--%>
-    <%--<tr>--%>
-    <%--<td><p>Key: <c:out value="${mycookie.key}" /></p></td>--%>
-    <%--<td><p>Value: <c:out value="${mycookie.value}" /></p></td>--%>
-
-    <%--<td><p>Value: <c:out value="${mycookie.value.name}" /></p></td>--%>
-    <%--<td><p>Value: <c:out value="${mycookie.value.value}" /></p></td>--%>
-
-    <%--</tr>--%>
-    <%--</c:forEach>--%>
-
-    <c:forEach items="${shoppingcart}" var="cart">
-        <tr>
-            <td><c:out value="${cart.productTitle}"/></td>
-            <td><c:out value="${cart.price}"/></td>
-            <td>
-                <form action="ClientServlet">
-                    <input name="productToRemove" type="hidden" value="${cart.productId}">
-                    <input name="removeFromCart" type="submit" value="Remove"/>
-                </form>
-            </td>
-        </tr>
-    </c:forEach>
-</table>
-<form action="ClientServlet">
-    <input name="goToRegestry" type="hidden" value="buy">
-    <input name="registry" type="submit" value="Goto Registry"/>
-</form>
 
 </body>
 </html>

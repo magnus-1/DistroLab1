@@ -1,6 +1,7 @@
 package DB;
 
 import bo.BoProduct;
+import ui.ProductInfo;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -19,14 +20,19 @@ public class ProductDAO {
     public ProductDAO(Connection dbConnection) {
         this.dbConn = dbConnection;
     }
-    private static final String sqlGetProductById = "SELECT * FROM T_PRODUCT WHERE productID = ?";
-    private static final String sqlGetAllProduct = "SELECT * FROM T_PRODUCT";
-    private static final String sqlInsertProduct = "INSERT INTO T_PRODUCT (productTitle,description,price,quantity) VALUES (?,?,?,?)";
+
     private static final String COLUMN_PRODUCT_ID = "productID";
     private static final String COLUMN_PRODUCT_TITLE = "productTitle";
     private static final String COLUMN_DESCRIPTION = "productTitle";
     private static final String COLUMN_PRICE = "price";
     private static final String COLUMN_QUANTITY = "quantity";
+
+    private static final String sqlGetProductById = "SELECT * FROM T_PRODUCT WHERE productID = ?";
+    private static final String sqlGetAllProduct = "SELECT * FROM T_PRODUCT";
+    private static final String sqlInsertProduct = "INSERT INTO T_PRODUCT (productTitle,description,price,quantity) VALUES (?,?,?,?)";
+    private static final String SQL_DELETE_PRODUCT = "DELETE FROM T_PRODUCT WHERE productID = ?";
+    private static final String SQL_UPDATE_PRODUCT = "UPDATE T_PRODUCT SET productTitle = ?,description = ?,price = ?,quantity = ? WHERE productID = ?";
+
 
 
 //    productID INT N
@@ -40,21 +46,50 @@ public class ProductDAO {
         PreparedStatement ps = null;
         try {
             ps = dbConn.prepareStatement(sqlInsertProduct);
-            ps.setString(1,product.getProductTitle());
-            ps.setString(2,product.getDescription());
-            ps.setDouble(3,product.getPrice());
-            ps.setInt(4,product.getQuantity());
+            ps.setString(1, product.getProductTitle());
+            ps.setString(2, product.getDescription());
+            ps.setDouble(3, product.getPrice());
+            ps.setInt(4, product.getQuantity());
             ps.execute();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
+
+    public void deleteProduct(int productId) {
+        PreparedStatement ps = null;
+        try {
+            ps = dbConn.prepareStatement(SQL_DELETE_PRODUCT);
+            ps.setInt(1,productId);
+            ps.execute();
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    public void updateProduct(ProductInfo productInfo) {
+        PreparedStatement ps = null;
+        try {
+            ps = dbConn.prepareStatement(SQL_UPDATE_PRODUCT);
+            ps.setString(1, productInfo.getProductTitle());
+            ps.setString(2, productInfo.getDescription());
+            ps.setDouble(3, productInfo.getPrice());
+            ps.setInt(4, productInfo.getQuantity());
+            ps.setInt(5,productInfo.getProductId());
+            ps.execute();
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+
 
     /**
      * get  product with the id
-     * @param builder builder to build boproduct
+     *
+     * @param builder   builder to build boproduct
      * @param productId the ide
      * @return
      */
@@ -64,7 +99,7 @@ public class ProductDAO {
         try {
             //System.out.println("dbConn = " + dbConn + " \nsql:" + sqlGetProductById);
             PreparedStatement ps = dbConn.prepareStatement(sqlGetProductById);
-            ps.setInt(1,productId.intValue());
+            ps.setInt(1, productId.intValue());
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
                 builder.productId(resultSet.getInt(COLUMN_PRODUCT_ID))
@@ -83,8 +118,8 @@ public class ProductDAO {
 
     public <T> Collection<T> getProductsById(BoProductBuilder<T> builder, Collection<Integer> productIdList) {
         ArrayList<T> result = new ArrayList<>();
-        for (Integer productId: productIdList) {
-            T prod = getProductsById(builder,productId);
+        for (Integer productId : productIdList) {
+            T prod = getProductsById(builder, productId);
             if (prod != null) {
                 result.add(prod);
             }
