@@ -18,7 +18,7 @@ public class BoUser {
 
 
 
-    public BoUser(BoBuilder builder){
+    private BoUser(BoBuilder builder){
         this.email = builder.email;
         this.password = builder.password;
         this.userType = builder.userType;
@@ -26,6 +26,10 @@ public class BoUser {
 
     }
 
+
+    public static BoUserBuilder<BoUser> getBuilder() {
+        return new BoBuilder();
+    }
 
     private static class BoBuilder implements BoUserBuilder<BoUser> {
         private String email = "";
