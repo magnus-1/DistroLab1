@@ -5,10 +5,7 @@ import com.sun.deploy.net.HttpResponse;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,8 +21,8 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Collection<Integer> productsInShoppingCart = new ArrayList<>();
-
-
+        System.out.println("AuthType: " + request.getAuthType());
+        System.out.println("RequestedSessionId: " + request.getRequestedSessionId());
         if (request.getParameter(UIProtocol.ADD_TO_CART) != null) {
             productsInShoppingCart = addToCart(request, response);
         } else if (request.getParameter(UIProtocol.REMOVE_FROM_CART) != null) {
@@ -134,6 +131,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
 
                 while (tokenizer.hasMoreTokens()) {
                     String currentId = tokenizer.nextToken();
+                    System.out.println("idToRemove:" +idToRemove + " =? current:" + currentId);
                     if (currentId.equals(idToRemove) && !removedProduct) {
                         // not append currentId to newValue
                         removedProduct = true;
