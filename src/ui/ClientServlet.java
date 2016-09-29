@@ -19,7 +19,7 @@ import java.util.StringTokenizer;
  */
 @WebServlet(description = "ClientServlet thingy", urlPatterns = {"/ClientServlet"})
 public class ClientServlet extends HttpServlet implements javax.servlet.Servlet {
-    public static final String PRODUCT_PAGE="productPage.jsp";
+    public static final String PRODUCT_PAGE = "productPage.jsp";
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -37,7 +37,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         if (request.getParameter(UIProtocol.GO_TO_REGESTRY) != null) {
             productsInShoppingCart = addToCart(request, response);
             request.setAttribute("shoppingcart", BusinessFacade.getProducts(productsInShoppingCart));
-            request.setAttribute("totalPrice",new Integer(15));
+            request.setAttribute("totalPrice", new Integer(15));
             request.getRequestDispatcher("registry.jsp").forward(request, response);
             return;
         }
@@ -47,8 +47,6 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         request.getRequestDispatcher(PRODUCT_PAGE).forward(request, response);
 
     }
-
-
 
 
     public Collection<Integer> addToCart(HttpServletRequest request, HttpServletResponse response) {
@@ -82,11 +80,11 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
     public Cookie addProductToCartCookie(Cookie[] cookies, String value) {
         String TAG = "AddProductToCartCookie";
         Cookie newCookie = null;
-        boolean weFoundShopingcart = false;
+        boolean weFoundShoppingCart = false;
 
         for (Cookie c : cookies) {
             if (c.getName().equals("shoppingcart")) {
-                weFoundShopingcart = true;
+                weFoundShoppingCart = true;
 
                 String productIDs = c.getValue();
                 if (productIDs == null) {
@@ -105,11 +103,51 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
                 newCookie.setMaxAge(1000);
             }
         }
-        if (!weFoundShopingcart) {
+        if (!weFoundShoppingCart) {
             newCookie = new Cookie("shoppingcart", value);
             newCookie.setMaxAge(1000);
         }
 
+        return newCookie;
+    }
+
+    public Cookie removeProductFromCartCookie(Cookie[] cookies, String idToRemove) {
+        String TAG = "RemoveProductFromCartCookie";
+        String delimiter = ":";
+        String newValue = "";
+        Cookie newCookie = null;
+        boolean removedProduct = false;
+
+        for (Cookie c : cookies) {
+            if (c.getName().equals("shoppingcart")) {
+
+                String productIDs = c.getValue();
+                System.out.println(TAG + " Products before removal: " + productIDs);
+
+                if (productIDs == null) {
+                    System.out.println(TAG + " Cookie value null");
+                    break;
+                }
+
+                StringTokenizer tokenizer = new StringTokenizer(productIDs, delimiter);
+
+                while (tokenizer.hasMoreTokens()) {
+                    String currentId = tokenizer.nextToken();
+                    if (currentId.equals(idToRemove) && !removedProduct) {
+                        // not append currentId to newValue
+                        removedProduct = true;
+                    } else {
+                        newValue += delimiter + currentId;
+                    }
+                }
+
+                System.out.println(TAG + " Products after removal: " + newValue);
+
+
+                newCookie = new Cookie("shoppingcart", newValue);
+                newCookie.setMaxAge(1000);
+            }
+        }
         return newCookie;
     }
 

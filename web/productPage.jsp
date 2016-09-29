@@ -57,7 +57,7 @@
             <form action="ClientServlet">
                 <input name="productToAdd" type="hidden" value="${product.productId}">
                 <input name="addToCart" type="submit" value="Add To Cart"/>
-            </form>
+             </form>
         </td>
     </tr>
     </c:forEach>

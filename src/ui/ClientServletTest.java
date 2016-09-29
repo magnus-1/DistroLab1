@@ -21,12 +21,12 @@ public class ClientServletTest {
     public void setUp() throws Exception {
         testCookies = new ArrayList<>();
         Cookie c;
-        for (int i=0;i<10;i++){
-            if (i == 0){
-                c = new Cookie("shoppingcart","34:56:232:" + lastValueInCart);
+        for (int i = 0; i < 10; i++) {
+            if (i == 0) {
+                c = new Cookie("shoppingcart", ":34:56:232:" + lastValueInCart);
 
-            }else {
-                c = new Cookie("nummer"+i,""+i);
+            } else {
+                c = new Cookie("nummer" + i, "" + i);
             }
             testCookies.add(c);
         }
@@ -52,10 +52,10 @@ public class ClientServletTest {
         Cookie shoppingCart = new Cookie("shoppingcart", value);
 
         Collection<Integer> result = servlet.parseShoppingCartCookie(shoppingCart);
-        assertTrue("Size mismatch:result = " + result.size() +" control:" +controll.size(),result.size() == controll.size());
+        assertTrue("Size mismatch:result = " + result.size() + " control:" + controll.size(), result.size() == controll.size());
         int idx = 0;
         boolean flag = true;
-        for(Integer id : result) {
+        for (Integer id : result) {
             if (id != controll.get(idx)) {
                 flag = false;
                 break;
@@ -63,24 +63,24 @@ public class ClientServletTest {
             idx++;
         }
 
-        assertTrue("Parse failed",flag);
+        assertTrue("Parse failed", flag);
     }
 
     @Test
     public void TestWrongDelimiter() {
         ClientServlet servlet = new ClientServlet();
         Cookie shoppingcart = new Cookie("shoppingcart", "34:56,232:" + lastValueInCart);
-        List<Integer> result  = (List<Integer>) servlet.parseShoppingCartCookie(shoppingcart);
-        assertTrue("Did not handle wrong delimeter",result.size() == 2);
+        List<Integer> result = (List<Integer>) servlet.parseShoppingCartCookie(shoppingcart);
+        assertTrue("Did not handle wrong delimeter", result.size() == 2);
     }
 
     @Test
     public void TestParseCookieArray() {
         ClientServlet servlet = new ClientServlet();
         System.out.println(testCookies);
-        List<Integer> result  = (List<Integer>) servlet.parseShoppingCartCookie(testCookies.toArray(new Cookie[testCookies.size()]));
-        assertTrue("No results:",result.size() > 0);
-        assertTrue("Fail to parse cookie array",result.get(result.size()-1).toString().equals(lastValueInCart));
+        List<Integer> result = (List<Integer>) servlet.parseShoppingCartCookie(testCookies.toArray(new Cookie[testCookies.size()]));
+        assertTrue("No results:", result.size() > 0);
+        assertTrue("Fail to parse cookie array", result.get(result.size() - 1).toString().equals(lastValueInCart));
     }
 
     @Test
@@ -89,7 +89,33 @@ public class ClientServletTest {
         ClientServlet servlet = new ClientServlet();
 
         Cookie cookie = servlet.addProductToCartCookie(testCookies.toArray(new Cookie[testCookies.size()]), testValue);
-        List<Integer> result  = (List<Integer>) servlet.parseShoppingCartCookie(cookie);
-        assertTrue("Fail to add value to cartCookie",result.get(result.size()-1).toString().equals(testValue));
+        List<Integer> result = (List<Integer>) servlet.parseShoppingCartCookie(cookie);
+        assertTrue("Fail to add value to cartCookie", result.get(result.size() - 1).toString().equals(testValue));
+    }
+
+    @Test
+    public void TestRemoveProductFromCartCookie() {
+        ClientServlet servlet = new ClientServlet();
+        int valueBefore = 0;
+        int valueAfter = 0;
+
+        List<Integer> resultbefore = (List<Integer>) servlet.parseShoppingCartCookie(testCookies.toArray(new Cookie[testCookies.size()]));
+        valueBefore = countValue(resultbefore);
+
+        Cookie cookie = servlet.removeProductFromCartCookie(testCookies.toArray(new Cookie[testCookies.size()]), lastValueInCart);
+        List<Integer> resultAfter = (List<Integer>) servlet.parseShoppingCartCookie(cookie);
+        valueAfter = countValue(resultAfter);
+
+        assertTrue("Value not right", (valueAfter + Integer.parseInt(lastValueInCart)) == valueBefore );
+
+    }
+
+
+    private int countValue(List<Integer> list) {
+        int value=0;
+        for (Integer i : list) {
+            value += i;
+        }
+        return value;
     }
 }
