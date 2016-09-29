@@ -37,7 +37,8 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         if (request.getParameter(UIProtocol.GO_TO_REGESTRY) != null) {
             productsInShoppingCart = addToCart(request, response);
             request.setAttribute("shoppingcart", BusinessFacade.getProducts(productsInShoppingCart));
-            request.getRequestDispatcher("regestry.jsp").forward(request, response);
+            request.setAttribute("totalPrice",new Integer(15));
+            request.getRequestDispatcher("registry.jsp").forward(request, response);
             return;
         }
 

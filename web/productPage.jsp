@@ -103,6 +103,10 @@
         </tr>
     </c:forEach>
 </table>
+<form action="ClientServlet">
+    <input name="goToRegestry" type="hidden" value="buy">
+    <input name="registry" type="submit" value="Goto Registry"/>
+</form>
 
     </body>
 </html>
