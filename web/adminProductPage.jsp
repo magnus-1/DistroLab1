@@ -46,7 +46,7 @@
     </tr>
 
     <tr>
-        <form action="ClientServlet">
+        <form action="AdminServlet">
             <td>
                 <input name="productTitle" value="">
             </td>
@@ -71,7 +71,7 @@
 
     <c:forEach items="${products}" var="product">
         <tr>
-            <form action="ClientServlet">
+            <form action="AdminServlet">
                 <td>
                     <input name="productTitle" value="${product.productTitle}">
                 </td>
