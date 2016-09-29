@@ -3,6 +3,7 @@ package setup;
 import DB.BoProductBuilder;
 import DB.DatabasFacade;
 import bo.BoProduct;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 
 import java.sql.*;
 
@@ -28,6 +29,7 @@ public class DatabaseGenerator {
                 " productTitle VARCHAR(50) NOT NULL," +
                 " description VARCHAR(300) NOT NULL," +
                 " price REAL NOT NULL," +
+                " quantity INT NOT NULL," +
                 " PRIMARY KEY(productID)" +
                 ");";
         stmt.executeUpdate(tProduct);
@@ -40,7 +42,8 @@ public class DatabaseGenerator {
         for (int i = 1; i < 10; i++) {
             builder.productTitle("item" + i)
                     .description("discp" + i)
-                    .price(22 * i);
+                    .price(22 * i)
+                    .quantity(i+5);
             DatabasFacade.addProduct(builder.build());
             builder.clear();
         }

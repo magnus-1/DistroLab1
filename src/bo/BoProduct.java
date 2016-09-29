@@ -11,6 +11,7 @@ public class BoProduct implements ProductInterface {
     private String description;
     private int productId;
     private double price;
+    private int quantity;
 
     private BoProduct(BoBuilder builder) {
         this.productTitle = builder.productTitle;
@@ -35,15 +36,20 @@ public class BoProduct implements ProductInterface {
         return price;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
     public static BoProductBuilder<BoProduct> getBuilder() {
         return new BoBuilder();
     }
 
     private static class BoBuilder implements BoProductBuilder<BoProduct> {
-        private String productTitle ="";
+        private String productTitle = "";
         private String description = "";
         private int productId = 0;
-        private double price= 0.0;
+        private double price = 0.0;
+        private int quantity = 0;
 
         public BoBuilder() {
         }
@@ -69,6 +75,12 @@ public class BoProduct implements ProductInterface {
         @Override
         public BoBuilder price(double price) {
             this.price = price;
+            return this;
+        }
+
+        @Override
+        public BoProductBuilder<BoProduct> quantity(int quantity) {
+            this.quantity = quantity;
             return this;
         }
 

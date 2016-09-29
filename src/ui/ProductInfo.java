@@ -8,12 +8,14 @@ public class ProductInfo {
     private String description;
     private int productId;
     private double price;
+    private int quantity;
 
-    public ProductInfo(String productTitle, String description, int productId, double price) {
+    public ProductInfo(String productTitle, String description, int productId, double price, int quantity) {
         this.productTitle = productTitle;
         this.description = description;
         this.productId = productId;
         this.price = price;
+        this.quantity = quantity;
     }
 
     public String getProductTitle() {
@@ -30,6 +32,10 @@ public class ProductInfo {
 
     public double getPrice() {
         return price;
+    }
+
+    public int getQuantity() {
+        return quantity;
     }
 
     @Override
