@@ -52,7 +52,7 @@ public class ProductDAO {
      * @param productId the ide
      * @return
      */
-    public BoProduct getProductsById(BoProductBuilder builder, Integer productId) {
+    public <T> T getProductsById(BoProductBuilder<T> builder, Integer productId) {
         builder.clear();
         boolean foundIt = false;
         try {
@@ -74,10 +74,10 @@ public class ProductDAO {
         return (foundIt) ? builder.build() : null;
     }
 
-    public Collection<BoProduct> getProductsById(BoProductBuilder builder, Collection<Integer> productIdList) {
-        ArrayList<BoProduct> result = new ArrayList<>();
+    public <T> Collection<T> getProductsById(BoProductBuilder<T> builder, Collection<Integer> productIdList) {
+        ArrayList<T> result = new ArrayList<>();
         for (Integer productId: productIdList) {
-            BoProduct prod = getProductsById(builder,productId);
+            T prod = getProductsById(builder,productId);
             if (prod != null) {
                 result.add(prod);
             }
@@ -85,8 +85,8 @@ public class ProductDAO {
         return result;
     }
 
-    public Collection<BoProduct> getProducts(BoProductBuilder builder) {
-        ArrayList<BoProduct> boProducts = new ArrayList<>();
+    public <T> Collection<T> getProducts(BoProductBuilder<T> builder) {
+        ArrayList<T> boProducts = new ArrayList<>();
         System.out.println("DB:dao:getProducts");
         try {
             PreparedStatement ps = dbConn.prepareStatement(sqlGetAllProduct);

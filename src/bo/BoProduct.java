@@ -35,11 +35,11 @@ public class BoProduct implements ProductInterface {
         return price;
     }
 
-    public static BoProductBuilder getBuilder() {
+    public static BoProductBuilder<BoProduct> getBuilder() {
         return new BoBuilder();
     }
 
-    private static class BoBuilder implements BoProductBuilder {
+    private static class BoBuilder implements BoProductBuilder<BoProduct> {
         private String productTitle ="";
         private String description = "";
         private int productId = 0;
@@ -49,31 +49,31 @@ public class BoProduct implements ProductInterface {
         }
 
         @Override
-        public BoProductBuilder productTitle(String title) {
+        public BoBuilder productTitle(String title) {
             this.productTitle = title;
             return this;
         }
 
         @Override
-        public BoProductBuilder description(String text) {
+        public BoBuilder description(String text) {
             this.description = text;
             return this;
         }
 
         @Override
-        public BoProductBuilder productId(int id) {
+        public BoBuilder productId(int id) {
             this.productId = id;
             return this;
         }
 
         @Override
-        public BoProductBuilder price(double price) {
+        public BoBuilder price(double price) {
             this.price = price;
             return this;
         }
 
         @Override
-        public BoProductBuilder clear() {
+        public BoBuilder clear() {
             return new BoBuilder();
         }
 
@@ -83,4 +83,13 @@ public class BoProduct implements ProductInterface {
         }
     }
 
+    @Override
+    public String toString() {
+        return "BoProduct{" +
+                "productTitle='" + productTitle + '\'' +
+                ", description='" + description + '\'' +
+                ", productId=" + productId +
+                ", price=" + price +
+                '}';
+    }
 }

@@ -28,12 +28,12 @@ public class DatabasFacade {
 //        return boItems;
 //    }
 
-    public static Collection<BoProduct> getProducts(BoProductBuilder builder) {
+    public static <T> Collection<T> getProducts(BoProductBuilder<T> builder) {
         DBManager db = DBManager.getInstance();
         return db.getProductDAO().getProducts(builder);
     }
 
-    public static Collection<BoProduct> getProducts(BoProductBuilder builder,Collection<Integer> productIds) {
+    public static <T> Collection<T>  getProducts(BoProductBuilder<T> builder,Collection<Integer> productIds) {
         DBManager db = DBManager.getInstance();
         return db.getProductDAO().getProductsById(builder,productIds);
     }

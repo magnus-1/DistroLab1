@@ -36,7 +36,7 @@ public class DatabaseGenerator {
     }
 
     public static void populateTables() {
-        BoProductBuilder builder = BoProduct.getBuilder();
+        BoProductBuilder<BoProduct> builder = BoProduct.getBuilder();
         for (int i = 1; i < 10; i++) {
             builder.productTitle("item" + i)
                     .description("discp" + i)
