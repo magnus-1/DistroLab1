@@ -12,5 +12,9 @@
 <form action="ClientServlet" method="get">
     <input type="submit" value="Step Forward">
 </form>
+<form action="AdminServlet" method="get">
+    <input name="destination" value="AdminPage">
+    <input type="submit" value="AdminPage">
+</form>
 </body>
 </html>

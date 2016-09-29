@@ -12,7 +12,7 @@
 </head>
 <body>
 <h2>Login</h2>
-<form action="ClientServlet">
+<form action="LoginServlet">
     <input name="username" type="" value="">
     <input name="password" type="" value="">
     <input name="loginFields" type="submit" value="Login"/>

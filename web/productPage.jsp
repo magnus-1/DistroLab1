@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
-  User: o_0
+  user: o_0
   Date: 2016-09-26
   Time: 14:30
   To change this template use File | Settings | File Templates.
@@ -29,6 +29,9 @@
 
 <body>
 
+<form action="LoginServlet">
+    <input name="registry" type="submit" value="Login"/>
+</form>
 
 <table style="width:100%">
     <tr>

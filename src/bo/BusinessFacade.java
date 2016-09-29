@@ -36,7 +36,12 @@ public class BusinessFacade {
     }
 
     public static AuthUser loginUser(String user, String pass, String sessionId) {
-        return null;
+        return new WebUserTokens(user,pass,sessionId);
+    }
+
+    public static Boolean isValidToken(String authToken) {
+        System.out.println("isValidToken: " + authToken);
+        return authToken.contains("jag");
     }
 
     public static Collection<ProductInfo> getProducts(Collection<Integer> productIDs){

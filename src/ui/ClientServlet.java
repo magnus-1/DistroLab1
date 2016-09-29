@@ -17,12 +17,48 @@ import java.util.StringTokenizer;
 @WebServlet(description = "ClientServlet thingy", urlPatterns = {"/ClientServlet"})
 public class ClientServlet extends HttpServlet implements javax.servlet.Servlet {
     public static final String PRODUCT_PAGE = "productPage.jsp";
+    public static final String ADMIN_PAGE = "adminProductPage.jsp";
+
+    public static Cookie getCookieWithName(String name,HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        for (Cookie c : cookies) {
+            if (c.getName().equals(name)) {
+                return c;
+            }
+        }
+        return null;
+    }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Collection<Integer> productsInShoppingCart = new ArrayList<>();
+        System.out.println("ContextPath: " +request.getContextPath());
+        System.out.println("RequestURI: " +request.getRequestURI());
+        System.out.println("RequestURL: " +request.getRequestURL());
+        System.out.println("HeaderNames: " +request.getHeaderNames());
         System.out.println("AuthType: " + request.getAuthType());
         System.out.println("RequestedSessionId: " + request.getRequestedSessionId());
+
+        if (request.getParameter(UIProtocol.CREATE_BUY_ORDER) != null) {
+            Cookie authTokenCookie = getCookieWithName("authToken", request);
+            if (authTokenCookie == null || BusinessFacade.isValidToken(authTokenCookie.getValue()) == false) {
+                request.setAttribute("lastPage","ClientServlet");
+                request.getRequestDispatcher("login.jsp").forward(request,response);
+                return;
+            }
+            System.out.println("buying products...");
+            Cookie shoppingcart = new Cookie("shoppingcart", "");
+            shoppingcart.setMaxAge(0);
+
+            response.addCookie(shoppingcart);
+            request.setAttribute("products", BusinessFacade.getProducts());
+            request.getRequestDispatcher(PRODUCT_PAGE).forward(request, response);
+            return;
+        }
+        if (getCookieWithName("authToken",request) == null) {
+            request.getRequestDispatcher("login.jsp").forward(request,response);
+            return;
+        }
         if (request.getParameter(UIProtocol.ADD_TO_CART) != null) {
             productsInShoppingCart = addToCart(request, response);
         } else if (request.getParameter(UIProtocol.REMOVE_FROM_CART) != null) {
@@ -40,8 +76,17 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
             return;
         }
 
-        request.setAttribute("shoppingcart", BusinessFacade.getProducts(productsInShoppingCart));
+        String dest = request.getParameter("destination");
+        System.out.println(dest);
+
+
         request.setAttribute("products", BusinessFacade.getProducts());
+        if ( dest != null) {
+            request.getRequestDispatcher(ADMIN_PAGE).forward(request, response);
+            return;
+
+        }
+        request.setAttribute("shoppingcart", BusinessFacade.getProducts(productsInShoppingCart));
         request.getRequestDispatcher(PRODUCT_PAGE).forward(request, response);
 
     }
