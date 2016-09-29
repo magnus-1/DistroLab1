@@ -18,6 +18,7 @@ public class BoProduct implements ProductInterface {
         this.description = builder.description;
         this.productId = builder.productId;
         this.price = builder.price;
+        this.quantity = builder.quantity;
     }
 
     public String getProductTitle() {
