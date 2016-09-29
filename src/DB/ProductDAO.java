@@ -62,7 +62,7 @@ public class ProductDAO {
         builder.clear();
         boolean foundIt = false;
         try {
-            System.out.println("dbConn = " + dbConn + " \nsql:" + sqlGetProductById);
+            //System.out.println("dbConn = " + dbConn + " \nsql:" + sqlGetProductById);
             PreparedStatement ps = dbConn.prepareStatement(sqlGetProductById);
             ps.setInt(1,productId.intValue());
             ResultSet resultSet = ps.executeQuery();
@@ -94,12 +94,12 @@ public class ProductDAO {
 
     public <T> Collection<T> getProducts(BoProductBuilder<T> builder) {
         ArrayList<T> boProducts = new ArrayList<>();
-        System.out.println("DB:dao:getProducts");
+        //System.out.println("DB:dao:getProducts");
         try {
             PreparedStatement ps = dbConn.prepareStatement(sqlGetAllProduct);
             ResultSet resultSet = ps.executeQuery();
 
-            System.out.println("DB:dao:getProducts:resultset:" + resultSet.toString());
+            //System.out.println("DB:dao:getProducts:resultset:" + resultSet.toString());
             while (resultSet.next()) {
                 builder.clear();
                 builder.productId(resultSet.getInt(COLUMN_PRODUCT_ID))

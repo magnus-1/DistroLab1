@@ -96,7 +96,7 @@
             <td><c:out value="${cart.price}" /></td>
             <td>
                 <form action="ClientServlet">
-                    <input name="productToRemove" type="hidden" value="${product.productId}">
+                    <input name="productToRemove" type="hidden" value="${cart.productId}">
                     <input name="removeFromCart" type="submit" value="Remove"/>
                 </form>
             </td>

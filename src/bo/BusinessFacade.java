@@ -4,6 +4,7 @@ import DB.DatabasFacade;
 import DB.ProductInterface;
 import ui.ProductInfo;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -30,6 +31,13 @@ public class BusinessFacade {
         return productInfos;
     }
 
+    public static void buyProducts(Collection<Integer> productIDs,String authToken) {
+
+    }
+
+    public static AuthUser loginUser(String user, String pass, String sessionId) {
+        return null;
+    }
 
     public static Collection<ProductInfo> getProducts(Collection<Integer> productIDs){
         ArrayList<ProductInfo> productInfos = new ArrayList<>();
