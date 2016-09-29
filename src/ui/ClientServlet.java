@@ -26,8 +26,6 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         Collection<Integer> productsInShoppingCart = new ArrayList<>();
 
 
-
-
         if (request.getParameter(UIProtocol.ADD_TO_CART) != null) {
             productsInShoppingCart = addToCart(request, response);
         } else if (request.getParameter(UIProtocol.REMOVE_FROM_CART) != null) {

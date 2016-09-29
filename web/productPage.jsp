@@ -38,6 +38,8 @@
         <th align="left">Description</th>
            
         <th align="left">Price</th>
+
+        <th align="left">In Store</th>
            
         <th></th>
          
@@ -50,6 +52,7 @@
         <td><c:out value="${product.productTitle}" /></td>
         <td><c:out value="${product.description}" /></td>
         <td><c:out value="${product.price}" /></td>
+        <td><c:out value="${product.quantity}" /></td>
         <td>
             <form action="ClientServlet">
                 <input name="productToAdd" type="hidden" value="${product.productId}">
