@@ -1,5 +1,6 @@
 package ui;
 
+import bo.AdminBuissnessFacade;
 import bo.BusinessFacade;
 
 import javax.servlet.ServletException;
@@ -17,8 +18,11 @@ import java.util.StringTokenizer;
  * Created by cj on 2016-09-29.
  */
 @WebServlet(description = "AdminServlet thingy", urlPatterns = {"/AdminServlet"})
-public class AdminServlet extends HttpServlet implements javax.servlet.Servlet  {
+public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
     public static final String PRODUCT_PAGE = "adminProductPage.jsp";
+    public static final String ADD_PRODUCT = "addProduct";
+    public static final String DELETE_PRODUCT = "adminProductPage.jsp";
+    public static final String UPDATE_PRODUCT = "adminProductPage.jsp";
 
 
     @Override
@@ -26,167 +30,42 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet  
         Collection<Integer> productsInShoppingCart = new ArrayList<>();
         System.out.println("AuthType: " + request.getAuthType());
         System.out.println("RequestedSessionId: " + request.getRequestedSessionId());
-        if (request.getParameter(UIProtocol.ADD_TO_CART) != null) {
-            productsInShoppingCart = addToCart(request, response);
-        } else if (request.getParameter(UIProtocol.REMOVE_FROM_CART) != null) {
-            productsInShoppingCart = removeFromCart(request, response);
+
+        if (request.getParameter(ADD_PRODUCT) != null) {
+            addProduct(request,response,"insert auth here");
+        } else if (request.getParameter(DELETE_PRODUCT) != null) {
+            deleteProduct(request,response);
+        } else if (request.getParameter(UPDATE_PRODUCT) != null) {
+            updateProduct(request,response);
+
         } else {
-            productsInShoppingCart = parseShoppingCartCookie(request.getCookies());
+
         }
 
-        if (request.getParameter(UIProtocol.GO_TO_REGESTRY) != null) {
-            productsInShoppingCart = addToCart(request, response);
-            Collection<ProductInfo> products = BusinessFacade.getProducts(productsInShoppingCart);
-            request.setAttribute("shoppingcart",products );
-            request.setAttribute("totalPrice",BusinessFacade.totalShoppingPrice(products));
-            request.getRequestDispatcher("registry.jsp").forward(request, response);
-            return;
-        }
 
-        request.setAttribute("shoppingcart", BusinessFacade.getProducts(productsInShoppingCart));
         request.setAttribute("products", BusinessFacade.getProducts());
         request.getRequestDispatcher(PRODUCT_PAGE).forward(request, response);
 
     }
 
-
-    public Collection<Integer> addToCart(HttpServletRequest request, HttpServletResponse response) {
-        String productToAdd = request.getParameter("productToAdd");
-
-        Cookie newCartCookie = addProductToCartCookie(request.getCookies(), productToAdd);
-        if (newCartCookie == null) {
-            System.out.println("doGet:addToCart: newCartCookie = null");
-        } else {
-            response.addCookie(newCartCookie);
-        }
-        return parseShoppingCartCookie(newCartCookie);
+    private void updateProduct(HttpServletRequest request, HttpServletResponse response) {
 
     }
 
-    public Collection<Integer> removeFromCart(HttpServletRequest request, HttpServletResponse response) {
-        String productToRemove = request.getParameter("productToRemove");
-
-        Cookie newCartCookie = removeProductFromCartCookie(request.getCookies(), productToRemove);
-        if (newCartCookie == null) {
-            System.out.println("doGet:addToCart: newCartCookie = null");
-        } else {
-            response.addCookie(newCartCookie);
-        }
-        return parseShoppingCartCookie(newCartCookie);
+    private void deleteProduct(HttpServletRequest request, HttpServletResponse response) {
 
     }
 
+    private void addProduct(HttpServletRequest request, HttpServletResponse response, String authToken) {
 
-    public Cookie addProductToCartCookie(Cookie[] cookies, String value) {
-        String TAG = "AddProductToCartCookie";
-        Cookie newCookie = null;
-        boolean weFoundShoppingCart = false;
+        ProductInfo productInfo = new ProductInfo(
+                request.getParameter("productTitle"),
+                request.getParameter("productDescription"),
+                Double.parseDouble(request.getParameter("productPrice")),
+                Integer.parseInt(request.getParameter("productQuantity")));
 
-        for (Cookie c : cookies) {
-            if (c.getName().equals("shoppingcart")) {
-                weFoundShoppingCart = true;
-
-                String productIDs = c.getValue();
-                if (productIDs == null) {
-                    System.out.println(TAG + " Cookie value null");
-                    break;
-                }
-                System.out.println(TAG + " before append new value" + productIDs);
-                if (value != null) {
-                    productIDs += ":" + value;
-                } else {
-                    System.out.println(TAG + " value = null");
-                }
-                System.out.println(TAG + " after append new value" + productIDs);
-
-                newCookie = new Cookie("shoppingcart", productIDs);
-                newCookie.setMaxAge(1000);
-            }
-        }
-        if (!weFoundShoppingCart) {
-            newCookie = new Cookie("shoppingcart", value);
-            newCookie.setMaxAge(1000);
-        }
-
-        return newCookie;
+        System.out.println("new Product: "+ productInfo);
+        AdminBuissnessFacade.addProduct(productInfo);
     }
 
-    public Cookie removeProductFromCartCookie(Cookie[] cookies, String idToRemove) {
-        String TAG = "RemoveProductFromCartCookie";
-        String delimiter = ":";
-        String newValue = "";
-        Cookie newCookie = null;
-        boolean removedProduct = false;
-
-        for (Cookie c : cookies) {
-            if (c.getName().equals("shoppingcart")) {
-
-                String productIDs = c.getValue();
-                System.out.println(TAG + " Products before removal: " + productIDs);
-
-                if (productIDs == null) {
-                    System.out.println(TAG + " Cookie value null");
-                    break;
-                }
-
-                StringTokenizer tokenizer = new StringTokenizer(productIDs, delimiter);
-
-                while (tokenizer.hasMoreTokens()) {
-                    String currentId = tokenizer.nextToken();
-                    System.out.println("idToRemove:" +idToRemove + " =? current:" + currentId);
-                    if (currentId.equals(idToRemove) && !removedProduct) {
-                        // not append currentId to newValue
-                        removedProduct = true;
-                    } else {
-                        newValue += delimiter + currentId;
-                    }
-                }
-
-                System.out.println(TAG + " Products after removal: " + newValue);
-
-
-                newCookie = new Cookie("shoppingcart", newValue);
-                newCookie.setMaxAge(1000);
-            }
-        }
-        return newCookie;
-    }
-
-    public Collection<Integer> parseShoppingCartCookie(Cookie cookie) {
-        String TAG = "parseShoppingCartCookie:";
-        String delimiter = ":";
-        Collection<Integer> result = new ArrayList<>();
-        if (cookie == null) {
-            return result;
-        }
-
-        //System.out.println("name: " +cookie.getName() + " value:" + cookie.getValue());
-        if (cookie.getName().equals("shoppingcart")) {
-            String productIDs = cookie.getValue();
-            if (productIDs == null) {
-                return result;
-            }
-            StringTokenizer tokenizer = new StringTokenizer(productIDs, delimiter);
-            while (tokenizer.hasMoreTokens()) {
-                String id = tokenizer.nextToken();
-                try {
-                    result.add(Integer.parseInt(id));
-                } catch (NumberFormatException nfe) {
-                    System.out.println(TAG + " could not parse \"" + id + "\" to integer..");
-                }
-            }
-        }
-        System.out.println(TAG + " ProductIDs in cart = " + result.toString());
-        return result;
-    }
-
-    public Collection<Integer> parseShoppingCartCookie(Cookie[] cookies) {
-        Collection<Integer> result = new ArrayList<>();
-        for (Cookie c : cookies) {
-            if (c.getName().equals("shoppingcart")) {
-                result = parseShoppingCartCookie(c);
-            }
-        }
-        return result;
-    }
 }
