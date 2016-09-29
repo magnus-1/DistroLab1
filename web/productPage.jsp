@@ -1,5 +1,6 @@
 <%@ page import="java.util.Collection" %>
 <%@ page import="ui.ProductInfo" %>
+<%@ page import="ui.UIProtocol" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
@@ -66,6 +67,9 @@
         <th align="left">CartItem</th>
            
         <th align="left">cartPrice</th>
+
+        <th align="left"></th>
+
            
         <th></th>
          
@@ -87,7 +91,12 @@
         <tr>
             <td><c:out value="${cart.productTitle}" /></td>
             <td><c:out value="${cart.price}" /></td>
-
+            <td>
+                <form action="ClientServlet">
+                    <input name="productToRemove" type="hidden" value="${product.productId}">
+                    <input name="removeFromCart" type="submit" value="Remove"/>
+                </form>
+            </td>
         </tr>
     </c:forEach>
 </table>

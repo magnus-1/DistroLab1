@@ -1,6 +1,7 @@
 package ui;
 
 import bo.BusinessFacade;
+import com.sun.deploy.net.HttpResponse;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,56 +19,63 @@ import java.util.StringTokenizer;
  */
 @WebServlet(description = "ClientServlet thingy", urlPatterns = {"/ClientServlet"})
 public class ClientServlet extends HttpServlet implements javax.servlet.Servlet {
+    public static final String PRODUCT_PAGE="productPage.jsp";
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        String showProducts = request.getParameter("showProducts");
-        if (showProducts != null) {
-            request.setAttribute("products", BusinessFacade.getProducts());
-
-            Collection<Integer> productsInShoppingCart = parseShoppingCartCookie(request.getCookies());
+        Collection<Integer> productsInShoppingCart = new ArrayList<>();
 
 
+
+
+        if (request.getParameter(UIProtocol.ADD_TO_CART) != null) {
+            productsInShoppingCart = addToCart(request, response);
+        } else if (request.getParameter(UIProtocol.REMOVE_FROM_CART) != null) {
+            productsInShoppingCart = addToCart(request, response);
+        } else {
+            productsInShoppingCart = parseShoppingCartCookie(request.getCookies());
+        }
+
+        if (request.getParameter(UIProtocol.GO_TO_REGESTRY) != null) {
+            productsInShoppingCart = addToCart(request, response);
             request.setAttribute("shoppingcart", BusinessFacade.getProducts(productsInShoppingCart));
-
-            request.getRequestDispatcher("productPage.jsp").forward(request, response);
+            request.getRequestDispatcher("regestry.jsp").forward(request, response);
             return;
         }
 
-        String addToCArt = request.getParameter("addToCart");
-        if (addToCArt != null) {
-            String productToAdd = request.getParameter("productToAdd");
-            request.setAttribute("products", BusinessFacade.getProducts());
+        request.setAttribute("shoppingcart", BusinessFacade.getProducts(productsInShoppingCart));
+        request.setAttribute("products", BusinessFacade.getProducts());
+        request.getRequestDispatcher(PRODUCT_PAGE).forward(request, response);
 
-            Cookie newCartCookie = addProductToCartCookie(request.getCookies(), productToAdd);
-            if (newCartCookie == null) {
-                System.out.println("doGet:addToCart: newCartCookie = null");
-            } else {
-                response.addCookie(newCartCookie);
-            }
+    }
 
-            Collection<Integer> productsInShoppingCart = parseShoppingCartCookie(newCartCookie);
-            request.setAttribute("shoppingcart", BusinessFacade.getProducts(productsInShoppingCart));
-            request.getRequestDispatcher("productPage.jsp").forward(request, response);
 
-            return;
+
+
+    public Collection<Integer> addToCart(HttpServletRequest request, HttpServletResponse response) {
+        String productToAdd = request.getParameter("productToAdd");
+
+        Cookie newCartCookie = addProductToCartCookie(request.getCookies(), productToAdd);
+        if (newCartCookie == null) {
+            System.out.println("doGet:addToCart: newCartCookie = null");
+        } else {
+            response.addCookie(newCartCookie);
         }
+        return parseShoppingCartCookie(newCartCookie);
 
-        String arg = request.getParameter("productToBuy");
-        if (arg != null) {
-            Cookie[] cookies = request.getCookies();
-            for (int i = 0; i < cookies.length; i++) {
-                String name = cookies[i].getName();
-                if (name.equals("elm")) {
-                    String value = cookies[i].getValue();
-                }
+    }
 
-            }
-            Collection<ProductInfo> prod = BusinessFacade.getProducts();
-            request.setAttribute("products", prod);
-            request.getRequestDispatcher("productPage.jsp").forward(request, response);
+    public Collection<Integer> removeFromCart(HttpServletRequest request, HttpServletResponse response) {
+        String productToRemove = request.getParameter("productToRemove");
+
+        // TODO: 2016-09-29 bli klar
+        Cookie newCartCookie = addProductToCartCookie(request.getCookies(), productToRemove);
+        if (newCartCookie == null) {
+            System.out.println("doGet:addToCart: newCartCookie = null");
+        } else {
+            response.addCookie(newCartCookie);
         }
+        return parseShoppingCartCookie(newCartCookie);
 
     }
 
@@ -83,7 +91,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
 
                 String productIDs = c.getValue();
                 if (productIDs == null) {
-                    System.out.println(TAG +" Cookie value null");
+                    System.out.println(TAG + " Cookie value null");
                     break;
                 }
                 System.out.println(TAG + " before append new value" + productIDs);
@@ -123,9 +131,9 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
             StringTokenizer tokenizer = new StringTokenizer(productIDs, delimiter);
             while (tokenizer.hasMoreTokens()) {
                 String id = tokenizer.nextToken();
-                try{
+                try {
                     result.add(Integer.parseInt(id));
-                }catch (NumberFormatException nfe){
+                } catch (NumberFormatException nfe) {
                     System.out.println(TAG + " could not parse \"" + id + "\" to integer..");
                 }
             }
