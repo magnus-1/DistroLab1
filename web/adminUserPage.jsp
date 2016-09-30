@@ -72,6 +72,7 @@
                 </td>
 
                 <td>
+                    <input name="userID" type="hidden" value="${user.userID}">
                     <input name="currentPage" type="hidden" value="adminUsers">
                     <input name="userToDelete" type="hidden" value="${user.userID}">
                     <input name="deleteUser" type="submit" value="Delete"/>
