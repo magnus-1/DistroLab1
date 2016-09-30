@@ -10,11 +10,11 @@
     Welcome
 </h1>
 <form action="ClientServlet" method="get">
-    <input type="submit" value="Step Forward">
+    <input type="submit" value="Customer">
 </form>
 <form action="AdminServlet" method="get">
-    <input name="destination" value="AdminPage">
-    <input type="submit" value="AdminPage">
+    <input name="redirect" type="hidden" value="goToIndex">
+    <input type="submit" value="Admin">
 </form>
 </body>
 </html>

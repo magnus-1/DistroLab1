@@ -1,8 +1,10 @@
 package setup;
 
 import DB.BoProductBuilder;
+import DB.BoUserBuilder;
 import DB.DatabasFacade;
 import bo.BoProduct;
+import bo.BoUser;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 
 import java.sql.*;
@@ -23,7 +25,7 @@ public class DatabaseGenerator {
         String useShop = "USE Webshop;";
         stmt.execute(useShop);
         System.out.println("Database created successfully...");
-        String dropProduct = "DROP TABLE T_PRODUCT";
+        String dropProduct = "DROP TABLE IF EXISTS T_PRODUCT";
         stmt.execute(dropProduct);
 
         String tProduct = "CREATE TABLE IF NOT EXISTS T_PRODUCT (" +
@@ -37,7 +39,7 @@ public class DatabaseGenerator {
         stmt.executeUpdate(tProduct);
         System.out.println("T_PRODUCT created successfully...");
 
-        String dropUser = "DROP TABLE T_USER";
+        String dropUser = "DROP TABLE IF EXISTS T_USER";
         stmt.execute(dropUser);
 
         String tUser = "CREATE TABLE IF NOT EXISTS T_USER (" +
@@ -61,6 +63,15 @@ public class DatabaseGenerator {
                     .quantity(i+5);
             DatabasFacade.addProduct(builder.build());
             builder.clear();
+        }
+
+        BoUserBuilder<BoUser> build = BoUser.getBuilder();
+        for (int i = 1; i < 10; i++) {
+            build.userEmail("mail" + i)
+                    .userType(i)
+                    .userPassword("pass" + i);
+            DatabasFacade.addUser(build.build());
+            build.clear();
         }
 
     }

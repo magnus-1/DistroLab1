@@ -40,6 +40,9 @@ public class UserDAO {
 //    price REAL NOT
 //    PRIMARY KEY(pr
 //
+    private boolean checkAccessRights() {
+        return true;
+    }
 
     public void insertUser(BoUser user) {
         PreparedStatement ps = null;

@@ -56,6 +56,7 @@
             </td>
 
             <td>
+                <input name="currentPage" type="hidden" value="adminProduct">
                 <input name="productToAdd" type="hidden" value="">
                 <input name="addProduct" type="submit" value="Add Product"/>
             </td>
@@ -81,6 +82,8 @@
                 </td>
 
                 <td>
+                    <input name="productId" type="hidden" value="${product.productId}">
+                    <input name="currentPage" type="hidden" value="adminProduct">
                     <input name="productToDelete" type="hidden" value="${product.productId}">
                     <input name="deleteProduct" type="submit" value="Delete"/>
                     <input name="productToUpdate" type="hidden" value="${product.productId}">

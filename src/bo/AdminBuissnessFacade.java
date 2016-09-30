@@ -73,7 +73,7 @@ public class AdminBuissnessFacade {
         DatabasFacade.deleteProduct(productId);
     }
     static public void updateProduct(ProductInfo productInfo){
-        DatabasFacade.addProduct(buildBoProduct(productInfo));
+        DatabasFacade.updateProduct(buildBoProduct(productInfo));
     }
 
 

@@ -23,7 +23,7 @@ public class ProductDAO {
 
     private static final String COLUMN_PRODUCT_ID = "productID";
     private static final String COLUMN_PRODUCT_TITLE = "productTitle";
-    private static final String COLUMN_DESCRIPTION = "productTitle";
+    private static final String COLUMN_DESCRIPTION = "description";
     private static final String COLUMN_PRICE = "price";
     private static final String COLUMN_QUANTITY = "quantity";
 
@@ -68,15 +68,15 @@ public class ProductDAO {
             e.printStackTrace();
         }
     }
-    public void updateProduct(ProductInfo productInfo) {
+    public void updateProduct(BoProduct boProduct) {
         PreparedStatement ps = null;
         try {
             ps = dbConn.prepareStatement(SQL_UPDATE_PRODUCT);
-            ps.setString(1, productInfo.getProductTitle());
-            ps.setString(2, productInfo.getDescription());
-            ps.setDouble(3, productInfo.getPrice());
-            ps.setInt(4, productInfo.getQuantity());
-            ps.setInt(5,productInfo.getProductId());
+            ps.setString(1, boProduct.getProductTitle());
+            ps.setString(2, boProduct.getDescription());
+            ps.setDouble(3, boProduct.getPrice());
+            ps.setInt(4, boProduct.getQuantity());
+            ps.setInt(5,boProduct.getProductId());
             ps.execute();
 
         } catch (SQLException e){

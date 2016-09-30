@@ -48,7 +48,7 @@ public class DatabasFacade {
         DBManager.getInstance().getProductDAO().deleteProduct(productId);
     }
     static public void updateProduct(BoProduct product){
-        DBManager.getInstance().getProductDAO().insertProduct(product);
+        DBManager.getInstance().getProductDAO().updateProduct(product);
     }
     static public void addUser(BoUser user){
         DBManager.getInstance().getUserDAO().insertUser(user);

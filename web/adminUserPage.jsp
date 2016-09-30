@@ -50,6 +50,7 @@
             </td>
 
             <td>
+                <input name="currentPage" type="hidden" value="adminUsers">
                 <input name="userToAdd" type="hidden" value="">
                 <input name="addProduct" type="submit" value="Add Product"/>
             </td>
@@ -67,10 +68,11 @@
                 </td>
 
                 <td>
-                    <input name="userType" value="${user.type}">
+                    <input name="userType" value="${user.userType}">
                 </td>
 
                 <td>
+                    <input name="currentPage" type="hidden" value="adminUsers">
                     <input name="userToDelete" type="hidden" value="${user.userID}">
                     <input name="deleteUser" type="submit" value="Delete"/>
                     <input name="userToUpdate" type="hidden" value="${user.userID}">
