@@ -169,11 +169,13 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
         }catch (NumberFormatException ex) {
 
         }
-        return new UserInfo(
+        UserInfo user = new UserInfo(
                 request.getParameter("userEmail"),
                 request.getParameter("userPassword"),
                 userType,
                 userId);
+        System.out.println("Userinfo:" + user);
+        return user;
 
     }
 }
