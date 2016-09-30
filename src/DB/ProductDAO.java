@@ -34,7 +34,6 @@ public class ProductDAO {
     private static final String SQL_UPDATE_PRODUCT = "UPDATE T_PRODUCT SET productTitle = ?,description = ?,price = ?,quantity = ? WHERE productID = ?";
 
 
-
 //    productID INT N
 //    productTitle V
 //    description VA
@@ -61,29 +60,46 @@ public class ProductDAO {
         PreparedStatement ps = null;
         try {
             ps = dbConn.prepareStatement(SQL_DELETE_PRODUCT);
-            ps.setInt(1,productId);
+            ps.setInt(1, productId);
             ps.execute();
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
     public void updateProduct(BoProduct boProduct) {
         PreparedStatement ps = null;
         try {
+            dbConn.setAutoCommit(false);
             ps = dbConn.prepareStatement(SQL_UPDATE_PRODUCT);
             ps.setString(1, boProduct.getProductTitle());
             ps.setString(2, boProduct.getDescription());
             ps.setDouble(3, boProduct.getPrice());
             ps.setInt(4, boProduct.getQuantity());
-            ps.setInt(5,boProduct.getProductId());
+            ps.setInt(5, boProduct.getProductId());
             ps.execute();
+            dbConn.commit();
 
-        } catch (SQLException e){
-            e.printStackTrace();
+        } catch (SQLException e) {
+            if (dbConn != null) {
+                try {
+                    System.err.print("Transaction is being rolled back");
+                    dbConn.rollback();
+
+                } catch (SQLException except) {
+                    System.out.println(except.getMessage());
+                }
+            }
+        } finally {
+            try {
+                dbConn.setAutoCommit(true);
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
-
 
 
     /**

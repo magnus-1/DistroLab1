@@ -52,6 +52,30 @@ public class DatabaseGenerator {
         stmt.executeUpdate(tUser);
         System.out.println("T_USER created successfully...");
 
+        String dropOrder = "DROP TABLE IF EXISTS T_ORDER";
+        stmt.execute(dropOrder);
+
+        String tOrder = "CREATE TABLE IF NOT EXISTS T_ORDER (" +
+                "userID INT NOT NULL," +
+                "orderID INT NOT NULL AUTO_INCREMENT," +
+                " packed BOOLEAN NOT NULL," +
+                " PRIMARY KEY(orderID)" +
+                ");";
+        stmt.executeUpdate(tOrder);
+        System.out.println("T_ORDER created successfully...");
+
+        String dropOrderProduct = "DROP TABLE IF EXISTS T_ORDER_PRODUCT";
+        stmt.execute(dropOrderProduct);
+
+        String tOrderProduct = "CREATE TABLE IF NOT EXISTS T_ORDER_PRODUCT (" +
+                "Id INT NOT NULL AUTO_INCREMENT," +
+                "orderID INT NOT NULL," +
+                "productID INT NOT NULL," +
+                " PRIMARY KEY(Id)" +
+                ");";
+        stmt.executeUpdate(tOrderProduct);
+        System.out.println("T_ORDER_PRODUCT created successfully...");
+
     }
 
     public static void populateTables() {
