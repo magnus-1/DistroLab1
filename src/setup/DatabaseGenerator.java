@@ -56,8 +56,8 @@ public class DatabaseGenerator {
         stmt.execute(dropOrder);
 
         String tOrder = "CREATE TABLE IF NOT EXISTS T_ORDER (" +
-                "userID INT NOT NULL," +
                 "orderID INT NOT NULL AUTO_INCREMENT," +
+                "userID INT NOT NULL," +
                 " packed BOOLEAN NOT NULL," +
                 " PRIMARY KEY(orderID)" +
                 ");";

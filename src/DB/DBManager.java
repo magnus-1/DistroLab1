@@ -46,9 +46,6 @@ public final class DBManager {
         System.out.println("con: " + this.con );
     }
 
-    public ProductDAO getProductDAO() {
-        return new ProductDAO(this.con);
-    }
     // dubble check looking
     public static DBManager getInstance() {
         DBManager current = db;
@@ -63,6 +60,12 @@ public final class DBManager {
         }
         return current;
     }
+
+
+    public ProductDAO getProductDAO() {
+        return new ProductDAO(this.con);
+    }
     public UserDAO getUserDAO(){return new UserDAO(this.con);}
+    public OrderDAO getOrderDAO(){return new OrderDAO(this.con);}
 
 }
