@@ -23,8 +23,8 @@ public class DatabaseGenerator {
         String useShop = "USE Webshop;";
         stmt.execute(useShop);
         System.out.println("Database created successfully...");
-        String dropStuff = "DROP TABLE T_PRODUCT";
-        stmt.execute(dropStuff);
+        String dropProduct = "DROP TABLE T_PRODUCT";
+        stmt.execute(dropProduct);
 
         String tProduct = "CREATE TABLE IF NOT EXISTS T_PRODUCT (" +
                 "productID INT NOT NULL AUTO_INCREMENT," +
@@ -36,6 +36,19 @@ public class DatabaseGenerator {
                 ");";
         stmt.executeUpdate(tProduct);
         System.out.println("T_PRODUCT created successfully...");
+
+        String dropUser = "DROP TABLE T_USER";
+        stmt.execute(dropUser);
+
+        String tUser = "CREATE TABLE IF NOT EXISTS T_USER (" +
+                "userID INT NOT NULL AUTO_INCREMENT," +
+                " userEmail VARCHAR(100) NOT NULL," +
+                " userPassword VARCHAR(100) NOT NULL," +
+                " userType INT NOT NULL," +
+                " PRIMARY KEY(userID)" +
+                ");";
+        stmt.executeUpdate(tUser);
+        System.out.println("T_USER created successfully...");
 
     }
 

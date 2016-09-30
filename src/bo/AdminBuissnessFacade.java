@@ -73,6 +73,7 @@ public class AdminBuissnessFacade {
         DBManager.getInstance().getProductDAO().insertProduct(buildBoProduct(productInfo));
     }
     static public void addUser(UserInfo userInfo){
+
     }
     static public void deleteUser(int userID){
 

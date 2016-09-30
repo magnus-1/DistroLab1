@@ -63,5 +63,6 @@ public final class DBManager {
         }
         return current;
     }
+    public UserDAO getUserDAO(){return new UserDAO(this.con);}
 
 }
