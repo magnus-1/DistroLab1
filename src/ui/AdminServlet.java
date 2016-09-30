@@ -24,7 +24,7 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
     public static final String PAGE_INDEX = "index.jsp";
     public static final String PAGE_ADMIN_PRODUCT = "adminProductPage.jsp";
     public static final String PAGE_USERS = "adminUserPage.jsp";
-    public static final String PAGE_ADMIN_INDEX = "amdminIndex.jsp";
+    public static final String PAGE_ADMIN_INDEX = "adminIndex.jsp";
     public static final String ADD_PRODUCT = "addProduct";
     public static final String DELETE_PRODUCT = "deleteProduct";
     public static final String UPDATE_PRODUCT = "updateProduct";
