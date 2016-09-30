@@ -18,18 +18,20 @@
 
 <body>
 <h2>Admin/Users</h2>
+<form action="AdminServlet" method="get">
+    <input name="redirect" type="hidden" value="goToIndex">
+    <input type="submit" value="Back">
+</form>
 
 <table style="width:75%">
     <tr>
            
-        <th align="left">ItemTitle</th>
+        <th align="left">UserEmail</th>
            
-        <th align="left">Description</th>
+        <th align="left">UserPassword</th>
            
-        <th align="left">Price</th>
+        <th align="left">UserType</th>
 
-        <th align="left">Quantity</th>
-           
         <th></th>
          
     </tr>
@@ -37,50 +39,42 @@
     <tr>
         <form action="AdminServlet">
             <td>
-                <input name="productTitle" value="">
+                <input name="userEmail" value="">
             </td>
             <td>
-                <input name="productDescription" value="">
-            </td>
-
-            <td>
-                <input name="productPrice" value="">
+                <input name="userPassword" value="">
             </td>
 
             <td>
-                <input name="productQuantity" value="">
+                <input name="userType" value="">
             </td>
 
             <td>
-                <input name="productToAdd" type="hidden" value="">
+                <input name="userToAdd" type="hidden" value="">
                 <input name="addProduct" type="submit" value="Add Product"/>
             </td>
         </form>
     </tr>
 
-    <c:forEach items="${products}" var="product">
+    <c:forEach items="${users}" var="user">
         <tr>
             <form action="AdminServlet">
                 <td>
-                    <input name="productTitle" value="${product.productTitle}">
+                    <input name="userEmail" value="${user.email}">
                 </td>
                 <td>
-                    <input name="productDescription" value="${product.description}">
-                </td>
-
-                <td>
-                    <input name="productPrice" value="${product.price}">
+                    <input name="userPassword" value="${user.password}">
                 </td>
 
                 <td>
-                    <input name="productQuantity" value="${product.quantity}">
+                    <input name="userType" value="${user.type}">
                 </td>
 
                 <td>
-                    <input name="productToDelete" type="hidden" value="${product.productId}">
-                    <input name="deleteProduct" type="submit" value="Delete"/>
-                    <input name="productToUpdate" type="hidden" value="${product.productId}">
-                    <input name="updateProduct" type="submit" value="Update"/>
+                    <input name="userToDelete" type="hidden" value="${user.userID}">
+                    <input name="deleteUser" type="submit" value="Delete"/>
+                    <input name="userToUpdate" type="hidden" value="${user.userID}">
+                    <input name="updateUser" type="submit" value="Update"/>
                 </td>
             </form>
         </tr>

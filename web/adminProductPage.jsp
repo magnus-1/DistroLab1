@@ -18,6 +18,10 @@
 
 <body>
 <h2>Admin/Products</h2>
+<form action="AdminServlet" method="get">
+    <input name="redirect" type="hidden" value="goToIndex">
+    <input type="submit" value="Back">
+</form>
 
 <table style="width:75%">
     <tr>

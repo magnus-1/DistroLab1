@@ -5,6 +5,7 @@ import DB.DatabasFacade;
 import ui.ProductInfo;
 import ui.UserInfo;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -30,6 +31,8 @@ public class AdminBuissnessFacade {
         }
         return productInfos;
     }
+
+
 
     public static void buyProducts(Collection<Integer> productIDs,String authToken) {
 
@@ -64,22 +67,38 @@ public class AdminBuissnessFacade {
     }
 
     static public void addProduct(ProductInfo productInfo){
-        DBManager.getInstance().getProductDAO().insertProduct(buildBoProduct(productInfo));
+        DatabasFacade.addProduct(buildBoProduct(productInfo));
     }
     static public void deleteProduct(int productId){
-        DBManager.getInstance().getProductDAO().deleteProduct(productId);
+        DatabasFacade.deleteProduct(productId);
     }
     static public void updateProduct(ProductInfo productInfo){
-        DBManager.getInstance().getProductDAO().insertProduct(buildBoProduct(productInfo));
+        DatabasFacade.addProduct(buildBoProduct(productInfo));
     }
-    static public void addUser(UserInfo userInfo){
 
+
+
+
+
+
+    public static Collection<UserInfo> getUsers() {
+        ArrayList<UserInfo> userInfos = new ArrayList<>();
+        Collection<BoUser> currentUsers = DatabasFacade.getUsers(BoUser.getBuilder());
+        for (BoUser u : currentUsers) {
+            userInfos.add(new UserInfo(u.getEmail(),u.getPassword(),u.getUserType(),u.getUserID()));
+        }
+        return userInfos;
+    }
+
+
+    static public void addUser(UserInfo userInfo){
+        DatabasFacade.addUser(buildBoUser(userInfo));
     }
     static public void deleteUser(int userID){
-
+        DatabasFacade.deleteUser(userID);
     }
     static public void updateUser(UserInfo userInfo){
-
+        DatabasFacade.updateUser(buildBoUser(userInfo));
     }
 
 
@@ -90,6 +109,15 @@ public class AdminBuissnessFacade {
                 .description(productInfo.getDescription())
                 .price(productInfo.getPrice())
                 .quantity(productInfo.getQuantity())
+                .build();
+    }
+
+    static private BoUser buildBoUser(UserInfo userInfo){
+        return BoUser.getBuilder()
+                .userType(userInfo.getUserType())
+                .userID(userInfo.getUserID())
+                .userEmail(userInfo.getEmail())
+                .userPassword(userInfo.getPassword())
                 .build();
     }
 }

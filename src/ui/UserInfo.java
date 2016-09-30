@@ -17,4 +17,20 @@ public class UserInfo {
         this.userType = userType;
         this.userID = userID;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public int getUserType() {
+        return userType;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
 }

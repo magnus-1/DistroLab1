@@ -1,6 +1,9 @@
 package DB;
 
 import bo.BoProduct;
+import bo.BoUser;
+import ui.ProductInfo;
+import ui.UserInfo;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,8 +41,26 @@ public class DatabasFacade {
         return db.getProductDAO().getProductsById(builder,productIds);
     }
 
-    public static void addProduct(BoProduct product) {
-        DBManager db = DBManager.getInstance();
-        db.getProductDAO().insertProduct(product);
+    static public void addProduct(BoProduct product){
+        DBManager.getInstance().getProductDAO().insertProduct(product);
+    }
+    static public void deleteProduct(int productId){
+        DBManager.getInstance().getProductDAO().deleteProduct(productId);
+    }
+    static public void updateProduct(BoProduct product){
+        DBManager.getInstance().getProductDAO().insertProduct(product);
+    }
+    static public void addUser(BoUser user){
+        DBManager.getInstance().getUserDAO().insertUser(user);
+    }
+    static public void deleteUser(int userID){
+        DBManager.getInstance().getUserDAO().deleteUser(userID);
+    }
+    static public void updateUser(BoUser user){
+        DBManager.getInstance().getUserDAO().updateUser(user);
+    }
+
+    public static Collection<BoUser> getUsers(BoUserBuilder<BoUser> builder) {
+        return DBManager.getInstance().getUserDAO().getUsers(builder);
     }
 }
