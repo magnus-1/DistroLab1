@@ -1,4 +1,4 @@
-package bo;
+package shopcore.bo;
 
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;

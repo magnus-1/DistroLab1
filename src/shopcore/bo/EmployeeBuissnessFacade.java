@@ -1,6 +1,6 @@
-package bo;
+package shopcore.bo;
 
-import DB.DatabasFacade;
+import shopcore.DB.DatabasFacade;
 import ui.ProductInfo;
 
 import java.util.ArrayList;

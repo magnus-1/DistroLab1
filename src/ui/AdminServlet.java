@@ -1,20 +1,15 @@
 package ui;
 
-import bo.AdminBuissnessFacade;
-import bo.BoUser;
-import bo.BusinessFacade;
+import shopcore.bo.AdminBuissnessFacade;
+import shopcore.bo.BoUser;
 
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.StringTokenizer;
 
 /**
  * Created by cj on 2016-09-29.

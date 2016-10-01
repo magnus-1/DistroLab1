@@ -1,4 +1,4 @@
-package bo;
+package shopcore.bo;
 
 import org.junit.Test;
 

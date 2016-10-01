@@ -1,8 +1,8 @@
-package DB;
+package shopcore.DB;
 
-import bo.BoOrder;
-import bo.BoProduct;
-import bo.BoUser;
+import shopcore.bo.BoOrder;
+import shopcore.bo.BoProduct;
+import shopcore.bo.BoUser;
 
 import java.util.Collection;
 

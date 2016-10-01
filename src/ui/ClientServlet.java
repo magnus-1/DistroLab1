@@ -1,7 +1,6 @@
 package ui;
 
-import bo.BusinessFacade;
-import com.sun.deploy.net.HttpResponse;
+import shopcore.bo.BusinessFacade;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

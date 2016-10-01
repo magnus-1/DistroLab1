@@ -1,7 +1,7 @@
-package bo;
+package shopcore.bo;
 
-import DB.BoProductBuilder;
-import DB.ProductInterface;
+import shopcore.DB.BoProductBuilder;
+import shopcore.DB.ProductInterface;
 
 /**
  * Created by o_0 on 2016-09-26.

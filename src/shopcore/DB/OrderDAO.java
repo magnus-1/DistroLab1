@@ -1,6 +1,6 @@
-package DB;
+package shopcore.DB;
 
-import bo.BoOrder;
+import shopcore.bo.BoOrder;
 
 import java.sql.*;
 import java.util.ArrayList;

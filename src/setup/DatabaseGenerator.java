@@ -1,11 +1,10 @@
 package setup;
 
-import DB.BoProductBuilder;
-import DB.BoUserBuilder;
-import DB.DatabasFacade;
-import bo.BoProduct;
-import bo.BoUser;
-import com.sun.org.apache.xpath.internal.operations.Mod;
+import shopcore.DB.BoProductBuilder;
+import shopcore.DB.BoUserBuilder;
+import shopcore.DB.DatabasFacade;
+import shopcore.bo.BoProduct;
+import shopcore.bo.BoUser;
 
 import java.sql.*;
 

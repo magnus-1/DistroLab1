@@ -1,11 +1,8 @@
-package bo;
+package shopcore.bo;
 
-import DB.BoUserBuilder;
-import DB.DatabasFacade;
-import DB.ProductInterface;
+import shopcore.DB.DatabasFacade;
 import ui.ProductInfo;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 

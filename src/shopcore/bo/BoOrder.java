@@ -1,7 +1,6 @@
-package bo;
+package shopcore.bo;
 
-import DB.BoOrderBuilder;
-import DB.BoUserBuilder;
+import shopcore.DB.BoOrderBuilder;
 
 /**
  * Created by cj on 2016-09-30.

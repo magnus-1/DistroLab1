@@ -1,9 +1,7 @@
-package DB;
+package shopcore.DB;
 
-import bo.BoProduct;
-import ui.ProductInfo;
+import shopcore.bo.BoProduct;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -145,12 +143,12 @@ public class ProductDAO {
 
     public <T> Collection<T> getProducts(BoProductBuilder<T> builder) {
         ArrayList<T> boProducts = new ArrayList<>();
-        //System.out.println("DB:dao:getProducts");
+        //System.out.println("shopcore.DB:dao:getProducts");
         try {
             PreparedStatement ps = dbConn.prepareStatement(sqlGetAllProduct);
             ResultSet resultSet = ps.executeQuery();
 
-            //System.out.println("DB:dao:getProducts:resultset:" + resultSet.toString());
+            //System.out.println("shopcore.DB:dao:getProducts:resultset:" + resultSet.toString());
             while (resultSet.next()) {
                 builder.clear();
                 builder.productId(resultSet.getInt(COLUMN_PRODUCT_ID))

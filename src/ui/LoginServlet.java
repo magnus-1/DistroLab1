@@ -1,7 +1,7 @@
 package ui;
 
-import bo.AuthUser;
-import bo.BusinessFacade;
+import shopcore.bo.AuthUser;
+import shopcore.bo.BusinessFacade;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

@@ -1,8 +1,6 @@
-package DB;
+package shopcore.DB;
 
-import bo.BoProduct;
-import bo.BoUser;
-import ui.ProductInfo;
+import shopcore.bo.BoUser;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

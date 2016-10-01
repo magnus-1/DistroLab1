@@ -1,4 +1,4 @@
-package DB;
+package shopcore.DB;
 
 /**
  * Created by cj on 2016-09-29.

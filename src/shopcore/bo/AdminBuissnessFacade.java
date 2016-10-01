@@ -1,11 +1,9 @@
-package bo;
+package shopcore.bo;
 
-import DB.DBManager;
-import DB.DatabasFacade;
+import shopcore.DB.DatabasFacade;
 import ui.ProductInfo;
 import ui.UserInfo;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Collection;
 
