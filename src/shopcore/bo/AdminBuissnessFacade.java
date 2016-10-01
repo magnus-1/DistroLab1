@@ -44,6 +44,7 @@ public class AdminBuissnessFacade {
     }
 
     static public void updateProduct(ProductInfo productInfo) {
+        //TODO authtoken
         DatabasFacade.updateProduct(buildBoProduct(productInfo));
     }
 

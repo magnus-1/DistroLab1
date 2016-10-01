@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.StringTokenizer;
 
+
+
 /**
  * Created by o_0 on 2016-09-26.
  */
@@ -18,17 +20,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
     public static final String PRODUCT_PAGE = "productPage.jsp";
     public static final String ADMIN_PAGE = "adminProductPage.jsp";
 
-    public static Cookie getCookieWithName(String name,HttpServletRequest request) {
 
-        Cookie[] cookies = request.getCookies();
-        if (cookies == null) {return null;}
-        for (Cookie c : cookies) {
-            if (c.getName().equals(name)) {
-                return c;
-            }
-        }
-        return null;
-    }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -47,7 +39,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         }
 
         if (request.getParameter(UIProtocol.CREATE_BUY_ORDER) != null) {
-            Cookie authTokenCookie = getCookieWithName("authToken", request);
+            Cookie authTokenCookie = UIProtocol.getCookieWithName("authToken", request);
             String authToken = authTokenCookie.getValue();
             if (authTokenCookie == null || BusinessFacade.isValidToken(authToken) == false) {
                 request.setAttribute("lastPage","registry.jsp");
@@ -57,7 +49,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
 
 
             System.out.println("buying products...");
-            Cookie cartCookie = getCookieWithName("shoppingcart", request);
+            Cookie cartCookie = UIProtocol.getCookieWithName("shoppingcart", request);
             Collection<Integer> cartProductIds = parseShoppingCartCookie(cartCookie);
 
             if(BusinessFacade.buyProducts(cartProductIds,authToken) == false) {
@@ -75,7 +67,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
             request.getRequestDispatcher(PRODUCT_PAGE).forward(request, response);
             return;
         }
-        if (getCookieWithName("authToken",request) == null) {
+        if (UIProtocol.getCookieWithName("authToken",request) == null) {
             request.getRequestDispatcher("login.jsp").forward(request,response);
             return;
         }

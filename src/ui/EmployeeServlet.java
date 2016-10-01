@@ -46,13 +46,18 @@ public class EmployeeServlet extends HttpServlet implements javax.servlet.Servle
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("ContextPath: " + request.getContextPath());
-        System.out.println("RequestURI: " + request.getRequestURI());
-        System.out.println("RequestURL: " + request.getRequestURL());
-        System.out.println("HeaderNames: " + request.getHeaderNames());
-        System.out.println("AuthType: " + request.getAuthType());
-        System.out.println("RequestedSessionId: " + request.getRequestedSessionId());
+//        System.out.println("ContextPath: " + request.getContextPath());
+//        System.out.println("RequestURI: " + request.getRequestURI());
+//        System.out.println("RequestURL: " + request.getRequestURL());
+//        System.out.println("HeaderNames: " + request.getHeaderNames());
+//        System.out.println("AuthType: " + request.getAuthType());
+//        System.out.println("RequestedSessionId: " + request.getRequestedSessionId());
 
+        if (UIProtocol.getCookieWithName("authToken",request) == null) {
+            request.getRequestDispatcher("login.jsp").forward(request,response);
+            return;
+        }
+        // TODO: check security level
         String redirectDestination = request.getParameter(REDIRECT);
 
         if (redirectDestination != null) {
@@ -101,12 +106,16 @@ public class EmployeeServlet extends HttpServlet implements javax.servlet.Servle
         int userID = 0;
         boolean packed = false;
 
+        String oid = request.getParameter("orderID");
+        String uid = request.getParameter("userID");
+        System.out.println("buildOrderInfo: orderid:" + oid + " userid:" + uid);
         try {
-            orderID = Integer.parseInt(request.getParameter("orderID"));
+
+            orderID = Integer.parseInt(oid);
         } catch (NumberFormatException ex) {ex.printStackTrace();}
 
         try {
-            userID = Integer.parseInt(request.getParameter("userID"));
+            userID = Integer.parseInt(uid);
         } catch (NumberFormatException ex) {ex.printStackTrace();}
 
         packed = Boolean.parseBoolean(request.getParameter("packed"));

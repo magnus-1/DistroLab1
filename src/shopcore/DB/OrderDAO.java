@@ -36,18 +36,20 @@ public class OrderDAO {
         PreparedStatement ps1 = null;
         PreparedStatement ps2 = null;
         ResultSet rs;
-        int orderID;
+        int orderID = 0;
         try {
             dbConn.setAutoCommit(false);
-            ps1 = dbConn.prepareStatement(SQL_INSERT_ORDER);
+            ps1 = dbConn.prepareStatement(SQL_INSERT_ORDER,Statement.RETURN_GENERATED_KEYS);
             ps1.setInt(1, order.getUserID());
             ps1.setBoolean(2, order.isPacked());
             ps1.execute();
             rs = ps1.getGeneratedKeys();
-            orderID = rs.getInt(COLUMN_ORDER_ID);
-            System.out.println("OrderDAO: Generated orderID: " + orderID);
-
-            for (int pID : productIDs) {
+            if (rs.next()) {
+                orderID = rs.getInt(1);
+            }
+            System.out.println("OrderDAO: Generated orderID: "+ orderID);
+            System.out.println("insertOrder:" +productIDs.toString() );
+            for (int pID:productIDs){
                 ps2 = dbConn.prepareStatement(SQL_INSERT_ORDER_PRODUCTS);
                 ps2.setInt(1, orderID);
                 ps2.setInt(2, pID);
@@ -56,6 +58,7 @@ public class OrderDAO {
             dbConn.commit();
 
         } catch (SQLException e) {
+            e.printStackTrace();
             if (dbConn != null) {
                 try {
                     System.err.print("Transaction is being rolled back");
@@ -195,7 +198,7 @@ public class OrderDAO {
         try {
             PreparedStatement ps = dbConn.prepareStatement(SQL_PACK_ORDER);
             ps.setInt(1, orderID);
-            ps.executeQuery();
+            ps.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();

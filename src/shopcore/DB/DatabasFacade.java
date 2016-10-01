@@ -50,7 +50,7 @@ public class DatabasFacade {
     }
 
     static public void addOrder(BoOrder boOrder, Collection<Integer> productIDs) {
-        DBManager.getInstance().getOrderDAO().insertOrder(boOrder);
+        DBManager.getInstance().getOrderDAO().insertOrder(boOrder,productIDs);
     }
 
     static public void updateOrder(BoOrder boOrder) {

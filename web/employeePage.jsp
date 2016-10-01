@@ -42,8 +42,9 @@
                 <td><c:out value="${order.orderID}" /></td>
                 <td><c:out value="${order.userID}" /></td>
                 <td><c:out value="${order.packed}" /></td>
-
-                    <input name="orderId" type="hidden" value="${order.orderID}">
+                <td>
+                    <input name="userID" type="hidden" value="${order.userID}">
+                    <input name="orderID" type="hidden" value="${order.orderID}">
                     <input name="currentPage" type="hidden" value="employeePage">
                     <input name="orderToShow" type="hidden" value="${order.orderID}">
                     <input name="showOrder" type="submit" value="Show"/>

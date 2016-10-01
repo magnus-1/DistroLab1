@@ -38,9 +38,14 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("AuthType: " + request.getAuthType());
-        System.out.println("RequestedSessionId: " + request.getRequestedSessionId());
+//        System.out.println("AuthType: " + request.getAuthType());
+//        System.out.println("RequestedSessionId: " + request.getRequestedSessionId());
         String redirectDestination = request.getParameter(REDIRECT);
+        if (UIProtocol.getCookieWithName("authToken",request) == null) {
+            request.getRequestDispatcher("login.jsp").forward(request,response);
+            return;
+        }
+        // TODO: check security level
 
         if (redirectDestination != null) {
             if (redirectDestination.equals(GO_TO_PRODUCTS)) {
