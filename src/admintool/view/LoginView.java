@@ -8,38 +8,31 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import ui.UserInfo;
-
-import java.util.Collection;
 
 /**
- * Created by o_0 on 2016-10-01.
+ * Created by cj on 2016-10-01.
  */
-public class UserView {
+public class LoginView {
+    private AdminToolController controlerDelegate;
     private Stage primaryStage;
-    private AdminToolController controlerDelegate = null;
     private Scene scene;
 
-    public UserView(Stage stage) {
-        this.primaryStage = stage;
+    public LoginView(Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
 
     public void setControlerDelegate(AdminToolController delegate) {
         this.controlerDelegate = delegate;
     }
 
-    private void printUsers(Collection<UserInfo> users) {
-        System.out.println("Users" + users);
-    }
-
-    public void start() {
+    public void start(){
         Button btn = new Button();
-        btn.setText("Go To Login");
+        btn.setText("Go To Product View");
         btn.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
-                controlerDelegate.goToLoginView();
+                controlerDelegate.goToProductView();
             }
         });
 
