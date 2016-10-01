@@ -28,6 +28,12 @@ public class LoginServlet  extends HttpServlet implements javax.servlet.Servlet 
 
         if (loginFields != null) {
             AuthUser authUser = BusinessFacade.loginUser(userid, pass, request.getRequestedSessionId());
+            if (authUser == null) {
+                request.setAttribute("loginFields","Login");
+                request.setAttribute("loginFailed","Login failed");
+                request.getRequestDispatcher("login.jsp").forward(request,response);
+                return;
+            }
             Cookie authToken = new Cookie("authToken", authUser.getAuthToken());
             System.out.println("authtoken: " + authUser.getAuthToken());
             response.addCookie(authToken);

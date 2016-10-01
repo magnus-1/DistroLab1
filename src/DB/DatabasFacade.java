@@ -3,10 +3,7 @@ package DB;
 import bo.BoOrder;
 import bo.BoProduct;
 import bo.BoUser;
-import ui.ProductInfo;
-import ui.UserInfo;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -41,7 +38,7 @@ public class DatabasFacade {
     static public void updateUser(BoUser user){
         DBManager.getInstance().getUserDAO().updateUser(user);
     }
-    public static Collection<BoUser> getUsers(BoUserBuilder<BoUser> builder) {
+    public static <T> Collection<T> getUsers(BoUserBuilder<T> builder) {
         return DBManager.getInstance().getUserDAO().getUsers(builder);
     }
 
@@ -59,5 +56,9 @@ public class DatabasFacade {
     }
     static public Collection<Integer> getOrders(int orderID){
         return DBManager.getInstance().getOrderDAO().getProductIDsByOrder(orderID);
+    }
+
+    static public  <T> T loginUser(BoUserBuilder<T> builder,String userName,String password) {
+        return DBManager.getInstance().getUserDAO().tryLogin(builder,userName,password);
     }
 }

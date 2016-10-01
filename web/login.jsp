@@ -12,6 +12,8 @@
 </head>
 <body>
 <h2>Login</h2>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:out value="${loginFailed}" />
 <form action="LoginServlet">
     <input name="username" type="" value="">
     <input name="password" type="" value="">

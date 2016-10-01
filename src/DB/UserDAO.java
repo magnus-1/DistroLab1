@@ -32,7 +32,7 @@ public class UserDAO {
     private static final String SQL_DELETE_USER = "DELETE FROM T_USER WHERE userID = ?";
     private static final String SQL_UPDATE_USER = "UPDATE T_USER SET userEmail = ?,userPassword = ?,userType = ? WHERE userID = ?";
 
-
+    private static final String SQL_GET_USER_BY_EMAIL = "SELECT * FROM T_USER WHERE userEmail = ?";
 
 //    productID INT N
 //    productTitle V
@@ -40,8 +40,36 @@ public class UserDAO {
 //    price REAL NOT
 //    PRIMARY KEY(pr
 //
-    private boolean checkAccessRights() {
-        return true;
+    private boolean checkAccessRights(String testUser,String sqlUser,String testPass,String sqlPass) {
+
+        return (testUser.equals(sqlUser) && testPass.equals(sqlPass));
+    }
+
+    public <T> T tryLogin(BoUserBuilder<T> builder, String userName, String password) {
+        builder.clear();
+        boolean foundIt = false;
+        try {
+            PreparedStatement ps = dbConn.prepareStatement(SQL_GET_USER_BY_EMAIL);
+            ps.setString(1,userName);
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                String email = resultSet.getString(COLUMN_EMAIL);
+                String pass = resultSet.getString(COLUMN_PASSWORD);
+                if (checkAccessRights(userName,email,password,pass) == false) {
+                    break;  // login failed
+                }
+
+                builder.userID(resultSet.getInt(COLUMN_USER_ID))
+                        .userEmail(email)
+                        .userPassword(pass)
+                        .userType(resultSet.getInt(COLUMN_USER_TYPE));
+                foundIt = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            foundIt = false;
+        }
+        return (foundIt) ? builder.build() : null;
     }
 
     public void insertUser(BoUser user) {

@@ -5,4 +5,5 @@ package bo;
  */
 public interface AuthUser {
     public String getAuthToken();
+    public int getUserId();
 }
