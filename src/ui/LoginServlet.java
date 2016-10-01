@@ -27,8 +27,6 @@ public class LoginServlet  extends HttpServlet implements javax.servlet.Servlet 
         cameFrom = (cameFrom == null) ? "index.jsp" : cameFrom;
 
 
-
-
         if (loginFields != null) {
             AuthUser authUser = BusinessFacade.loginUser(userid, pass, request.getRequestedSessionId());
             if (authUser == null) {
