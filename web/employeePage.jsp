@@ -17,7 +17,7 @@
 </head>
 
 <body>
-<h2>Admin/Products</h2>
+<h2>Employee</h2>
 <form action="EmployeeServlet" method="get">
     <input name="redirect" type="hidden" value="goToIndex">
     <input type="submit" value="Back">
@@ -26,68 +26,29 @@
 <table style="width:75%">
     <tr>
            
-        <th align="left">ItemTitle</th>
+        <th align="left">Order ID</th>
            
-        <th align="left">Description</th>
+        <th align="left">User ID</th>
            
-        <th align="left">Price</th>
-
-        <th align="left">Quantity</th>
+        <th align="left">Packed</th>
            
         <th></th>
          
     </tr>
 
-    <tr>
-        <form action="AdminServlet">
-            <td>
-                <input name="productTitle" value="">
-            </td>
-            <td>
-                <input name="productDescription" value="">
-            </td>
-
-            <td>
-                <input name="productPrice" value="">
-            </td>
-
-            <td>
-                <input name="productQuantity" value="">
-            </td>
-
-            <td>
-                <input name="currentPage" type="hidden" value="adminProduct">
-                <input name="productToAdd" type="hidden" value="">
-                <input name="addProduct" type="submit" value="Add Product"/>
-            </td>
-        </form>
-    </tr>
-
-    <c:forEach items="${products}" var="product">
+    <c:forEach items="${orders}" var="order">
         <tr>
-            <form action="AdminServlet">
-                <td>
-                    <input name="productTitle" value="${product.productTitle}">
-                </td>
-                <td>
-                    <input name="productDescription" value="${product.description}">
-                </td>
+            <form action="EmployeeServlet">
+                <td><c:out value="${order.orderID}" /></td>
+                <td><c:out value="${order.userID}" /></td>
+                <td><c:out value="${order.packed}" /></td>
 
-                <td>
-                    <input name="productPrice" value="${product.price}">
-                </td>
-
-                <td>
-                    <input name="productQuantity" value="${product.quantity}">
-                </td>
-
-                <td>
-                    <input name="productId" type="hidden" value="${product.productId}">
-                    <input name="currentPage" type="hidden" value="adminProduct">
-                    <input name="productToDelete" type="hidden" value="${product.productId}">
-                    <input name="deleteProduct" type="submit" value="Delete"/>
-                    <input name="productToUpdate" type="hidden" value="${product.productId}">
-                    <input name="updateProduct" type="submit" value="Update"/>
+                    <input name="orderId" type="hidden" value="${order.orderID}">
+                    <input name="currentPage" type="hidden" value="employeePage">
+                    <input name="orderToShow" type="hidden" value="${order.orderID}">
+                    <input name="showOrder" type="submit" value="Show"/>
+                    <input name="orderToPack" type="hidden" value="${order.orderID}">
+                    <input name="packOrder" type="submit" value="Pack"/>
                 </td>
             </form>
         </tr>

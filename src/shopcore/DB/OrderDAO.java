@@ -21,6 +21,7 @@ public class OrderDAO {
     private static final String COLUMN_USER_ID = "userID";
     private static final String COLUMN_PACKED = "packed";
 
+    private static final String SQL_PACK_ORDER = "UPDATE T_ORDER SET packed = TRUE WHERE orderID = ?";
     private static final String SQL_GET_ORDER_BY_ID = "SELECT * FROM T_ORDER WHERE orderID = ?";
     private static final String SQL_GET_PRODUCT_ID_BY_ORDER = "SELECT productID FROM T_ORDER_PRODUCT WHERE orderID = ?";
     private static final String SQL_GET_ORDERS_BY_USER = "SELECT * FROM T_ORDER WHERE userID = ?";
@@ -154,4 +155,14 @@ public class OrderDAO {
     }
 
 
+    public void packOrder(int orderID) {
+        try {
+            PreparedStatement ps = dbConn.prepareStatement(SQL_PACK_ORDER);
+            ps.setInt(1, orderID);
+            ps.executeQuery();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

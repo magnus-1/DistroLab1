@@ -1,8 +1,12 @@
 package shopcore.bo;
 
+import shopcore.DB.BoOrderBuilder;
 import shopcore.DB.DatabasFacade;
+import ui.OrderInfo;
 import ui.ProductInfo;
 
+import javax.xml.crypto.Data;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -14,36 +18,26 @@ public class EmployeeBuissnessFacade {
         return null;
     }
 
-    public static Collection<ProductInfo> getProducts(Collection<Integer> productIDs) {
-        ArrayList<ProductInfo> productInfos = new ArrayList<>();
-        Collection<BoProduct> currentInventory = DatabasFacade.getProducts(BoProduct.getBuilder(), productIDs);
-        for (BoProduct p : currentInventory) {
-            productInfos.add(new ProductInfo(p.getProductTitle(), p.getDescription(), p.getProductId(), p.getPrice(), p.getQuantity()));
+    static public void packOrder(OrderInfo orderInfo) {DatabasFacade.packOrder(orderInfo.getOrderID());}
+
+    public static Collection<OrderInfo> getOrders() {
+        Collection<BoOrder> orders = DatabasFacade.getOrders(BoOrder.getBuilder());
+        Collection<OrderInfo> orderInfos = new ArrayList<>();
+        for (BoOrder bo : orders) {
+            orderInfos.add(new OrderInfo(bo.getOrderID(),bo.getUserID(),bo.isPacked()));
         }
-        System.out.println("productsInfos form getProducts: " + productInfos.toString());
-        return productInfos;
+        return orderInfos;
     }
 
-    static public void addProduct(ProductInfo productInfo) {
-        DatabasFacade.addProduct(buildBoProduct(productInfo));
-    }
-
-    static public void deleteProduct(int productId) {
-        DatabasFacade.deleteProduct(productId);
-    }
-
-    static public void updateProduct(ProductInfo productInfo) {
-        DatabasFacade.updateProduct(buildBoProduct(productInfo));
-    }
-
-    static private BoProduct buildBoProduct(ProductInfo productInfo) {
-        return BoProduct.getBuilder()
-                .productId(productInfo.getProductId())
-                .productTitle(productInfo.getProductTitle())
-                .description(productInfo.getDescription())
-                .price(productInfo.getPrice())
-                .quantity(productInfo.getQuantity())
+    static private BoOrder buildBoOrder(OrderInfo orderInfo) {
+        return BoOrder.getBuilder()
+                .orderID(orderInfo.getOrderID())
+                .userID(orderInfo.getUserID())
+                .packed(orderInfo.isPacked())
                 .build();
     }
 
+    public static Collection<Integer> getProductIDsByOrder(OrderInfo orderInfo) {
+        return DatabasFacade.getProductIDsByOrderID(orderInfo.getOrderID());
+    }
 }
