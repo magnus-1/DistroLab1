@@ -45,12 +45,12 @@ public class OrderDAO {
             ps1.execute();
             rs = ps1.getGeneratedKeys();
             orderID = rs.getInt(COLUMN_ORDER_ID);
-            System.out.println("OrderDAO: Generated orderID: "+ orderID);
+            System.out.println("OrderDAO: Generated orderID: " + orderID);
 
-            for (int pID:productIDs){
+            for (int pID : productIDs) {
                 ps2 = dbConn.prepareStatement(SQL_INSERT_ORDER_PRODUCTS);
-                ps2.setInt(1,orderID);
-                ps2.setInt(2,pID);
+                ps2.setInt(1, orderID);
+                ps2.setInt(2, pID);
                 ps2.execute();
             }
             dbConn.commit();
@@ -68,8 +68,10 @@ public class OrderDAO {
         } finally {
             try {
                 dbConn.setAutoCommit(true);
-                ps1.close();
-                ps2.close();
+                if (ps1 != null)
+                    ps1.close();
+                if (ps2 != null)
+                    ps2.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -80,13 +82,14 @@ public class OrderDAO {
         PreparedStatement ps = null;
         try {
             ps = dbConn.prepareStatement(SQL_DELETE_ORDER);
-            ps.setInt(1,userID);
+            ps.setInt(1, userID);
             ps.execute();
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
     public void updateOrder(BoOrder order) {
         PreparedStatement ps = null;
         try {
@@ -95,7 +98,7 @@ public class OrderDAO {
             ps.setBoolean(2, order.isPacked());
             ps.execute();
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
 
             e.printStackTrace();
         }
@@ -132,6 +135,7 @@ public class OrderDAO {
         }
         return result;
     }
+
     public <T> Collection<T> getOrdersByIDs(BoOrderBuilder<T> builder, int userID) {
         ArrayList<T> boOrders = new ArrayList<>();
         try {
