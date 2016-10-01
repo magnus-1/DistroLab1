@@ -3,6 +3,7 @@ package ui;
 import shopcore.bo.BusinessFacade;
 import shopcore.bo.EmployeeBuissnessFacade;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +14,7 @@ import java.util.Collection;
 /**
  * Created by cj on 2016-10-01.
  */
+@WebServlet(description = "ClientServlet thingy", urlPatterns = {"/EmployeeServlet"})
 public class EmployeeServlet extends HttpServlet implements javax.servlet.Servlet {
     public static final String PAGE_INDEX = "index.jsp";
     public static final String PAGE_ADMIN_PRODUCT = "adminProductPage.jsp";

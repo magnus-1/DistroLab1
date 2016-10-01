@@ -49,7 +49,7 @@ public class DatabasFacade {
         return DBManager.getInstance().getUserDAO().getUsers(builder);
     }
 
-    static public void addOrder(BoOrder boOrder) {
+    static public void addOrder(BoOrder boOrder, Collection<Integer> productIDs) {
         DBManager.getInstance().getOrderDAO().insertOrder(boOrder);
     }
 

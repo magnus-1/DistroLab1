@@ -48,12 +48,25 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
 
         if (request.getParameter(UIProtocol.CREATE_BUY_ORDER) != null) {
             Cookie authTokenCookie = getCookieWithName("authToken", request);
-            if (authTokenCookie == null || BusinessFacade.isValidToken(authTokenCookie.getValue()) == false) {
+            String authToken = authTokenCookie.getValue();
+            if (authTokenCookie == null || BusinessFacade.isValidToken(authToken) == false) {
                 request.setAttribute("lastPage","registry.jsp");
                 request.getRequestDispatcher("login.jsp").forward(request,response);
                 return;
             }
+
+
             System.out.println("buying products...");
+            Cookie cartCookie = getCookieWithName("shoppingcart", request);
+            Collection<Integer> cartProductIds = parseShoppingCartCookie(cartCookie);
+
+            if(BusinessFacade.buyProducts(cartProductIds,authToken) == false) {
+                // TODO: handle failed shopping
+                System.out.println("buying products failed");
+            }else {
+                System.out.println("buying products done");
+            }
+
             Cookie shoppingcart = new Cookie("shoppingcart", "");
             shoppingcart.setMaxAge(0);
 

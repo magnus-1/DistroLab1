@@ -20,7 +20,7 @@
 </form>
 
 <form action="EmployeeServlet" method="get">
-    <input name="redirect" type="hidden" value="goToIndex">
+    <input name="redirect" type="hidden" value="goToEmployeePage">
     <input type="submit" value="Employee">
 </form>
 

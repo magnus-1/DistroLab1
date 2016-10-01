@@ -1,8 +1,10 @@
 package shopcore.bo;
 
+import admintool.model.WebShopModel;
 import shopcore.DB.DatabasFacade;
 import ui.ProductInfo;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -29,8 +31,19 @@ public class BusinessFacade {
         return productInfos;
     }
 
-    public static void buyProducts(Collection<Integer> productIDs,String authToken) {
+    public static boolean buyProducts(Collection<Integer> productIDs,String authToken) {
+        boolean flag = false;
+        try {
+            WebUserTokens auth = new WebUserTokens(authToken);
+            int userId = auth.getUserId();
 
+            DatabasFacade.addOrder(BoOrder.getBuilder().userID(userId).build(),productIDs);
+            flag = true;
+        }catch (SecurityException ex) {
+            System.out.println("SecurityException thrown , invalid authToken");
+            flag = false;
+        }
+        return flag;
     }
 
     public static int getUserId(String authToken) {
