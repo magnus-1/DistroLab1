@@ -20,7 +20,9 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
     public static final String ADMIN_PAGE = "adminProductPage.jsp";
 
     public static Cookie getCookieWithName(String name,HttpServletRequest request) {
+
         Cookie[] cookies = request.getCookies();
+        if (cookies == null) {return null;}
         for (Cookie c : cookies) {
             if (c.getName().equals(name)) {
                 return c;
@@ -32,17 +34,23 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Collection<Integer> productsInShoppingCart = new ArrayList<>();
-        System.out.println("ContextPath: " +request.getContextPath());
-        System.out.println("RequestURI: " +request.getRequestURI());
-        System.out.println("RequestURL: " +request.getRequestURL());
-        System.out.println("HeaderNames: " +request.getHeaderNames());
-        System.out.println("AuthType: " + request.getAuthType());
-        System.out.println("RequestedSessionId: " + request.getRequestedSessionId());
+//        System.out.println("ContextPath: " +request.getContextPath());
+//        System.out.println("RequestURI: " +request.getRequestURI());
+//        System.out.println("RequestURL: " +request.getRequestURL());
+//        System.out.println("HeaderNames: " +request.getHeaderNames());
+//        System.out.println("AuthType: " + request.getAuthType());
+//        System.out.println("RequestedSessionId: " + request.getRequestedSessionId());
+
+        if (request.getParameter("clearCookies") != null) {
+            clearCookies(request,response);
+            request.getRequestDispatcher("index.jsp").forward(request,response);
+            return;
+        }
 
         if (request.getParameter(UIProtocol.CREATE_BUY_ORDER) != null) {
             Cookie authTokenCookie = getCookieWithName("authToken", request);
             if (authTokenCookie == null || BusinessFacade.isValidToken(authTokenCookie.getValue()) == false) {
-                request.setAttribute("lastPage","ClientServlet");
+                request.setAttribute("lastPage","registry.jsp");
                 request.getRequestDispatcher("login.jsp").forward(request,response);
                 return;
             }
@@ -224,11 +232,20 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
 
     public Collection<Integer> parseShoppingCartCookie(Cookie[] cookies) {
         Collection<Integer> result = new ArrayList<>();
+        if (cookies == null) {return  result;}
         for (Cookie c : cookies) {
             if (c.getName().equals("shoppingcart")) {
                 result = parseShoppingCartCookie(c);
             }
         }
         return result;
+    }
+
+    private void clearCookies(HttpServletRequest request, HttpServletResponse response) {
+        Cookie[] cookies = request.getCookies();
+        for (Cookie c: cookies) {
+            c.setMaxAge(0);
+            response.addCookie(c);
+        }
     }
 }

@@ -16,5 +16,9 @@
     <input name="redirect" type="hidden" value="goToIndex">
     <input type="submit" value="Admin">
 </form>
+<form action="ClientServlet" method="get">
+    <input name="clearCookies" type="hidden" value="clear">
+    <input type="submit" value="clear cookies">
+</form>
 </body>
 </html>

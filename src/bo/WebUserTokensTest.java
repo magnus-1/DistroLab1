@@ -44,6 +44,14 @@ public class WebUserTokensTest {
         int userId1 = authToken.getUserId();
         assertTrue("Id mismatch " +userId + " != " + userId1 , userId == userId1);
     }
+    @Test
+    public void testGetSession(){
+        String sessionId = "jag";
+        String correctToken = "a:b:"+sessionId+":12";
+        WebUserTokens authToken = new WebUserTokens(correctToken);
+        String sessionId2 = authToken.getSession();
+        assertTrue("session Id mismatch " +sessionId + " != " + sessionId2 , sessionId2.equals(sessionId));
+    }
 
     @Test
     public void testCheckValidToken(){

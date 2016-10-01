@@ -15,6 +15,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:out value="${loginFailed}" />
 <form action="LoginServlet">
+    <input name="lastPage" type="hidden" value="${lastPage}">
     <input name="username" type="" value="">
     <input name="password" type="" value="">
     <input name="loginFields" type="submit" value="Login"/>

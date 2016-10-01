@@ -37,6 +37,7 @@
 
 </table>
 <form action="ClientServlet">
+    <input name="lastPage" type="hidden" value="registry.jsp">
 <input name="createBuyOrder" type="hidden" value="buy">
 <input name="buy" type="submit" value="Buy"/>
 </form>

@@ -23,6 +23,9 @@ public class LoginServlet  extends HttpServlet implements javax.servlet.Servlet 
         String userid = request.getParameter("username");
         String pass = request.getParameter("password");
         System.out.println("loginFields: " + loginFields + " userid: " + userid + " pass: " +pass);
+        System.out.println("LoginServlet: camefrom: " + cameFrom);
+        cameFrom = (cameFrom == null) ? "index.jsp" : cameFrom;
+
 
 
 
@@ -31,15 +34,17 @@ public class LoginServlet  extends HttpServlet implements javax.servlet.Servlet 
             if (authUser == null) {
                 request.setAttribute("loginFields","Login");
                 request.setAttribute("loginFailed","Login failed");
+                request.setAttribute("lastPage",cameFrom);
                 request.getRequestDispatcher("login.jsp").forward(request,response);
                 return;
             }
             Cookie authToken = new Cookie("authToken", authUser.getAuthToken());
             System.out.println("authtoken: " + authUser.getAuthToken());
             response.addCookie(authToken);
-            request.getRequestDispatcher("index.jsp").forward(request,response);
+            request.getRequestDispatcher(cameFrom).forward(request,response);
         }else {
             request.setAttribute("loginFields","Login");
+            request.setAttribute("lastPage",cameFrom);
             request.getRequestDispatcher("login.jsp").forward(request,response);
             return;
         }
