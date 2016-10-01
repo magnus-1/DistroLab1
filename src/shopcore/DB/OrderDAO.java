@@ -27,20 +27,52 @@ public class OrderDAO {
     private static final String SQL_GET_ORDERS_BY_USER = "SELECT * FROM T_ORDER WHERE userID = ?";
     private static final String SQL_GET_ALL_ORDERS = "SELECT * FROM T_ORDER";
     private static final String SQL_INSERT_ORDER = "INSERT INTO T_ORDER (userID,packed) VALUES (?,?)";
+    private static final String SQL_INSERT_ORDER_PRODUCTS = "INSERT INTO T_ORDER_PRODUCT (orderID,productID) VALUES (?,?)";
     private static final String SQL_DELETE_ORDER = "DELETE FROM T_ORDER WHERE orderID = ?";
     private static final String SQL_UPDATE_ORDER = "UPDATE T_ORDER SET userID = ?,packed = ? WHERE orderID = ?";
 
 
-    public void insertOrder(BoOrder order) {
-        PreparedStatement ps = null;
+    public void insertOrder(BoOrder order, Collection<Integer> productIDs) {
+        PreparedStatement ps1 = null;
+        PreparedStatement ps2 = null;
+        ResultSet rs;
+        int orderID;
         try {
-            ps = dbConn.prepareStatement(SQL_INSERT_ORDER);
-            ps.setInt(1, order.getUserID());
-            ps.setBoolean(2, order.isPacked());
-            ps.execute();
+            dbConn.setAutoCommit(false);
+            ps1 = dbConn.prepareStatement(SQL_INSERT_ORDER);
+            ps1.setInt(1, order.getUserID());
+            ps1.setBoolean(2, order.isPacked());
+            ps1.execute();
+            rs = ps1.getGeneratedKeys();
+            orderID = rs.getInt(COLUMN_ORDER_ID);
+            System.out.println("OrderDAO: Generated orderID: "+ orderID);
+
+            for (int pID:productIDs){
+                ps2 = dbConn.prepareStatement(SQL_INSERT_ORDER_PRODUCTS);
+                ps2.setInt(1,orderID);
+                ps2.setInt(2,pID);
+                ps2.execute();
+            }
+            dbConn.commit();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (dbConn != null) {
+                try {
+                    System.err.print("Transaction is being rolled back");
+                    dbConn.rollback();
+
+                } catch (SQLException except) {
+                    System.out.println(except.getMessage());
+                }
+            }
+        } finally {
+            try {
+                dbConn.setAutoCommit(true);
+                ps1.close();
+                ps2.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
