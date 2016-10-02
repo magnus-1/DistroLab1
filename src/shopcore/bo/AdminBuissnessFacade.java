@@ -22,11 +22,11 @@ public class AdminBuissnessFacade {
     }
 
     public static AuthUser loginUser(String user, String pass, String sessionId) {
-        return Authentication.loginWebUser(user, pass, sessionId);
+        return Authentication.loginWebUser(user, pass, sessionId,BoUser.ADMIN);
     }
 
     public static Boolean isValidToken(String authToken) {
-        return Authentication.isValidToken(authToken);
+        return Authentication.isValidToken(authToken,BoUser.ADMIN);
     }
 
     public static Collection<ProductInfo> getProducts(Collection<Integer> productIDs) {

@@ -15,11 +15,11 @@ import java.util.Collection;
  */
 public class EmployeeBuissnessFacade {
     public static AuthUser loginUser(String user, String pass, String sessionId) {
-        return Authentication.loginWebUser(user, pass, sessionId);
+        return Authentication.loginWebUser(user, pass, sessionId,BoUser.EMPLOYEE);
     }
 
     public static Boolean isValidToken(String authToken) {
-        return Authentication.isValidToken(authToken);
+        return Authentication.isValidToken(authToken,BoUser.EMPLOYEE);
     }
 
     static public void packOrder(OrderInfo orderInfo) {DatabasFacade.packOrder(orderInfo.getOrderID());}

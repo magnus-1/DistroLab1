@@ -10,11 +10,13 @@ public class WebUserTokens implements AuthUser {
     private String userToken;
     private int userId = 0;
     private String sessionId;
-    public WebUserTokens(int userId, String user, String pass, String sessionId) {
+    private int securityLevel = 0;
+    public WebUserTokens(int userId, String user, String pass, String sessionId,int securityLevel) {
         // TODO: encrypt token, and sign it
-        this.userToken = ":" + user + ":" + pass + ":" + sessionId + ":" + userId;
+        this.userToken = ":" + user + ":" + pass + ":" + sessionId + ":" + userId + ":" +securityLevel;
         this.userId = userId;
         this.sessionId = sessionId;
+        this.securityLevel = securityLevel;
     }
 
     public WebUserTokens(String authToken) throws SecurityException {
@@ -27,7 +29,9 @@ public class WebUserTokens implements AuthUser {
             String pass = tokenizer.nextToken();
             this.sessionId = tokenizer.nextToken();
             String userId = tokenizer.nextToken();
+            String security = tokenizer.nextToken();
             this.userId = Integer.parseInt(userId);
+            this.securityLevel = Integer.parseInt(userId);
         }catch (NoSuchElementException ex)  {
             throw new SecurityException("Invalid authToken");
         } catch (NumberFormatException nfe) {
@@ -47,5 +51,9 @@ public class WebUserTokens implements AuthUser {
     }
     public String getSession() {
         return this.sessionId;
+    }
+
+    public int getSecurityLevel() {
+        return securityLevel;
     }
 }

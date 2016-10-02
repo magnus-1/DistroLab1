@@ -58,11 +58,11 @@ public class BusinessFacade {
     }
 
     public static AuthUser loginUser(String user, String pass, String sessionId) {
-        return Authentication.loginWebUser(user, pass, sessionId);
+        return Authentication.loginWebUser(user, pass, sessionId,BoUser.CUSTOMER);
     }
 
     public static Boolean isValidToken(String authToken) {
-        return Authentication.isValidToken(authToken);
+        return Authentication.isValidToken(authToken,BoUser.CUSTOMER);
     }
 
     public static Collection<ProductInfo> getProducts(Collection<Integer> productIDs){

@@ -15,8 +15,9 @@ public class WebUserTokensTest {
         String pass = "mypass";
         String sessionId = "jag";
         int userId = 42;
-        String correctToken = ":" + user + ":" + pass + ":" + sessionId + ":" + userId;
-        WebUserTokens authToken = new WebUserTokens(userId, user, pass, sessionId);
+        int securityLevel = 4;
+        String correctToken = ":" + user + ":" + pass + ":" + sessionId + ":" + userId + ":" + securityLevel;
+        WebUserTokens authToken = new WebUserTokens(userId, user, pass, sessionId,securityLevel);
         String token = authToken.getAuthToken();
         assertTrue("Tokens mismatch " +correctToken + " != " + token  ,correctToken.equals(token));
     }
@@ -28,7 +29,8 @@ public class WebUserTokensTest {
         String pass = "mypass";
         String sessionId = "jag";
         int userId = 42;
-        WebUserTokens authToken = new WebUserTokens(userId, user, pass, sessionId);
+        int securityLevel = 4;
+        WebUserTokens authToken = new WebUserTokens(userId, user, pass, sessionId,securityLevel);
         int userId1 = authToken.getUserId();
         assertTrue("Id mismatch " +userId + " != " + userId1 , userId == userId1);
     }
@@ -39,7 +41,8 @@ public class WebUserTokensTest {
         String pass = "mypass";
         String sessionId = "jag";
         int userId = 42;
-        String correctToken = ":" + user + ":" + pass + ":" + sessionId + ":" + userId;
+        int securityLevel = 4;
+        String correctToken = ":" + user + ":" + pass + ":" + sessionId + ":" + userId+ ":" + securityLevel;
         WebUserTokens authToken = new WebUserTokens(correctToken);
         int userId1 = authToken.getUserId();
         assertTrue("Id mismatch " +userId + " != " + userId1 , userId == userId1);
@@ -47,7 +50,7 @@ public class WebUserTokensTest {
     @Test
     public void testGetSession(){
         String sessionId = "jag";
-        String correctToken = "a:b:"+sessionId+":12";
+        String correctToken = "a:b:"+sessionId+":12"+ ":4";
         WebUserTokens authToken = new WebUserTokens(correctToken);
         String sessionId2 = authToken.getSession();
         assertTrue("session Id mismatch " +sessionId + " != " + sessionId2 , sessionId2.equals(sessionId));
@@ -55,7 +58,7 @@ public class WebUserTokensTest {
 
     @Test
     public void testCheckValidToken(){
-        String correctToken = "a:b:c:12ff";
+        String correctToken = "a:b:c:12ff:2";
         boolean flag = false;
         try {
             WebUserTokens authToken = new WebUserTokens(correctToken);
@@ -68,7 +71,7 @@ public class WebUserTokensTest {
 
     @Test
     public void testCheckValidToken2(){
-        String correctToken = "a:b:c";
+        String correctToken = "a:b:c:2";
         boolean flag = false;
         try {
             WebUserTokens authToken = new WebUserTokens(correctToken);
