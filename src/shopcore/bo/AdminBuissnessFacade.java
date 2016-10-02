@@ -1,8 +1,8 @@
 package shopcore.bo;
 
 import shopcore.DB.DatabasFacade;
-import ui.ProductInfo;
-import ui.UserInfo;
+import shopcore.dto.ProductInfo;
+import shopcore.dto.UserInfo;
 
 import java.util.ArrayList;
 import java.util.Collection;

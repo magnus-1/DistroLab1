@@ -1,7 +1,8 @@
-package ui;
+package shopcore.dto;
 
 /**
  * Created by o_0 on 2016-09-26.
+ * A DTO (data transfer object) between the bo layer and presenter layer
  */
 public class ProductInfo {
     private String productTitle;

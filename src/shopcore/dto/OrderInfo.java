@@ -1,9 +1,10 @@
-package ui;
+package shopcore.dto;
 
 import shopcore.bo.BoOrder;
 
 /**
  * Created by cj on 2016-10-01.
+ * A DTO (data transfer object) between the bo layer and presenter layer
  */
 public class OrderInfo {
     private boolean packed;

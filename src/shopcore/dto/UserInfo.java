@@ -1,7 +1,8 @@
-package ui;
+package shopcore.dto;
 
 /**
  * Created by cj on 2016-09-29.
+ * A DTO (data transfer object) between the bo layer and presenter layer
  */
 public class UserInfo {
     private String email;

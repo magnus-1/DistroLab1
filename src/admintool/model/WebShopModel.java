@@ -2,10 +2,9 @@ package admintool.model;
 
 import shopcore.bo.AdminBuissnessFacade;
 import shopcore.bo.AuthUser;
-import ui.ProductInfo;
-import ui.UserInfo;
+import shopcore.dto.ProductInfo;
+import shopcore.dto.UserInfo;
 
-import java.util.Collection;
 import java.util.List;
 
 

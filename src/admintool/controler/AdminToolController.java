@@ -4,8 +4,8 @@ import admintool.model.WebShopModel;
 import admintool.view.LoginView;
 import admintool.view.ProductView;
 import admintool.view.UserView;
-import ui.ProductInfo;
-import ui.UserInfo;
+import shopcore.dto.ProductInfo;
+import shopcore.dto.UserInfo;
 
 import java.util.List;
 

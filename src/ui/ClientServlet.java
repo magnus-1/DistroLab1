@@ -1,6 +1,7 @@
 package ui;
 
 import shopcore.bo.BusinessFacade;
+import shopcore.dto.ProductInfo;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

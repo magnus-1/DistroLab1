@@ -2,6 +2,8 @@ package ui;
 
 import shopcore.bo.AdminBuissnessFacade;
 import shopcore.bo.BoUser;
+import shopcore.dto.ProductInfo;
+import shopcore.dto.UserInfo;
 
 
 import javax.servlet.ServletException;

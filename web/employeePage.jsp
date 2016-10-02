@@ -1,5 +1,5 @@
 <%@ page import="java.util.Collection" %>
-<%@ page import="ui.ProductInfo" %>
+<%@ page import="shopcore.dto.ProductInfo" %>
 <%@ page import="ui.UIProtocol" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--

@@ -1,10 +1,8 @@
 package shopcore.bo;
 
-import admintool.model.WebShopModel;
 import shopcore.DB.DatabasFacade;
-import ui.ProductInfo;
+import shopcore.dto.ProductInfo;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Collection;
 

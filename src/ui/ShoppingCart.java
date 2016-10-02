@@ -1,5 +1,7 @@
 package ui;
 
+import shopcore.dto.ProductInfo;
+
 import java.util.Collection;
 
 /**

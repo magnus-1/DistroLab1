@@ -17,7 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import ui.ProductInfo;
+import shopcore.dto.ProductInfo;
 
 import java.util.ArrayList;
 

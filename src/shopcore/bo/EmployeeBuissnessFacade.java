@@ -1,12 +1,8 @@
 package shopcore.bo;
 
-import shopcore.DB.BoOrderBuilder;
 import shopcore.DB.DatabasFacade;
-import ui.OrderInfo;
-import ui.ProductInfo;
+import shopcore.dto.OrderInfo;
 
-import javax.xml.crypto.Data;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 
