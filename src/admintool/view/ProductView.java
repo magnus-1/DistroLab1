@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * Created by cj on 2016-10-01.
  */
 public class ProductView {
-    private AdminToolController controlerDelegate;
+    private AdminToolController controllerDelegate;
     private Stage primaryStage;
     private Scene scene;
     private TableView productTable = new TableView();
@@ -46,8 +46,8 @@ public class ProductView {
         this.primaryStage = primaryStage;
     }
 
-    public void setControlerDelegate(AdminToolController delegate) {
-        this.controlerDelegate = delegate;
+    public void setControllerDelegate(AdminToolController delegate) {
+        this.controllerDelegate = delegate;
     }
 
     public void start(){
@@ -56,7 +56,7 @@ public class ProductView {
         goToUsers.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                controlerDelegate.goToUserView();
+                controllerDelegate.goToUserView();
             }
         });
         Button logout = new Button();
@@ -64,11 +64,31 @@ public class ProductView {
         logout.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                controlerDelegate.logOut();
+                controllerDelegate.logOut();
             }
         });
 
-        buttonField.getChildren().addAll(goToUsers,logout);
+        Button delete = new Button();
+        delete.setText("Delete");
+        delete.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Product To delete: "+selectedProduct);
+                controllerDelegate.deleteProduct(selectedProduct);
+            }
+        });
+
+        Button update = new Button();
+        update.setText("Update");
+        update.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Product To delete: "+selectedProduct);
+                controllerDelegate.updateProduct(selectedProduct);
+            }
+        });
+
+        buttonField.getChildren().addAll(goToUsers,logout,update,delete);
         buttonField.setSpacing(3);
 
 
@@ -158,7 +178,7 @@ public class ProductView {
             public void handle(ActionEvent e) {
                 try {
                     System.out.println("Butten: " + pTitle.getText() + ":"+ pDesc.getText() + ":"+ pPrice.getText() + ":" +pQuantity.getText());
-                controlerDelegate.addProduct(new ProductInfo(
+                controllerDelegate.addProduct(new ProductInfo(
                         pTitle.getText(),
                         pDesc.getText(),
                         Integer.parseInt(pPrice.getText()),
@@ -191,9 +211,9 @@ public class ProductView {
 
 
     private void updateProducts() {
-       // this.products = FXCollections.observableList(controlerDelegate.getProducts());
+       // this.products = FXCollections.observableList(controllerDelegate.getProducts());
         this.products.clear();
-        this.products.addAll(controlerDelegate.getProducts());
+        this.products.addAll(controllerDelegate.getProducts());
         //this.products.notifyAll();
         productTable.refresh();
     }

@@ -39,7 +39,7 @@ public class AdminToolController {
 
     public void startApp() {
         loginView.setControlerDelegate(this);
-        productView.setControlerDelegate(this);
+        productView.setControllerDelegate(this);
         userView.setControllerDelegate(this);
 
         loginView.start();
@@ -71,5 +71,21 @@ public class AdminToolController {
 
     public void logOut() {
 
+    }
+
+    public void deleteProduct(ProductInfo productInfo) {
+        model.deleteProduct(productInfo);
+    }
+
+    public void updateProduct(ProductInfo productInfo) {
+        model.updateProduct(productInfo);
+    }
+
+    public void updateUser(UserInfo userInfo) {
+        model.updateUser(userInfo);
+    }
+
+    public void deleteUser(UserInfo userInfo) {
+        model.deleteUser(userInfo);
     }
 }
