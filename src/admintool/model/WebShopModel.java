@@ -32,4 +32,8 @@ public class WebShopModel {
     public void addProduct(ProductInfo productInfo) {
         AdminBuissnessFacade.addProduct(productInfo,authUser.getAuthToken());
     }
+
+    public void addUser(UserInfo userInfo) {
+        AdminBuissnessFacade.addUser(userInfo);
+    }
 }

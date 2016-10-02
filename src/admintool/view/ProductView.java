@@ -53,7 +53,7 @@ public class ProductView {
         Button goToUsers = new Button();
 
 
-        goToUsers.setText("Go To UserView");
+        goToUsers.setText("Go To Users");
         goToUsers.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -73,7 +73,7 @@ public class ProductView {
         products = FXCollections.observableList(controlerDelegate.getProducts());
         productTable.setItems(products);
 
-        initTextfields();
+        initTextFields();
 
         addProductField.getChildren().addAll(pTitle,pDesc,pPrice,pQuantity,createAddButton());
         addProductField.setSpacing(3);
@@ -127,7 +127,7 @@ public class ProductView {
 
 
 
-    private void initTextfields(){
+    private void initTextFields(){
         pTitle.setPromptText("Title");
         pTitle.setMaxWidth(200);
         pDesc.setPromptText("Description");
@@ -156,8 +156,10 @@ public class ProductView {
                     ex.printStackTrace();
                 }
 
-                pDesc.clear();
+
                 pTitle.clear();
+                pDesc.clear();
+                pPrice.clear();
                 pQuantity.clear();
                 updateProducts();
             }
