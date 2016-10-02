@@ -29,6 +29,7 @@
         <th align="left">ItemTitle</th>
            
         <th align="left">Description</th>
+        <th align="left">Quantity</th>
            
         <th align="left">Price</th>
            
@@ -40,6 +41,7 @@
         <tr>
             <td><c:out value="${product.productTitle}"/></td>
             <td><c:out value="${product.description}"/></td>
+            <td><c:out value="${product.quantity}"/></td>
             <td><c:out value="${product.price}"/></td>
         </tr>
     </c:forEach>
