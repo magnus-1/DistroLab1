@@ -32,10 +32,14 @@ class Authentication {
         boolean flag = true;
         try {
             WebUserTokens tt = new WebUserTokens(authToken);
+            if (tt.getSecurityLevel() < securityLevel) {
+                flag =false;
+            }
         }catch (SecurityException ex) {
             System.out.println("SecurityException thrown , invalid authToken");
             flag = false;
         }
+
         return flag;
     }
 }

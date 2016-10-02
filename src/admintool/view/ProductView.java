@@ -70,7 +70,7 @@ public class ProductView {
 
         productTable.setEditable(true);
 
-        products = FXCollections.observableList(controlerDelegate.getProducts());
+        products = FXCollections.observableList(new ArrayList<>());
         productTable.setItems(products);
 
         initTextFields();
@@ -92,6 +92,7 @@ public class ProductView {
 
     public void showScene(){
         primaryStage.setTitle("Hello World!");
+        updateProducts();
         primaryStage.setScene(scene);
         primaryStage.show();
     }

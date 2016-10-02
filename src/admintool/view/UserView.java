@@ -70,7 +70,7 @@ public class UserView {
         userTable = createUserTable();
         userTable.setEditable(true);
 
-        users = FXCollections.observableList(controllerDelegate.getUsers());
+        users = FXCollections.observableList(new ArrayList<>());
         userTable.setItems(users);
 
         initTextFields();
@@ -98,6 +98,7 @@ public class UserView {
 
     public void showScene() {
         primaryStage.setTitle("Hello World!");
+        updateUsers();
         primaryStage.setScene(scene);
         primaryStage.show();
     }
