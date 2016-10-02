@@ -85,8 +85,18 @@ public class ProductView {
         update.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Product To delete: "+selectedProduct);
-                controllerDelegate.updateProduct(selectedProduct);
+                System.out.println("Product To update: "+selectedProduct);
+                double price;
+                int qunt;
+                try {
+                    price = Double.parseDouble(pPrice.getText());
+                    qunt = Integer.parseInt(pQuantity.getText());
+                }catch (NumberFormatException ex) {
+                    price = selectedProduct.getPrice();
+                    qunt = selectedProduct.getQuantity();
+                }
+                ProductInfo productInfo = new ProductInfo(pTitle.getText(), pDesc.getText(), selectedProduct.getProductId(), price, qunt);
+                controllerDelegate.updateProduct(productInfo);
                 updateProducts();
             }
         });
@@ -136,6 +146,13 @@ public class ProductView {
         return tCol;
     }
 
+    private void fillTextField() {
+        this.pTitle.setText(selectedProduct.getProductTitle());
+        this.pDesc.setText(selectedProduct.getDescription());
+        this.pPrice.setText("" + selectedProduct.getPrice());
+        this.pQuantity.setText("" + selectedProduct.getQuantity());
+    }
+
     private TableView createProductTable() {
         TableView table1 = new TableView();
 
@@ -145,12 +162,14 @@ public class ProductView {
                 createColumn("Description", "description"),
                 createColumn("Price","price"),
                 createColumn("Quantity","quantity"));
+        table1.setEditable(true);
         ChangeListener cl = new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue observable, Number oldValue, Number newValue) {
                 int index = newValue.intValue();
                 if(index < products.size() && index >= 0){
                     selectedProduct  = products.get(index);
+                    fillTextField();
                 }
             }
         };

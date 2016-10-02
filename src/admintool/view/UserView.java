@@ -87,8 +87,17 @@ public class UserView {
         update.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("User To delete: "+selectedUser);
-                controllerDelegate.updateUser(selectedUser);
+                System.out.println("User To update: "+selectedUser);
+                int type;
+                int userid;
+                try {
+                    type = Integer.parseInt(userType.getText());
+                }catch (NumberFormatException ex) {
+                    type = selectedUser.getUserType();
+                }
+                UserInfo userInfo = new UserInfo(userEmail.getText(), userPassword.getText(),type,selectedUser.getUserID());
+
+                controllerDelegate.updateUser(userInfo);
                 updateUsers();
             }
         });
@@ -145,6 +154,11 @@ public class UserView {
         return tCol;
     }
 
+    private void fillTextField() {
+        this.userPassword.setText(selectedUser.getPassword());
+        this.userEmail.setText(selectedUser.getEmail());
+        this.userType.setText("" + selectedUser.getUserType());
+    }
 
     private TableView createUserTable() {
         TableView table1 = new TableView();
@@ -161,6 +175,7 @@ public class UserView {
                 int index = newValue.intValue();
                 if (index < users.size() && index >= 0) {
                     selectedUser = users.get(index);
+                    fillTextField();
                 }
             }
         };
