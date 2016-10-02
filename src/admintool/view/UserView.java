@@ -72,7 +72,27 @@ public class UserView {
             }
         });
 
-        buttonField.getChildren().addAll(goToProducts,logout);
+        Button delete = new Button();
+        delete.setText("Delete");
+        delete.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("User To delete: "+selectedUser);
+                controllerDelegate.deleteUser(selectedUser);
+            }
+        });
+
+        Button update = new Button();
+        update.setText("Update");
+        update.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("User To delete: "+selectedUser);
+                controllerDelegate.updateUser(selectedUser);
+            }
+        });
+
+        buttonField.getChildren().addAll(goToProducts,logout,update,delete);
         buttonField.setSpacing(3);
 
 

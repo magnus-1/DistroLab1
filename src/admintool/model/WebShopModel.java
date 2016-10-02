@@ -35,4 +35,20 @@ public class WebShopModel {
     public void addUser(UserInfo userInfo) {
         AdminBuissnessFacade.addUser(userInfo,authUser.getAuthToken());
     }
+
+    public void deleteProduct(ProductInfo productInfo) {
+        AdminBuissnessFacade.deleteProduct(productInfo.getProductId(), authUser.getAuthToken());
+    }
+
+    public void updateProduct(ProductInfo productInfo) {
+        AdminBuissnessFacade.updateProduct(productInfo,authUser.getAuthToken());
+    }
+
+    public void deleteUser(UserInfo userInfo) {
+        AdminBuissnessFacade.deleteUser(userInfo.getUserID(),authUser.getAuthToken());
+    }
+
+    public void updateUser(UserInfo userInfo) {
+        AdminBuissnessFacade.updateUser(userInfo,authUser.getAuthToken());
+    }
 }
