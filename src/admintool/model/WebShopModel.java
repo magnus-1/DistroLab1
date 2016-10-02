@@ -29,4 +29,7 @@ public class WebShopModel {
         return (authUser != null);
     }
 
+    public void addProduct(ProductInfo productInfo) {
+        AdminBuissnessFacade.addProduct(productInfo);
+    }
 }

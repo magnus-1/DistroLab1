@@ -104,8 +104,8 @@ public class ProductView {
 
     private TableView createProductTable() {
         TableView table1 = new TableView();
-        products = FXCollections.observableList(new ArrayList<ProductInfo>());
 
+        products = FXCollections.observableList(new ArrayList<ProductInfo>());
         table1.getColumns().setAll(
                 createColumn("Product Title", "productTitle"),
                 createColumn("Description", "description"),
@@ -117,7 +117,6 @@ public class ProductView {
                 int index = newValue.intValue();
                 if(index < products.size()  && index >= 0){
                     selectedProduct  = products.get(index);
-
                 }
             }
         };
@@ -147,7 +146,7 @@ public class ProductView {
             @Override
             public void handle(ActionEvent e) {
                 try {
-
+                    System.out.println("Butten: " + pTitle.getText() + ":"+ pDesc.getText() + ":"+ pPrice.getText() + ":" +pQuantity.getText());
                 controlerDelegate.addProduct(new ProductInfo(
                         pTitle.getText(),
                         pDesc.getText(),
@@ -156,7 +155,6 @@ public class ProductView {
                 } catch (NumberFormatException ex){
                     ex.printStackTrace();
                 }
-
 
                 pDesc.clear();
                 pTitle.clear();
@@ -180,7 +178,10 @@ public class ProductView {
 
 
     private void updateProducts() {
-        this.products = FXCollections.observableList(controlerDelegate.getProducts());
+       // this.products = FXCollections.observableList(controlerDelegate.getProducts());
+        this.products.clear();
+        this.products.addAll(controlerDelegate.getProducts());
+        //this.products.notifyAll();
         productTable.refresh();
     }
 }

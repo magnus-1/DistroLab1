@@ -64,6 +64,6 @@ public class AdminToolController {
     }
 
     public void addProduct(ProductInfo productInfo) {
-        AdminBuissnessFacade.addProduct(productInfo);
+        model.addProduct(productInfo);
     }
 }
