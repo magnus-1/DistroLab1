@@ -52,7 +52,7 @@
             <td>
                 <input name="currentPage" type="hidden" value="adminUsers">
                 <input name="userToAdd" type="hidden" value="">
-                <input name="addProduct" type="submit" value="Add Product"/>
+                <input name="addProduct" type="submit" value="Add User"/>
             </td>
         </form>
     </tr>
