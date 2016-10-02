@@ -39,6 +39,9 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
             return;
         }
 
+        Cookie authToken1 = UIProtocol.getCookieWithName("authToken", request);
+        int userId = BusinessFacade.getUserId(authToken1.getValue());
+
         if (request.getParameter(UIProtocol.CREATE_BUY_ORDER) != null) {
             Cookie authTokenCookie = UIProtocol.getCookieWithName("authToken", request);
             String authToken = authTokenCookie.getValue();
@@ -68,10 +71,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
             request.getRequestDispatcher(PRODUCT_PAGE).forward(request, response);
             return;
         }
-        if (UIProtocol.getCookieWithName("authToken",request) == null) {
-            request.getRequestDispatcher("login.jsp").forward(request,response);
-            return;
-        }
+
         if (request.getParameter(UIProtocol.ADD_TO_CART) != null) {
             productsInShoppingCart = addToCart(request, response);
         } else if (request.getParameter(UIProtocol.REMOVE_FROM_CART) != null) {
