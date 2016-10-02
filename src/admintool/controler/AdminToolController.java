@@ -68,4 +68,8 @@ public class AdminToolController {
     public void addUser(UserInfo userInfo) {
         model.addUser(userInfo);
     }
+
+    public void logOut() {
+
+    }
 }
