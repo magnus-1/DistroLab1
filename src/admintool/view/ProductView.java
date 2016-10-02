@@ -115,7 +115,7 @@ public class ProductView {
             @Override
             public void changed(ObservableValue observable, Number oldValue, Number newValue) {
                 int index = newValue.intValue();
-                if(index < products.size()  && index >= 0){
+                if(index < products.size() && index >= 0){
                     selectedProduct  = products.get(index);
                 }
             }

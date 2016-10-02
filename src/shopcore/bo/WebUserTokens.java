@@ -17,6 +17,7 @@ public class WebUserTokens implements AuthUser {
         this.userId = userId;
         this.sessionId = sessionId;
         this.securityLevel = securityLevel;
+        System.out.println("Token is:" + userToken);
     }
 
     public WebUserTokens(String authToken) throws SecurityException {
@@ -31,7 +32,7 @@ public class WebUserTokens implements AuthUser {
             String userId = tokenizer.nextToken();
             String security = tokenizer.nextToken();
             this.userId = Integer.parseInt(userId);
-            this.securityLevel = Integer.parseInt(userId);
+            this.securityLevel = Integer.parseInt(security);
         }catch (NoSuchElementException ex)  {
             throw new SecurityException("Invalid authToken");
         } catch (NumberFormatException nfe) {

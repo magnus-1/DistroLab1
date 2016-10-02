@@ -45,6 +45,7 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
             request.getRequestDispatcher("login.jsp").forward(request,response);
             return;
         }
+        String authToken = UIProtocol.getCookieWithName("authToken", request).getValue();
         // TODO: check security level
 
         if (redirectDestination != null) {
@@ -52,7 +53,7 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
                 request.setAttribute("products", AdminBuissnessFacade.getProducts());
                 request.getRequestDispatcher(PAGE_ADMIN_PRODUCT).forward(request,response);
             } else if (redirectDestination.equals(GO_TO_USERS)) {
-                request.setAttribute("users", AdminBuissnessFacade.getUsers());
+                request.setAttribute("users", AdminBuissnessFacade.getUsers(authToken));
                 request.getRequestDispatcher(PAGE_USERS).forward(request,response);
             } else if (redirectDestination.equals(GO_TO_INDEX)) {
                 request.getRequestDispatcher(PAGE_ADMIN_INDEX).forward(request,response);
@@ -64,27 +65,27 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
 
         String currentPage = request.getParameter(CURRENT_PAGE);
         if (currentPage != null && currentPage.equals(IS_ADMIN_PRODUCTRPAGE)) {
-            String destination = productPageHandler(request, response);
+            String destination = productPageHandler(request, response,authToken);
             request.getRequestDispatcher(destination).forward(request, response);
         }
 
         if (currentPage != null && currentPage.equals(IS_ADMIN_USERPAGE)) {
-            String destination = userPageHandler(request,response);
+            String destination = userPageHandler(request,response,authToken);
             request.getRequestDispatcher(destination).forward(request, response);
         }
 
     }
 
-    private String productPageHandler(HttpServletRequest request, HttpServletResponse response) {
+    private String productPageHandler(HttpServletRequest request, HttpServletResponse response,String authToken) {
         String dest = PAGE_INDEX;
         if (request.getParameter(ADD_PRODUCT) != null) {
-            addProduct(request, response, "insert auth here");
+            addProduct(request, response, authToken);
             dest = PAGE_ADMIN_PRODUCT;
         } else if (request.getParameter(DELETE_PRODUCT) != null) {
-            deleteProduct(request, response, "insert auth here");
+            deleteProduct(request, response, authToken);
             dest = PAGE_ADMIN_PRODUCT;
         } else if (request.getParameter(UPDATE_PRODUCT) != null) {
-            updateProduct(request, response, "insert auth here");
+            updateProduct(request, response, authToken);
             dest = PAGE_ADMIN_PRODUCT;
         }
         if (false == dest.equals(equals(PAGE_INDEX))) {
@@ -93,22 +94,22 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
         return dest;
     }
 
-    private String userPageHandler(HttpServletRequest request, HttpServletResponse response) {
+    private String userPageHandler(HttpServletRequest request, HttpServletResponse response,String authToken) {
         String dest = PAGE_INDEX;
-        request.setAttribute("users", AdminBuissnessFacade.getUsers());
+        request.setAttribute("users", AdminBuissnessFacade.getUsers(authToken));
         if (request.getParameter(ADD_USER) != null) {
-            addUser(request, response, "insert auth here");
+            addUser(request, response, authToken);
             dest = PAGE_USERS;
         } else if (request.getParameter(DELETE_USER) != null) {
-            deleteUser(request, response, "insert auth here");
+            deleteUser(request, response, authToken);
             dest = PAGE_USERS;
         } else if (request.getParameter(UPDATE_USER) != null) {
-            updateUser(request, response, "insert auth here");
+            updateUser(request, response, authToken);
             dest = PAGE_USERS;
         }
 
         if (false == dest.equals(equals(PAGE_INDEX))) {
-            request.setAttribute("users", AdminBuissnessFacade.getUsers());
+            request.setAttribute("users", AdminBuissnessFacade.getUsers(authToken));
         }
         return dest;
     }
@@ -116,28 +117,28 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
     private void updateProduct(HttpServletRequest request, HttpServletResponse response, String authToken) {
         ProductInfo productInfo = buildProductInfo(request);
         System.out.println("updateProduct: " + productInfo.toString());
-        AdminBuissnessFacade.updateProduct(productInfo);
+        AdminBuissnessFacade.updateProduct(productInfo,authToken);
     }
 
     private void deleteProduct(HttpServletRequest request, HttpServletResponse response, String authToken) {
-        AdminBuissnessFacade.deleteProduct(Integer.parseInt(request.getParameter(PRODUCT_TO_DELETE)));
+        AdminBuissnessFacade.deleteProduct(Integer.parseInt(request.getParameter(PRODUCT_TO_DELETE)),authToken);
     }
 
     private void addProduct(HttpServletRequest request, HttpServletResponse response, String authToken) {
-        AdminBuissnessFacade.addProduct(buildProductInfo(request));
+        AdminBuissnessFacade.addProduct(buildProductInfo(request),authToken);
     }
 
     private void updateUser(HttpServletRequest request, HttpServletResponse response, String authToken) {
         UserInfo userInfo = buildUserInfo(request);
-        AdminBuissnessFacade.updateUser(userInfo);
+        AdminBuissnessFacade.updateUser(userInfo,authToken);
     }
 
     private void deleteUser(HttpServletRequest request, HttpServletResponse response, String authToken) {
-        AdminBuissnessFacade.deleteUser(Integer.parseInt(request.getParameter(USER_TO_DELETE)));
+        AdminBuissnessFacade.deleteUser(Integer.parseInt(request.getParameter(USER_TO_DELETE)),authToken);
     }
 
     private void addUser(HttpServletRequest request, HttpServletResponse response, String authToken) {
-        AdminBuissnessFacade.addUser(buildUserInfo(request));
+        AdminBuissnessFacade.addUser(buildUserInfo(request),authToken);
     }
 
     private ProductInfo buildProductInfo(HttpServletRequest request) {

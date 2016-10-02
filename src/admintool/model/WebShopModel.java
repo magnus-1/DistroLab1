@@ -16,7 +16,7 @@ public class WebShopModel {
     private AuthUser authUser = null;
 
     public List<UserInfo> getUsers() {
-        return (List<UserInfo>)AdminBuissnessFacade.getUsers();
+        return (List<UserInfo>)AdminBuissnessFacade.getUsers(authUser.getAuthToken());
     }
 
     public List<ProductInfo> getProducts() {
@@ -30,6 +30,6 @@ public class WebShopModel {
     }
 
     public void addProduct(ProductInfo productInfo) {
-        AdminBuissnessFacade.addProduct(productInfo);
+        AdminBuissnessFacade.addProduct(productInfo,authUser.getAuthToken());
     }
 }

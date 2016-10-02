@@ -21,7 +21,10 @@ class Authentication {
             System.out.println("Login failed: user: " + user +" pass: " + pass);
             return null;
         }
-        return new WebUserTokens(boUser.getUserID(), boUser.getEmail(), boUser.getPassword(), sessionId,securityLevel);
+        if (boUser.getUserType() < securityLevel) {
+            System.out.println("loginWebUser: to low security level: " +boUser.getUserType() );
+        }
+        return new WebUserTokens(boUser.getUserID(), boUser.getEmail(), boUser.getPassword(), sessionId,boUser.getUserType());
     }
 
     static Boolean isValidToken(String authToken,int securityLevel) {

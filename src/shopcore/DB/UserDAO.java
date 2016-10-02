@@ -61,6 +61,7 @@ public class UserDAO {
                         .userEmail(email)
                         .userPassword(pass)
                         .userType(resultSet.getInt(COLUMN_USER_TYPE));
+                System.out.println();
                 foundIt = true;
             }
         } catch (SQLException e) {

@@ -70,7 +70,9 @@ public class DatabasFacade {
     }
 
     static public <T> T loginUser(BoUserBuilder<T> builder, String userName, String password) {
-        return DBManager.getInstance().getUserDAO().tryLogin(builder, userName, password);
+        T t = DBManager.getInstance().getUserDAO().tryLogin(builder, userName, password);
+        System.out.println("Login user" + t);
+        return t;
     }
 
     public static void packOrder(int orderID) {

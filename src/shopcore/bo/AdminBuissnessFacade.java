@@ -39,17 +39,28 @@ public class AdminBuissnessFacade {
         return productInfos;
     }
 
-    static public void addProduct(ProductInfo productInfo) {
-        DatabasFacade.addProduct(buildBoProduct(productInfo));
+    static public boolean addProduct(ProductInfo productInfo, String authToken) {
+        if (isValidToken(authToken)) {
+            DatabasFacade.addProduct(buildBoProduct(productInfo));
+            return true;
+        }
+        return false;
     }
 
-    static public void deleteProduct(int productId) {
-        DatabasFacade.deleteProduct(productId);
+    static public boolean deleteProduct(int productId, String authToken) {
+        if (isValidToken(authToken)) {
+            DatabasFacade.deleteProduct(productId);
+            return true;
+        }
+        return false;
     }
 
-    static public void updateProduct(ProductInfo productInfo) {
-        //TODO authtoken
-        DatabasFacade.updateProduct(buildBoProduct(productInfo));
+    static public boolean updateProduct(ProductInfo productInfo, String authToken) {
+        if (isValidToken(authToken)) {
+            DatabasFacade.updateProduct(buildBoProduct(productInfo));
+            return true;
+        }
+        return false;
     }
 
     static private BoProduct buildBoProduct(ProductInfo productInfo) {
@@ -76,7 +87,10 @@ public class AdminBuissnessFacade {
                 .build();
     }
 
-    public static Collection<UserInfo> getUsers() {
+    public static Collection<UserInfo> getUsers(String authToken) {
+        if (isValidToken(authToken) == false) {
+            return new ArrayList<>();
+        }
         ArrayList<UserInfo> userInfos = new ArrayList<>();
         Collection<BoUser> currentUsers = DatabasFacade.getUsers(BoUser.getBuilder());
         for (BoUser u : currentUsers) {
@@ -85,16 +99,28 @@ public class AdminBuissnessFacade {
         return userInfos;
     }
 
-    static public void addUser(UserInfo userInfo) {
-        DatabasFacade.addUser(buildBoUser(userInfo));
+    static public boolean addUser(UserInfo userInfo, String authToken) {
+        if (isValidToken(authToken)) {
+            DatabasFacade.addUser(buildBoUser(userInfo));
+            return true;
+        }
+        return false;
     }
 
-    static public void deleteUser(int userID) {
-        DatabasFacade.deleteUser(userID);
+    static public boolean deleteUser(int userID, String authToken) {
+        if (isValidToken(authToken)) {
+            DatabasFacade.deleteUser(userID);
+            return true;
+        }
+        return false;
     }
 
-    static public void updateUser(UserInfo userInfo) {
-        DatabasFacade.updateUser(buildBoUser(userInfo));
+    static public boolean updateUser(UserInfo userInfo, String authToken) {
+        if (isValidToken(authToken)) {
+            DatabasFacade.updateUser(buildBoUser(userInfo));
+            return true;
+        }
+        return false;
     }
 
 }
