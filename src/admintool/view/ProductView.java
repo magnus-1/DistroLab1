@@ -38,6 +38,7 @@ public class ProductView {
     private TextField pPrice = new TextField();
     private TextField pQuantity = new TextField();
 
+    private HBox buttonField = new HBox();
     private HBox addProductField = new HBox();
 
 
@@ -51,8 +52,6 @@ public class ProductView {
 
     public void start(){
         Button goToUsers = new Button();
-
-
         goToUsers.setText("Go To Users");
         goToUsers.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -60,6 +59,17 @@ public class ProductView {
                 controlerDelegate.goToUserView();
             }
         });
+        Button logout = new Button();
+        logout.setText("Logout");
+        logout.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                controlerDelegate.logOut();
+            }
+        });
+
+        buttonField.getChildren().addAll(goToUsers,logout);
+        buttonField.setSpacing(3);
 
 
 
@@ -82,7 +92,7 @@ public class ProductView {
         VBox vbox = new VBox();
         vbox.setSpacing(6);
         vbox.setPadding(new Insets(10, 0, 0, 10));
-        vbox.getChildren().addAll(pageTitle,goToUsers, productTable,addProductField);
+        vbox.getChildren().addAll(pageTitle,buttonField,goToUsers, productTable,addProductField);
 
         Group root = new Group();
         scene = new Scene(root, AdminTool.width, AdminTool.height);

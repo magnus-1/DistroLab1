@@ -39,6 +39,7 @@ public class UserView {
     private TextField userPassword = new TextField();
     private TextField userType = new TextField();
 
+    private HBox buttonField = new HBox();
     private HBox addUserField = new HBox();
 
     public UserView(Stage stage) {
@@ -63,6 +64,19 @@ public class UserView {
                 controllerDelegate.goToProductView();
             }
         });
+        Button logout = new Button();
+        logout.setText("Logout");
+        logout.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                controllerDelegate.logOut();
+            }
+        });
+
+        buttonField.getChildren().addAll(goToProducts,logout);
+        buttonField.setSpacing(3);
+
+
 
         Label pageTitle = new Label("Admin/Users");
         pageTitle.setFont(new Font("Arial", 20));
@@ -82,7 +96,7 @@ public class UserView {
         VBox vbox = new VBox();
         vbox.setSpacing(6);
         vbox.setPadding(new Insets(10, 0, 0, 10));
-        vbox.getChildren().addAll(pageTitle,goToProducts, userTable, addUserField);
+        vbox.getChildren().addAll(pageTitle, buttonField, userTable, addUserField);
 
         Group root = new Group();
         scene = new Scene(root, AdminTool.width, AdminTool.height);
