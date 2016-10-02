@@ -1,20 +1,44 @@
+
+ Generellt för laborationerna gäller att programmen ska vara testade
+  väl dokumenterade,
+
+  klassdiagram ska finnas tillgängligt vid redovisning.
+
+   Lösningar måste även kunna motiveras och diskuteras.
+
+För att uppnå högre betyg måste tidigare nivå också göras, d.v.s.
+
+Redovisning av laborationen görs 3-4 grupper åt gången.
+ Varje grupp har en ca 5 min presentation av sin lösning som sedan diskuteras mellan grupperna och med läraren.
+Är det några oklarheter i beskrivningarna var inte rädd för att FRÅGA!!
+* Lab i Java enterprise
+* I denna labb ska ni göra en första webb-shop,
+* med hjälp av en Java applikation som via JDBC har access till en databas
+* och har JSP som gränssnitt mot användarna.
+*  Detta naturligtvis i en tre lagers arkitektur.
+
+
 Betyg 3
 Element som måste finnas:
-Shopping korg
-Användar identifiering
-Möjlighet att lägga saker i korgen och titta i den.
-Lösningen måste ha en 3lagers arkitektur.
+* Shopping korg
+* Användar identifiering
+* Möjlighet att lägga saker i korgen och titta i den.
+* Lösningen måste ha en 3lagers arkitektur.
 
 Betyg 4
-Här ska varulager finnas så man vet om varan finns i lager eller inte.
-Man ska kunna skicka ordrar som ska vara inom en transaktion.
-Användarhanteringen ska vara utbyggd så att man kan administrera dem.
-Olika behörighets klasser ska även det introduceras. (kund, admin, lager personal)
-En bra 3 lagersstruktur måste vara tydlig.
+* Här ska varulager finnas så man vet om varan finns i lager eller inte.
+* Man ska kunna skicka ordrar som ska vara inom en transaktion.
+* Användarhanteringen ska vara utbyggd så att man kan administrera dem.
+- Olika behörighets klasser ska även det introduceras. (kund, admin, lager personal)
+* En bra 3 lagersstruktur måste vara tydlig.
 
 Betyg 5
-Här ska vi skriva en del av det administrativa i systemet, som kan implementeras både som HTML eller vanligt grafiskt gränssnitt.
-Man ska kunna lägga till och editera varor och varukategorier.
-Lagerpersonal ska kunna titta på ordrar och 'packa' dem.
-Naturligtvis måste man för dessa saker ha behörighet.
-Ni ska även implementera en MVC struktur i kombination med 3 lagers arkitekturen.
+* Här ska vi skriva en del av det administrativa i systemet,
+* som kan implementeras både som HTML eller vanligt grafiskt gränssnitt.
+* Man ska kunna lägga till och editera varor
+
+ och varukategorier.
+
+* Lagerpersonal ska kunna titta på ordrar och 'packa' dem.
+* Naturligtvis måste man för dessa saker ha behörighet.
+? Ni ska även implementera en MVC struktur i kombination med 3 lagers arkitekturen.
