@@ -48,6 +48,10 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
             return;
         }
         String authToken = UIProtocol.getCookieWithName("authToken", request).getValue();
+        if (AdminBuissnessFacade.isValidToken(authToken) == false) {
+            request.getRequestDispatcher(PAGE_INDEX).forward(request,response);
+            return;
+        }
         // TODO: check security level
 
         if (redirectDestination != null) {

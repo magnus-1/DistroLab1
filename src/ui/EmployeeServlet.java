@@ -60,6 +60,11 @@ public class EmployeeServlet extends HttpServlet implements javax.servlet.Servle
             request.getRequestDispatcher("login.jsp").forward(request,response);
             return;
         }
+        String authToken = UIProtocol.getCookieWithName("authToken", request).getValue();
+        if (EmployeeBuissnessFacade.isValidToken(authToken) == false) {
+            request.getRequestDispatcher(PAGE_INDEX).forward(request,response);
+            return;
+        }
         // TODO: check security level
         String redirectDestination = request.getParameter(REDIRECT);
 

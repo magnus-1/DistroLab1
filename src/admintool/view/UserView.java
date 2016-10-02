@@ -19,7 +19,6 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import shopcore.dto.UserInfo;
 
-import javax.persistence.Column;
 import java.util.ArrayList;
 import java.util.Collection;
 
