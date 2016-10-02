@@ -4,11 +4,9 @@ import admintool.model.WebShopModel;
 import admintool.view.LoginView;
 import admintool.view.ProductView;
 import admintool.view.UserView;
-import shopcore.bo.AdminBuissnessFacade;
 import ui.ProductInfo;
 import ui.UserInfo;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -42,7 +40,7 @@ public class AdminToolController {
     public void startApp() {
         loginView.setControlerDelegate(this);
         productView.setControlerDelegate(this);
-        userView.setControlerDelegate(this);
+        userView.setControllerDelegate(this);
 
         loginView.start();
         userView.start();
@@ -65,5 +63,9 @@ public class AdminToolController {
 
     public void addProduct(ProductInfo productInfo) {
         model.addProduct(productInfo);
+    }
+
+    public void addUser(UserInfo userInfo) {
+        model.addUser(userInfo);
     }
 }
