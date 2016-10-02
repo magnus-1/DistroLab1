@@ -35,14 +35,17 @@ public class AdminToolController {
         return model.getUsers();
     }
 
+    public boolean loginUser(String user,String pass) {
+        return model.loginUser(user,pass);
+    }
+
     public void startApp() {
         loginView.setControlerDelegate(this);
-        loginView.start();
-
-        userView.setControlerDelegate(this);
-        userView.start();
-
         productView.setControlerDelegate(this);
+        userView.setControlerDelegate(this);
+
+        loginView.start();
+        userView.start();
         productView.start();
 
         loginView.showScene();
