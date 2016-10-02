@@ -57,7 +57,6 @@ public class UserView {
         Button goToProducts = new Button();
         goToProducts.setText("Go To Products");
         goToProducts.setOnAction(new EventHandler<ActionEvent>() {
-
             @Override
             public void handle(ActionEvent event) {
                 controllerDelegate.goToProductView();
@@ -68,7 +67,7 @@ public class UserView {
         logout.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                controllerDelegate.logOut();
+                controllerDelegate.goToLoginView();
             }
         });
 

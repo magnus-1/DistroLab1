@@ -69,9 +69,6 @@ public class AdminToolController {
         model.addUser(userInfo);
     }
 
-    public void logOut() {
-
-    }
 
     public void deleteProduct(ProductInfo productInfo) {
         model.deleteProduct(productInfo);
