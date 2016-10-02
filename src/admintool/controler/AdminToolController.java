@@ -4,6 +4,7 @@ import admintool.model.WebShopModel;
 import admintool.view.LoginView;
 import admintool.view.ProductView;
 import admintool.view.UserView;
+import shopcore.bo.AdminBuissnessFacade;
 import ui.ProductInfo;
 import ui.UserInfo;
 
@@ -59,4 +60,7 @@ public class AdminToolController {
         loginView.showScene();
     }
 
+    public void addProduct(ProductInfo productInfo) {
+        AdminBuissnessFacade.addProduct(productInfo);
+    }
 }

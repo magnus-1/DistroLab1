@@ -11,15 +11,12 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import shopcore.bo.AdminBuissnessFacade;
 import ui.ProductInfo;
 
 import java.util.ArrayList;
@@ -36,6 +33,14 @@ public class ProductView {
     private ObservableList<ProductInfo> products;
     private ProductInfo selectedProduct;
 
+    private TextField pTitle = new TextField();
+    private TextField pDesc = new TextField();
+    private TextField pPrice = new TextField();
+    private TextField pQuantity = new TextField();
+
+    private HBox hb = new HBox();
+
+
     public ProductView(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
@@ -46,6 +51,8 @@ public class ProductView {
 
     public void start(){
         Button btn = new Button();
+
+
         btn.setText("Go To UserView");
         btn.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -71,6 +78,11 @@ public class ProductView {
         vbox.setPadding(new Insets(10, 0, 0, 10));
         vbox.getChildren().addAll(label, productTable);
 
+        initTextfields();
+
+        hb.getChildren().addAll(pTitle,pDesc,pPrice,pQuantity,createAddButton());
+        hb.setSpacing(3);
+
 
         Group root = new Group();
         root.getChildren().add(btn);
@@ -90,12 +102,6 @@ public class ProductView {
         tCol.setCellValueFactory(new PropertyValueFactory(propertyName));
         return tCol;
     }
-    private String productTitle;
-    private String description;
-    private int productId;
-    private double price;
-    private int quantity;
-
 
     private TableView createProductTable() {
         TableView table1 = new TableView();
@@ -119,5 +125,51 @@ public class ProductView {
 
         table1.getSelectionModel().selectedIndexProperty().addListener(cl);
         return table1;
+    }
+
+
+
+    private void initTextfields(){
+        pTitle.setPromptText("Title");
+        pTitle.setMaxWidth(200);
+        pDesc.setPromptText("Description");
+        pDesc.setMaxWidth(200);
+        pPrice.setPromptText("Price");
+        pPrice.setMaxWidth(100);
+        pQuantity.setPromptText("Quantity");
+        pQuantity.setMaxWidth(100);
+
+    }
+
+
+    private Button createAddButton(){
+        Button addButton = new Button("Add");
+        addButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                try {
+
+                controlerDelegate.addProduct(new ProductInfo(
+                        pTitle.getText(),
+                        pDesc.getText(),
+                        Integer.parseInt(pPrice.getText()),
+                        Integer.parseInt(pQuantity.getText())));
+                } catch (NumberFormatException ex){
+                    ex.printStackTrace();
+                }
+
+
+                pDesc.clear();
+                pTitle.clear();
+                pQuantity.clear();
+                updateProducts();
+            }
+        });
+        return addButton;
+    }
+
+    private void updateProducts() {
+        this.products = FXCollections.observableList(controlerDelegate.getProducts());
+        productTable.refresh();
     }
 }
