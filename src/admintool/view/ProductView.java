@@ -57,6 +57,7 @@ public class ProductView {
             @Override
             public void handle(ActionEvent event) {
                 controllerDelegate.goToUserView();
+                updateProducts();
             }
         });
         Button logout = new Button();
@@ -75,6 +76,7 @@ public class ProductView {
             public void handle(ActionEvent event) {
                 System.out.println("Product To delete: "+selectedProduct);
                 controllerDelegate.deleteProduct(selectedProduct);
+                updateProducts();
             }
         });
 
@@ -85,12 +87,12 @@ public class ProductView {
             public void handle(ActionEvent event) {
                 System.out.println("Product To delete: "+selectedProduct);
                 controllerDelegate.updateProduct(selectedProduct);
+                updateProducts();
             }
         });
 
         buttonField.getChildren().addAll(goToUsers,logout,update,delete);
         buttonField.setSpacing(3);
-
 
 
         Label pageTitle = new Label("Admin/Products");
@@ -112,7 +114,7 @@ public class ProductView {
         VBox vbox = new VBox();
         vbox.setSpacing(6);
         vbox.setPadding(new Insets(10, 0, 0, 10));
-        vbox.getChildren().addAll(pageTitle,buttonField,goToUsers, productTable,addProductField);
+        vbox.getChildren().addAll(pageTitle,buttonField, productTable,addProductField);
 
         Group root = new Group();
         scene = new Scene(root, AdminTool.width, AdminTool.height);
@@ -130,6 +132,7 @@ public class ProductView {
     private TableColumn createColumn(String title,String propertyName){
         TableColumn tCol = new TableColumn(title);
         tCol.setCellValueFactory(new PropertyValueFactory(propertyName));
+        tCol.setEditable(true);
         return tCol;
     }
 
@@ -196,17 +199,6 @@ public class ProductView {
             }
         });
         return addButton;
-    }
-    private Button createUpdateButton(){
-        Button button = new Button("Add");
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                // TODO: 2016-10-02 make update work
-                updateProducts();
-            }
-        });
-        return button;
     }
 
 

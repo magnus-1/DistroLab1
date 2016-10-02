@@ -19,6 +19,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import shopcore.dto.UserInfo;
 
+import javax.persistence.Column;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -78,6 +79,7 @@ public class UserView {
             public void handle(ActionEvent event) {
                 System.out.println("User To delete: "+selectedUser);
                 controllerDelegate.deleteUser(selectedUser);
+                updateUsers();
             }
         });
 
@@ -88,6 +90,7 @@ public class UserView {
             public void handle(ActionEvent event) {
                 System.out.println("User To delete: "+selectedUser);
                 controllerDelegate.updateUser(selectedUser);
+                updateUsers();
             }
         });
 
@@ -139,6 +142,7 @@ public class UserView {
     private TableColumn createColumn(String title, String propertyName) {
         TableColumn tCol = new TableColumn(title);
         tCol.setCellValueFactory(new PropertyValueFactory(propertyName));
+        tCol.setEditable(true);
         return tCol;
     }
 
@@ -151,6 +155,7 @@ public class UserView {
                 createColumn("User Email", "email"),
                 createColumn("User Password", "password"),
                 createColumn("User Type", "userType"));
+
         ChangeListener cl = new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue observable, Number oldValue, Number newValue) {
@@ -201,19 +206,6 @@ public class UserView {
         });
         return addButton;
     }
-
-    private Button createUpdateButton() {
-        Button button = new Button("Add");
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                // TODO: 2016-10-02 make update work
-                updateUsers();
-            }
-        });
-        return button;
-    }
-
 
     private void updateUsers() {
         this.users.clear();
