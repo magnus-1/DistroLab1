@@ -33,7 +33,7 @@
     <input name="registry" type="submit" value="Login"/>
 </form>
 
-<table style="width:100%">
+<table style="width:75%">
     <tr>
            
         <th align="left">ItemTitle</th>
@@ -48,21 +48,19 @@
          
     </tr>
 
-
-
     <c:forEach items="${products}" var="product">
-    <tr>
-        <td><c:out value="${product.productTitle}" /></td>
-        <td><c:out value="${product.description}" /></td>
-        <td><c:out value="${product.price}" /></td>
-        <td><c:out value="${product.quantity}" /></td>
-        <td>
-            <form action="ClientServlet">
-                <input name="productToAdd" type="hidden" value="${product.productId}">
-                <input name="addToCart" type="submit" value="Add To Cart"/>
-             </form>
-        </td>
-    </tr>
+        <tr>
+            <td><c:out value="${product.productTitle}"/></td>
+            <td><c:out value="${product.description}"/></td>
+            <td><c:out value="${product.price}"/></td>
+            <td><c:out value="${product.quantity}"/></td>
+            <td>
+                <form action="ClientServlet">
+                    <input name="productToAdd" type="hidden" value="${product.productId}">
+                    <input name="addToCart" type="submit" value="Add To Cart"/>
+                </form>
+            </td>
+        </tr>
     </c:forEach>
 </table>
 
@@ -81,22 +79,10 @@
          
     </tr>
 
-
-    <%--<c:forEach items="${cookie}" var="mycookie" >--%>
-        <%--<tr>--%>
-            <%--<td><p>Key: <c:out value="${mycookie.key}" /></p></td>--%>
-            <%--<td><p>Value: <c:out value="${mycookie.value}" /></p></td>--%>
-
-            <%--<td><p>Value: <c:out value="${mycookie.value.name}" /></p></td>--%>
-            <%--<td><p>Value: <c:out value="${mycookie.value.value}" /></p></td>--%>
-
-        <%--</tr>--%>
-    <%--</c:forEach>--%>
-
     <c:forEach items="${shoppingcart}" var="cart">
         <tr>
-            <td><c:out value="${cart.productTitle}" /></td>
-            <td><c:out value="${cart.price}" /></td>
+            <td><c:out value="${cart.productTitle}"/></td>
+            <td><c:out value="${cart.price}"/></td>
             <td>
                 <form action="ClientServlet">
                     <input name="productToRemove" type="hidden" value="${cart.productId}">
@@ -111,5 +97,30 @@
     <input name="registry" type="submit" value="Goto Registry"/>
 </form>
 
-    </body>
+<table style="width:50%">
+    <tr>
+           
+        <th align="left">Orders</th>
+
+        <th align="left"></th>
+
+           
+        <th></th>
+         
+    </tr>
+
+    <c:forEach items="${orders}" var="order">
+        <tr>
+            <td><c:out value="${order.orderID}"/></td>
+            <td>
+                <form action="ClientServlet">
+                    <input name="orderID" type="hidden" value="${order.orderID}">
+                    <input name="showOrder" type="submit" value="Show"/>
+                </form>
+            </td>
+        </tr>
+    </c:forEach>
+</table>
+
+</body>
 </html>
