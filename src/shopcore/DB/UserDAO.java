@@ -13,10 +13,7 @@ import java.util.Collection;
  * Created by cj on 2016-09-29.
  */
 public class UserDAO {
-    private Connection dbConn;
-
-    public UserDAO(Connection dbConnection) {
-        this.dbConn = dbConnection;
+    public UserDAO() {
     }
 
     private static final String COLUMN_USER_ID = "userID";
@@ -46,7 +43,9 @@ public class UserDAO {
     public <T> T tryLogin(BoUserBuilder<T> builder, String userName, String password) {
         builder.clear();
         boolean foundIt = false;
+        Connection dbConn = null;
         try {
+            dbConn = DBManager.getInstance().getConnection();
             PreparedStatement ps = dbConn.prepareStatement(SQL_GET_USER_BY_EMAIL);
             ps.setString(1,userName);
             ResultSet resultSet = ps.executeQuery();
@@ -67,13 +66,24 @@ public class UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             foundIt = false;
+        }finally {
+            if (dbConn != null) {
+                try {
+                    dbConn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return (foundIt) ? builder.build() : null;
     }
 
     public void insertUser(BoUser user) {
         PreparedStatement ps = null;
+        Connection dbConn = null;
+        System.out.println("insertUser: " + user.toString());
         try {
+            dbConn = DBManager.getInstance().getConnection();
             ps = dbConn.prepareStatement(SQL_INSERT_USER);
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getPassword());
@@ -82,23 +92,43 @@ public class UserDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            if (dbConn != null) {
+                try {
+                    dbConn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
     public void deleteUser(int userID) {
         PreparedStatement ps = null;
+        Connection dbConn = null;
         try {
+            dbConn = DBManager.getInstance().getConnection();
             ps = dbConn.prepareStatement(SQL_DELETE_USER);
             ps.setInt(1,userID);
             ps.execute();
 
         } catch (SQLException e){
             e.printStackTrace();
+        }finally {
+            if (dbConn != null) {
+                try {
+                    dbConn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
     public void updateUser(BoUser user) {
         PreparedStatement ps = null;
+        Connection dbConn = null;
         try {
+            dbConn = DBManager.getInstance().getConnection();
             ps = dbConn.prepareStatement(SQL_UPDATE_USER);
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getPassword());
@@ -108,6 +138,14 @@ public class UserDAO {
 
         } catch (SQLException e){
             e.printStackTrace();
+        }finally {
+            if (dbConn != null) {
+                try {
+                    dbConn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -123,7 +161,9 @@ public class UserDAO {
     public <T> T getUserById(BoUserBuilder<T> builder, Integer userID) {
         builder.clear();
         boolean foundIt = false;
+        Connection dbConn = null;
         try {
+            dbConn = DBManager.getInstance().getConnection();
             PreparedStatement ps = dbConn.prepareStatement(SQL_GET_USER_BY_ID);
             ps.setInt(1, userID.intValue());
             ResultSet resultSet = ps.executeQuery();
@@ -137,6 +177,14 @@ public class UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             foundIt = false;
+        }finally {
+            if (dbConn != null) {
+                try {
+                    dbConn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return (foundIt) ? builder.build() : null;
     }
@@ -154,7 +202,9 @@ public class UserDAO {
 
     public <T> Collection<T> getUsers(BoUserBuilder<T> builder) {
         ArrayList<T> boUsers = new ArrayList<>();
+        Connection dbConn = null;
         try {
+            dbConn = DBManager.getInstance().getConnection();
             PreparedStatement ps = dbConn.prepareStatement(SQL_GET_ALL_USERS);
             ResultSet resultSet = ps.executeQuery();
 
@@ -168,6 +218,14 @@ public class UserDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            if (dbConn != null) {
+                try {
+                    dbConn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return boUsers;
     }

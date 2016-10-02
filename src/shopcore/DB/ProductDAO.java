@@ -13,10 +13,8 @@ import java.util.Collection;
  * Created by o_0 on 2016-09-26.
  */
 public class ProductDAO {
-    private Connection dbConn;
 
-    public ProductDAO(Connection dbConnection) {
-        this.dbConn = dbConnection;
+    public ProductDAO() {
     }
 
     private static final String COLUMN_PRODUCT_ID = "productID";
@@ -41,7 +39,9 @@ public class ProductDAO {
 
     public void insertProduct(BoProduct product) {
         PreparedStatement ps = null;
+        Connection dbConn = null;
         try {
+            dbConn = DBManager.getInstance().getConnection();
             ps = dbConn.prepareStatement(sqlInsertProduct);
             ps.setString(1, product.getProductTitle());
             ps.setString(2, product.getDescription());
@@ -51,24 +51,44 @@ public class ProductDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            if (dbConn != null) {
+                try {
+                    dbConn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
     public void deleteProduct(int productId) {
         PreparedStatement ps = null;
+        Connection dbConn = null;
         try {
+            dbConn = DBManager.getInstance().getConnection();
             ps = dbConn.prepareStatement(SQL_DELETE_PRODUCT);
             ps.setInt(1, productId);
             ps.execute();
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            if (dbConn != null) {
+                try {
+                    dbConn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
     public void updateProduct(BoProduct boProduct) {
         PreparedStatement ps = null;
+        Connection dbConn = null;
         try {
+            dbConn = DBManager.getInstance().getConnection();
             dbConn.setAutoCommit(false);
             ps = dbConn.prepareStatement(SQL_UPDATE_PRODUCT);
             ps.setString(1, boProduct.getProductTitle());
@@ -96,6 +116,13 @@ public class ProductDAO {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+            if (dbConn != null) {
+                try {
+                    dbConn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -110,7 +137,9 @@ public class ProductDAO {
     public <T> T getProductsById(BoProductBuilder<T> builder, Integer productId) {
         builder.clear();
         boolean foundIt = false;
+        Connection dbConn = null;
         try {
+            dbConn = DBManager.getInstance().getConnection();
             //System.out.println("dbConn = " + dbConn + " \nsql:" + sqlGetProductById);
             PreparedStatement ps = dbConn.prepareStatement(sqlGetProductById);
             ps.setInt(1, productId.intValue());
@@ -126,6 +155,14 @@ public class ProductDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             foundIt = false;
+        }finally {
+            if (dbConn != null) {
+                try {
+                    dbConn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return (foundIt) ? builder.build() : null;
     }
@@ -144,7 +181,9 @@ public class ProductDAO {
     public <T> Collection<T> getProducts(BoProductBuilder<T> builder) {
         ArrayList<T> boProducts = new ArrayList<>();
         //System.out.println("shopcore.DB:dao:getProducts");
+        Connection dbConn = null;
         try {
+            dbConn = DBManager.getInstance().getConnection();
             PreparedStatement ps = dbConn.prepareStatement(sqlGetAllProduct);
             ResultSet resultSet = ps.executeQuery();
 
@@ -160,6 +199,14 @@ public class ProductDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            if (dbConn != null) {
+                try {
+                    dbConn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return boProducts;
     }

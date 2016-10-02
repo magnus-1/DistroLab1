@@ -2,6 +2,7 @@ package shopcore.DB;
 
 import shopcore.bo.BoOrder;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,10 +11,7 @@ import java.util.Collection;
  * Created by cj on 2016-09-30.
  */
 public class OrderDAO {
-    private Connection dbConn;
-
-    public OrderDAO(Connection dbConnection) {
-        this.dbConn = dbConnection;
+    public OrderDAO(){
     }
 
     private static final String COLUMN_PRODUCT_ID = "productID";
@@ -37,9 +35,12 @@ public class OrderDAO {
         PreparedStatement ps2 = null;
         ResultSet rs;
         int orderID = 0;
+        Connection dbConn = null;
         try {
+            dbConn = DBManager.getInstance().getConnection();
             dbConn.setAutoCommit(false);
             ps1 = dbConn.prepareStatement(SQL_INSERT_ORDER,Statement.RETURN_GENERATED_KEYS);
+
             ps1.setInt(1, order.getUserID());
             ps1.setBoolean(2, order.isPacked());
             ps1.execute();
@@ -78,24 +79,43 @@ public class OrderDAO {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+            if (dbConn != null) {
+                try {
+                    dbConn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
     public void deleteOrder(int userID) {
         PreparedStatement ps = null;
+        Connection dbConn = null;
         try {
+            dbConn = DBManager.getInstance().getConnection();
             ps = dbConn.prepareStatement(SQL_DELETE_ORDER);
             ps.setInt(1, userID);
             ps.execute();
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            if (dbConn != null) {
+                try {
+                    dbConn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
     public void updateOrder(BoOrder order) {
         PreparedStatement ps = null;
+        Connection dbConn = null;
         try {
+            dbConn = DBManager.getInstance().getConnection();
             ps = dbConn.prepareStatement(SQL_UPDATE_ORDER);
             ps.setInt(1, order.getUserID());
             ps.setBoolean(2, order.isPacked());
@@ -104,6 +124,14 @@ public class OrderDAO {
         } catch (SQLException e) {
 
             e.printStackTrace();
+        }finally {
+            if (dbConn != null) {
+                try {
+                    dbConn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -111,7 +139,9 @@ public class OrderDAO {
     public <T> T getOrderById(BoOrderBuilder<T> builder, Integer orderID) {
         builder.clear();
         boolean foundIt = false;
+        Connection dbConn = null;
         try {
+            dbConn = DBManager.getInstance().getConnection();
             PreparedStatement ps = dbConn.prepareStatement(SQL_GET_ORDER_BY_ID);
             ps.setInt(1, orderID.intValue());
             ResultSet resultSet = ps.executeQuery();
@@ -124,6 +154,14 @@ public class OrderDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             foundIt = false;
+        }finally {
+            if (dbConn != null) {
+                try {
+                    dbConn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return (foundIt) ? builder.build() : null;
     }
@@ -141,7 +179,9 @@ public class OrderDAO {
 
     public <T> Collection<T> getOrdersByIDs(BoOrderBuilder<T> builder, int userID) {
         ArrayList<T> boOrders = new ArrayList<>();
+        Connection dbConn = null;
         try {
+            dbConn = DBManager.getInstance().getConnection();
             PreparedStatement ps = dbConn.prepareStatement(SQL_GET_ORDERS_BY_USER);
             ps.setInt(1, userID);
             ResultSet resultSet = ps.executeQuery();
@@ -155,13 +195,23 @@ public class OrderDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            if (dbConn != null) {
+                try {
+                    dbConn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return boOrders;
     }
 
     public <T> Collection<T> getOrders(BoOrderBuilder<T> builder) {
         ArrayList<T> boOrders = new ArrayList<>();
+        Connection dbConn = null;
         try {
+            dbConn = DBManager.getInstance().getConnection();
             PreparedStatement ps = dbConn.prepareStatement(SQL_GET_ALL_ORDERS);
             ResultSet resultSet = ps.executeQuery();
 
@@ -174,13 +224,23 @@ public class OrderDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            if (dbConn != null) {
+                try {
+                    dbConn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return boOrders;
     }
 
     public Collection<Integer> getProductIDsByOrder(int orderID) {
         ArrayList<Integer> productIDs = new ArrayList<>();
+        Connection dbConn = null;
         try {
+            dbConn = DBManager.getInstance().getConnection();
             PreparedStatement ps = dbConn.prepareStatement(SQL_GET_PRODUCT_ID_BY_ORDER);
             ps.setInt(1, orderID);
             ResultSet resultSet = ps.executeQuery();
@@ -189,19 +249,37 @@ public class OrderDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            if (dbConn != null) {
+                try {
+                    dbConn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return productIDs;
     }
 
 
     public void packOrder(int orderID) {
+        Connection dbConn = null;
         try {
+            dbConn = DBManager.getInstance().getConnection();
             PreparedStatement ps = dbConn.prepareStatement(SQL_PACK_ORDER);
             ps.setInt(1, orderID);
             ps.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            if (dbConn != null) {
+                try {
+                    dbConn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
