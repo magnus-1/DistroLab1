@@ -4,9 +4,11 @@ import admintool.model.WebShopModel;
 import admintool.view.LoginView;
 import admintool.view.ProductView;
 import admintool.view.UserView;
+import ui.ProductInfo;
 import ui.UserInfo;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by o_0 on 2016-10-01.
@@ -25,7 +27,10 @@ public class AdminToolController {
         this.model = model;
     }
 
-    public Collection<UserInfo> getUsers() {
+    public List<ProductInfo> getProducts() {
+        return model.getProducts();
+    }
+    public List<UserInfo> getUsers() {
         return model.getUsers();
     }
 

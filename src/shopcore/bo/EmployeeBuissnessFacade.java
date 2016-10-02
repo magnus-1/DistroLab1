@@ -15,7 +15,11 @@ import java.util.Collection;
  */
 public class EmployeeBuissnessFacade {
     public static AuthUser loginUser(String user, String pass, String sessionId) {
-        return null;
+        return Authentication.loginWebUser(user, pass, sessionId);
+    }
+
+    public static Boolean isValidToken(String authToken) {
+        return Authentication.isValidToken(authToken);
     }
 
     static public void packOrder(OrderInfo orderInfo) {DatabasFacade.packOrder(orderInfo.getOrderID());}
@@ -28,6 +32,8 @@ public class EmployeeBuissnessFacade {
         }
         return orderInfos;
     }
+
+
 
     static private BoOrder buildBoOrder(OrderInfo orderInfo) {
         return BoOrder.getBuilder()

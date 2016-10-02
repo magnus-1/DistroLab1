@@ -64,8 +64,8 @@ public class ProductView {
 
         productTable.setEditable(true);
 
-        products = (ObservableList<ProductInfo>) AdminBuissnessFacade.getProducts();
-
+        products = FXCollections.observableList(controlerDelegate.getProducts());
+        productTable.setItems(products);
         final VBox vbox = new VBox();
         vbox.setSpacing(5);
         vbox.setPadding(new Insets(10, 0, 0, 10));
