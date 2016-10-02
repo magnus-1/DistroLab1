@@ -38,7 +38,7 @@ public class ProductView {
     private TextField pPrice = new TextField();
     private TextField pQuantity = new TextField();
 
-    private HBox hb = new HBox();
+    private HBox addProductField = new HBox();
 
 
     public ProductView(Stage primaryStage) {
@@ -50,12 +50,11 @@ public class ProductView {
     }
 
     public void start(){
-        Button btn = new Button();
+        Button goToUsers = new Button();
 
 
-        btn.setText("Go To UserView");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-
+        goToUsers.setText("Go To UserView");
+        goToUsers.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 controlerDelegate.goToUserView();
@@ -64,8 +63,8 @@ public class ProductView {
 
 
 
-        final Label label = new Label("Address Book");
-        label.setFont(new Font("Arial", 20));
+        Label pageTitle = new Label("Admin/Products");
+        pageTitle.setFont(new Font("Arial", 20));
 
         productTable = createProductTable();
 
@@ -73,19 +72,19 @@ public class ProductView {
 
         products = FXCollections.observableList(controlerDelegate.getProducts());
         productTable.setItems(products);
-        final VBox vbox = new VBox();
-        vbox.setSpacing(5);
-        vbox.setPadding(new Insets(10, 0, 0, 10));
-        vbox.getChildren().addAll(label, productTable);
 
         initTextfields();
 
-        hb.getChildren().addAll(pTitle,pDesc,pPrice,pQuantity,createAddButton());
-        hb.setSpacing(3);
+        addProductField.getChildren().addAll(pTitle,pDesc,pPrice,pQuantity,createAddButton());
+        addProductField.setSpacing(3);
 
+
+        VBox vbox = new VBox();
+        vbox.setSpacing(6);
+        vbox.setPadding(new Insets(10, 0, 0, 10));
+        vbox.getChildren().addAll(pageTitle,goToUsers, productTable,addProductField);
 
         Group root = new Group();
-        root.getChildren().add(btn);
         scene = new Scene(root, AdminTool.width, AdminTool.height);
 
         ((Group) scene.getRoot()).getChildren().addAll(vbox);
@@ -167,6 +166,18 @@ public class ProductView {
         });
         return addButton;
     }
+    private Button createUpdateButton(){
+        Button button = new Button("Add");
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                // TODO: 2016-10-02 make update work
+                updateProducts();
+            }
+        });
+        return button;
+    }
+
 
     private void updateProducts() {
         this.products = FXCollections.observableList(controlerDelegate.getProducts());
