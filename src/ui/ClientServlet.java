@@ -1,7 +1,6 @@
 package ui;
 
 import shopcore.bo.BusinessFacade;
-import shopcore.bo.EmployeeBusinessFacade;
 import shopcore.dto.OrderInfo;
 import shopcore.dto.ProductInfo;
 
@@ -23,7 +22,6 @@ import static ui.UIProtocol.*;
 public class ClientServlet extends HttpServlet implements javax.servlet.Servlet {
 
 
-
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -43,11 +41,12 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
 //            return;
 //        }
 
-        // TODO: check security level
-
+        /**
+         * Checking for the REDIRECT parameter in the request, should there be one we redirect to the page. Simple.
+         */
         if (redirectDestination != null) {
             if (redirectDestination.equals(GO_TO_PRODUCTS)) {
-                setOrders(request,response,authToken);
+                setOrders(request, response, authToken);
                 request.setAttribute("shoppingcart", BusinessFacade.getProducts(cartProductIds));
                 request.setAttribute("products", BusinessFacade.getProducts());
                 request.getRequestDispatcher(PAGE_PRODUCT).forward(request, response);
@@ -59,17 +58,19 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
                     request.setAttribute("shoppingcart", cart);
                     request.setAttribute("totalPrice", BusinessFacade.totalShoppingPrice(BusinessFacade.getProducts(cartProductIds)));
                     request.getRequestDispatcher(PAGE_REGISTRY).forward(request, response);
-                }else {
-                    defualtProductPage(request,response,cartProductIds,authToken);
-                }
+                } else {
+                    defaultProductPage(request, response, cartProductIds, authToken);
 
+
+                }
+                String destination = handleGoToREgistry(request,response,cartProductIds,authToken);
+                request.getRequestDispatcher(destination).forward(request, response);
             } else if (redirectDestination.equals(GO_TO_SHOW_ORDER)) {
-                // TODO: 2016-10-03 numberformatexeption
-                handleShowOrder(request,response);
+                handleShowOrder(request, response);
                 request.getRequestDispatcher(PAGE_USER_ORDER).forward(request, response);
 
             } else if (redirectDestination.equals(CREATE_BUY_ORDER)) {
-                String destination = handleBuyRequest(request,response,cartProductIds);
+                String destination = handleBuyRequest(request, response, cartProductIds);
                 request.getRequestDispatcher(destination).forward(request, response);
 
             } else {
@@ -86,8 +87,6 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
             return;
         }
 
-//        Cookie authToken1 = UIProtocol.getCookieWithName("authToken", request);
-//        int userId = BusinessFacade.getUserId(authToken1.getValue());
 
         if (request.getParameter(UIProtocol.ADD_TO_CART) != null) {
             cartProductIds = addToCart(request, response);
@@ -97,50 +96,47 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
             cartProductIds = parseShoppingCartCookie(request.getCookies());
         }
 
-        /*
-        if (request.getParameter(GO_TO_REGISTRY) != null) {
-            cartProductIds = addToCart(request, response);
-            Collection<ProductInfo> products = BusinessFacade.getProducts(cartProductIds);
-            request.setAttribute("shoppingcart", products);
-            request.setAttribute("totalPrice", BusinessFacade.totalShoppingPrice(products));
-            request.getRequestDispatcher("registry.jsp").forward(request, response);
-            return;
-        }
-        */
 
-        defualtProductPage(request,response,cartProductIds,authToken);
-//        setOrders(request,response,authToken);
-//        request.setAttribute("products", BusinessFacade.getProducts());
-//        request.setAttribute("shoppingcart", BusinessFacade.getProducts(cartProductIds));
-//        request.getRequestDispatcher(PAGE_PRODUCT).forward(request, response);
-
+        String destination = defaultProductPage(request, response, cartProductIds, authToken);
+        request.getRequestDispatcher(destination).forward(request, response);
     }
 
-    private void defualtProductPage(HttpServletRequest request, HttpServletResponse response,Collection<Integer> cartProductIds,String authToken) throws ServletException, IOException {
-        setOrders(request,response,authToken);
-        request.setAttribute("products", BusinessFacade.getProducts());
-        request.setAttribute("shoppingcart", BusinessFacade.getProducts(cartProductIds));
-        request.getRequestDispatcher(PAGE_PRODUCT).forward(request, response);
+    private String defaultProductPage(HttpServletRequest request, HttpServletResponse response, Collection<Integer> cartProductIds, String authToken) throws ServletException, IOException {
+        setOrders(request, response, authToken);
+        request.setAttribute(PAGE_PARAM_PRODUCTS, BusinessFacade.getProducts());
+        request.setAttribute(PAGE_PARAM_SHOPING_CART, BusinessFacade.getProducts(cartProductIds));
+        return PAGE_PRODUCT;
     }
 
     private void handleShowOrder(HttpServletRequest request, HttpServletResponse response) {
         int orderID = Integer.parseInt(request.getParameter("orderID"));
         Collection<Integer> productsInOrder = BusinessFacade.getProductIDsByOrder(orderID);
         Collection<ProductInfo> products = BusinessFacade.getProducts(productsInOrder);
-        request.setAttribute("productsInOrder", products);
-        request.setAttribute("totalPrice", BusinessFacade.totalShoppingPrice(products));
+        request.setAttribute(PAGE_PARAM_PRODUCT_IN_ORDER, products);
+        request.setAttribute(PAGE_PARAM_TOTAL_PRICE, BusinessFacade.totalShoppingPrice(products));
     }
 
-    public void setOrders(HttpServletRequest request, HttpServletResponse response,String authToken) {
+    private String handleGoToREgistry(HttpServletRequest request, HttpServletResponse response, Collection<Integer> cartProductIds, String authToken)throws ServletException, IOException{
+        System.out.println("Now in: " + GO_TO_REGISTRY);
+        Collection<ProductInfo> cart = BusinessFacade.getProducts(cartProductIds);
+        if (!cart.isEmpty()) {
+            request.setAttribute(PAGE_PARAM_SHOPING_CART, cart);
+            request.setAttribute(PAGE_PARAM_TOTAL_PRICE, BusinessFacade.totalShoppingPrice(BusinessFacade.getProducts(cartProductIds)));
+            return PAGE_REGISTRY;
+        } else {
+            return defaultProductPage(request, response, cartProductIds, authToken);
+        }
+    }
+
+    public void setOrders(HttpServletRequest request, HttpServletResponse response, String authToken) {
         int userid = BusinessFacade.getUserId(authToken);
         System.out.println("UserId: " + userid);
         if (userid >= 0) {
             Collection<OrderInfo> orders = BusinessFacade.getOrders(userid);
             System.out.println("Orders: " + orders);
-            request.setAttribute("orders", orders);
+            request.setAttribute(PAGE_PARAM_ORDERS, orders);
         }
     }
-
 
 
     public Collection<Integer> addToCart(HttpServletRequest request, HttpServletResponse response) {
@@ -303,7 +299,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
                 || BusinessFacade.isValidToken(authToken) == false) {
             request.setAttribute("lastPage", "ClientServlet");
 
-            request.setAttribute(REDIRECT,GO_TO_PRODUCTS);
+            request.setAttribute(REDIRECT, GO_TO_PRODUCTS);
             System.out.println("Failed to buy");
             return dest;
         }
@@ -321,8 +317,8 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         shoppingcart.setMaxAge(0);
 
         response.addCookie(shoppingcart);
-        request.setAttribute("products", BusinessFacade.getProducts());
-        setOrders(request,response,authToken);
+        request.setAttribute(PAGE_PARAM_PRODUCTS, BusinessFacade.getProducts());
+        setOrders(request, response, authToken);
         dest = PAGE_PRODUCT;
         return dest;
     }

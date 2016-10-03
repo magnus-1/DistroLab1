@@ -24,9 +24,12 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        System.out.println("AuthType: " + request.getAuthType());
-//        System.out.println("RequestedSessionId: " + request.getRequestedSessionId());
-        String redirectDestination = request.getParameter(REDIRECT);
+        /**
+         *  Checking authentication cookie, and if it's = to "null" we redirect to login page.
+         *  If it is not = to "null" we validate the authentication token in the cookie and if it's not
+         *  valid the client is redirected to the index page.
+         */
+
         if (UIProtocol.getCookieWithName("authToken",request) == null) {
             request.getRequestDispatcher("login.jsp").forward(request,response);
             return;
@@ -37,14 +40,18 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
             request.getRequestDispatcher(PAGE_INDEX).forward(request,response);
             return;
         }
-        // TODO: check security level
 
+
+        /**
+         * Checking for the REDIRECT parameter in the request, should there be one we redirect to the page. Simple.
+         */
+        String redirectDestination = request.getParameter(REDIRECT);
         if (redirectDestination != null) {
             if (redirectDestination.equals(GO_TO_PRODUCTS)) {
-                request.setAttribute("products", AdminBusinessFacade.getProducts());
+                request.setAttribute(PAGE_PARAM_PRODUCTS, AdminBusinessFacade.getProducts());
                 request.getRequestDispatcher(PAGE_ADMIN_PRODUCT).forward(request,response);
             } else if (redirectDestination.equals(GO_TO_USERS)) {
-                request.setAttribute("users", AdminBusinessFacade.getUsers(authToken));
+                request.setAttribute(PAGE_PARAM_USERS, AdminBusinessFacade.getUsers(authToken));
                 request.getRequestDispatcher(PAGE_USERS).forward(request,response);
             } else if (redirectDestination.equals(GO_TO_INDEX)) {
                 request.getRequestDispatcher(PAGE_ADMIN_INDEX).forward(request,response);
@@ -53,7 +60,9 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
             }
             return;
         }
-
+        /**
+         * Checking for the CURRENT PAGE parameter to se which of admin pages that are sending the request. Simple.
+         */
         String currentPage = request.getParameter(CURRENT_PAGE);
         if (currentPage != null && currentPage.equals(IS_ADMIN_PRODUCT_PAGE)) {
             String destination = productPageHandler(request, response,authToken);
@@ -68,7 +77,7 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
     }
 
     /**
-     *
+     * Handles the requests regarding the admin product page
      * @param request
      * @param response
      * @param authToken
@@ -93,7 +102,7 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
     }
 
     /**
-     *
+     * Handles the requests regarding the admin user page
      * @param request
      * @param response
      * @param authToken
@@ -149,7 +158,7 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
 
 
     /**
-     *
+     * Simple building method for ProductInfo
      * @param request
      * @return
      */
@@ -171,7 +180,7 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
     }
 
     /**
-     *
+     * Simple building method for UserInfo
      * @param request
      * @return
      */

@@ -43,6 +43,12 @@ public class UIProtocol {
     public static final String IS_EMPLOYEE_PAGE = "employeePage";
     public static final String SHOW_ORDER = "showOrder";
     public static final String GO_TO_EMPLOYEE_PAGE = "goToEmployeePage";
+    public static final String PAGE_PARAM_PRODUCTS = "products";
+    public static final String PAGE_PARAM_SHOPING_CART = "shoppingcart";
+    public static final String PAGE_PARAM_ORDERS = "orders";
+    public static final String PAGE_PARAM_USERS = "USERS";
+    public static final String PAGE_PARAM_TOTAL_PRICE = "totalPrice";
+    public static final String PAGE_PARAM_PRODUCT_IN_ORDER = "productsInOrder";
 
     public static Cookie getCookieWithName(String name, HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
