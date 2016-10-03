@@ -204,12 +204,12 @@ public class ProductView {
             @Override
             public void handle(ActionEvent e) {
                 try {
-                    System.out.println("Butten: " + pTitle.getText() + ":"+ pDesc.getText() + ":"+ pPrice.getText() + ":" +pQuantity.getText());
+                    System.out.println("Butten: " + pTitle.getText() + ":"+ pDesc.getText() + ":"+ pCategory.getText() +":"+ pPrice.getText() + ":" +pQuantity.getText());
                 controllerDelegate.addProduct(new ProductInfo(
                         pTitle.getText(),
                         pDesc.getText(),
                         pCategory.getText(),
-                        Integer.parseInt(pPrice.getText()),
+                        Double.parseDouble(pPrice.getText()),
                         Integer.parseInt(pQuantity.getText())));
                 } catch (NumberFormatException ex){
                     ex.printStackTrace();
