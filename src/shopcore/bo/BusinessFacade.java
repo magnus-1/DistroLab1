@@ -58,6 +58,10 @@ public class BusinessFacade {
         return Authentication.isValidToken(authToken,BoUser.CUSTOMER);
     }
 
+    public static boolean checkValidSession(String authToken,String sessionId) {
+        return Authentication.isSameSession(authToken,sessionId, BoUser.EMPLOYEE);
+    }
+
     public static Collection<ProductInfo> getProducts(Collection<Integer> productIDs){
         ArrayList<ProductInfo> productInfos = new ArrayList<>();
         Collection<BoProduct> currentInventory = DatabasFacade.getProducts(BoProduct.getBuilder(),productIDs);

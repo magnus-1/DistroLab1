@@ -348,8 +348,14 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         String authToken = null;
         if (authTokenCookie == null ||
                 (authToken = authTokenCookie.getValue()) == null
-                || BusinessFacade.isValidToken(authToken) == false) {
+                || BusinessFacade.isValidToken(authToken) == false
+                || BusinessFacade.checkValidSession(authToken,request.getRequestedSessionId()) == false) {
+
             request.setAttribute(PAGE_PARAM_LAST_PAGE, "ClientServlet");
+            if (authTokenCookie != null) {
+                authTokenCookie.setMaxAge(0);
+                response.addCookie(authTokenCookie);
+            }
 
             request.setAttribute(REDIRECT, GO_TO_PRODUCTS);
             System.out.println("Failed to buy");

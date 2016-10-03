@@ -57,7 +57,7 @@ public class EmployeeServlet extends HttpServlet implements javax.servlet.Servle
                 request.getRequestDispatcher(PAGE_ORDER).forward(request, response);
                 return;
             } else if (request.getParameter(PACK_ORDER) != null) {
-                packOrder(request, response, "insert Auth here");
+                packOrder(request, response, authToken);
             }
 
             request.setAttribute(PAGE_PARAM_ORDERS, EmployeeBusinessFacade.getOrders());
@@ -77,7 +77,7 @@ public class EmployeeServlet extends HttpServlet implements javax.servlet.Servle
     }
 
     private void packOrder(HttpServletRequest request, HttpServletResponse response, String authToken) {
-        EmployeeBusinessFacade.packOrder(buildOrderInfo(request));
+        EmployeeBusinessFacade.packOrder(buildOrderInfo(request),authToken);
     }
 
     private OrderInfo buildOrderInfo(HttpServletRequest request) {

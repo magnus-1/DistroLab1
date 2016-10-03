@@ -22,7 +22,13 @@ public class EmployeeBusinessFacade {
         return Authentication.isSameSession(authToken,sessionId, BoUser.EMPLOYEE);
     }
 
-    static public void packOrder(OrderInfo orderInfo) {DatabasFacade.packOrder(orderInfo.getOrderID());}
+    static public void packOrder(OrderInfo orderInfo,String authToken) {
+        if (isValidToken(authToken)) {
+            DatabasFacade.packOrder(orderInfo.getOrderID());
+        }else {
+            System.out.println("packOrder: not authorized");
+        }
+    }
 
     public static Collection<OrderInfo> getOrders() {
         Collection<BoOrder> orders = DatabasFacade.getOrders(BoOrder.getBuilder());
