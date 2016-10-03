@@ -29,14 +29,15 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
          *  If it is not = to "null" we validate the authentication token in the cookie and if it's not
          *  valid the client is redirected to the index page.
          */
-
+        System.out.println("session id: " + request.getRequestedSessionId());
         if (UIProtocol.getCookieWithName("authToken",request) == null) {
             request.getRequestDispatcher("login.jsp").forward(request,response);
             return;
         }
         String authToken = UIProtocol.getCookieWithName("authToken", request).getValue();
         if (AdminBusinessFacade.isValidToken(authToken) == false ||
-                AdminBusinessFacade.checkValidSession(authToken,request.getRequestedSessionId())) {
+                AdminBusinessFacade.checkValidSession(authToken,request.getRequestedSessionId()) == false) {
+            System.out.println("AdminServlet: failed login" + AdminBusinessFacade.checkValidSession(authToken,request.getRequestedSessionId()) );
             request.getRequestDispatcher(PAGE_INDEX).forward(request,response);
             return;
         }
@@ -52,6 +53,7 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
                 request.getRequestDispatcher(PAGE_ADMIN_PRODUCT).forward(request,response);
             } else if (redirectDestination.equals(GO_TO_USERS)) {
                 request.setAttribute(PAGE_PARAM_USERS, AdminBusinessFacade.getUsers(authToken));
+                System.out.println("page user");
                 request.getRequestDispatcher(PAGE_USERS).forward(request,response);
             } else if (redirectDestination.equals(GO_TO_INDEX)) {
                 request.getRequestDispatcher(PAGE_ADMIN_INDEX).forward(request,response);

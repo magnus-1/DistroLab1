@@ -51,7 +51,7 @@ public class BusinessFacade {
     }
 
     public static AuthUser loginUser(String user, String pass, String sessionId) {
-        return Authentication.loginWebUser(user, pass, sessionId,BoUser.CUSTOMER);
+        return Authentication.loginWebUser(user, pass, sessionId);
     }
 
     public static Boolean isValidToken(String authToken) {

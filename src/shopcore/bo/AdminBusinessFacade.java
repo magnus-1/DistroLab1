@@ -94,6 +94,7 @@ public class AdminBusinessFacade {
 
     public static Collection<UserInfo> getUsers(String authToken) {
         if (isValidToken(authToken) == false) {
+            System.out.println("getUsers: invalid token");
             return new ArrayList<>();
         }
         ArrayList<UserInfo> userInfos = new ArrayList<>();
@@ -101,6 +102,7 @@ public class AdminBusinessFacade {
         for (BoUser u : currentUsers) {
             userInfos.add(new UserInfo(u.getEmail(), u.getPassword(), u.getUserType(), u.getUserID()));
         }
+        System.out.println("Current Users: " + currentUsers);
         return userInfos;
     }
 

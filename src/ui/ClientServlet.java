@@ -273,6 +273,9 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
 
     private void clearCookies(HttpServletRequest request, HttpServletResponse response) {
         Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            return;
+        }
         for (Cookie c : cookies) {
             c.setMaxAge(0);
             response.addCookie(c);
