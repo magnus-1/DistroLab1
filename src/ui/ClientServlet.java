@@ -25,10 +25,10 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        Cookie cartCookie = UIProtocol.getCookieWithName("shoppingcart", request);
+        Cookie cartCookie = UIProtocol.getCookieWithName(COOKIE_SHOPPING_CART, request);
         Collection<Integer> cartProductIds = parseShoppingCartCookie(cartCookie);
         String authToken = null;
-        Cookie authCookie = UIProtocol.getCookieWithName("authToken", request);
+        Cookie authCookie = UIProtocol.getCookieWithName(COOKIE_AUTH_TOKEN, request);
         if (authCookie != null) {
             authToken = authCookie.getValue();
         }
@@ -47,12 +47,12 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         if (redirectDestination != null) {
             if (redirectDestination.equals(GO_TO_PRODUCTS)) {
                 setOrders(request, response, authToken);
-                request.setAttribute(PAGE_PARAM_SHOPING_CART, BusinessFacade.getProducts(cartProductIds));
+                request.setAttribute(PAGE_PARAM_SHOPPING_CART, BusinessFacade.getProducts(cartProductIds));
                 request.setAttribute(PAGE_PARAM_PRODUCTS, BusinessFacade.getProducts());
                 request.getRequestDispatcher(PAGE_PRODUCT).forward(request, response);
 
             } else if (redirectDestination.equals(GO_TO_REGISTRY)) {
-                String destination = handleGoToREgistry(request,response,cartProductIds,authToken);
+                String destination = handleGoToRegistry(request,response,cartProductIds,authToken);
                 request.getRequestDispatcher(destination).forward(request, response);
             } else if (redirectDestination.equals(GO_TO_SHOW_ORDER)) {
                 handleShowOrder(request, response);
@@ -77,6 +77,10 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         }
 
 
+        /**
+         * Checking for potential parameters to se if we can identify the request, and then take appropriate actions.
+         * Simple.
+         */
         if (request.getParameter(UIProtocol.ADD_TO_CART) != null) {
             cartProductIds = addToCart(request, response);
         } else if (request.getParameter(UIProtocol.REMOVE_FROM_CART) != null) {
@@ -85,18 +89,35 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
             cartProductIds = parseShoppingCartCookie(request.getCookies());
         }
 
-
+        /**
+         * If there were none specific request we default to setting up the product page as normal
+         */
         String destination = defaultProductPage(request, response, cartProductIds, authToken);
         request.getRequestDispatcher(destination).forward(request, response);
     }
 
+    /**
+     * Handler to set up redirect to default setting on product page
+     * @param request
+     * @param response
+     * @param cartProductIds
+     * @param authToken
+     * @return
+     * @throws ServletException
+     * @throws IOException
+     */
     private String defaultProductPage(HttpServletRequest request, HttpServletResponse response, Collection<Integer> cartProductIds, String authToken) throws ServletException, IOException {
         setOrders(request, response, authToken);
         request.setAttribute(PAGE_PARAM_PRODUCTS, BusinessFacade.getProducts());
-        request.setAttribute(PAGE_PARAM_SHOPING_CART, BusinessFacade.getProducts(cartProductIds));
+        request.setAttribute(PAGE_PARAM_SHOPPING_CART, BusinessFacade.getProducts(cartProductIds));
         return PAGE_PRODUCT;
     }
 
+    /**
+     * Handler to set up the redirect for the show order request.
+     * @param request
+     * @param response
+     */
     private void handleShowOrder(HttpServletRequest request, HttpServletResponse response) {
         int orderID = Integer.parseInt(request.getParameter("orderID"));
         Collection<Integer> productsInOrder = BusinessFacade.getProductIDsByOrder(orderID);
@@ -105,11 +126,21 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         request.setAttribute(PAGE_PARAM_TOTAL_PRICE, BusinessFacade.totalShoppingPrice(products));
     }
 
-    private String handleGoToREgistry(HttpServletRequest request, HttpServletResponse response, Collection<Integer> cartProductIds, String authToken)throws ServletException, IOException{
+    /**
+     * Handler to set up the redirect for the goToRegistry request.
+     * @param request
+     * @param response
+     * @param cartProductIds
+     * @param authToken
+     * @return
+     * @throws ServletException
+     * @throws IOException
+     */
+    private String handleGoToRegistry(HttpServletRequest request, HttpServletResponse response, Collection<Integer> cartProductIds, String authToken)throws ServletException, IOException{
         System.out.println("Now in: " + GO_TO_REGISTRY);
         Collection<ProductInfo> cart = BusinessFacade.getProducts(cartProductIds);
         if (!cart.isEmpty()) {
-            request.setAttribute(PAGE_PARAM_SHOPING_CART, cart);
+            request.setAttribute(PAGE_PARAM_SHOPPING_CART, cart);
             request.setAttribute(PAGE_PARAM_TOTAL_PRICE, BusinessFacade.totalShoppingPrice(BusinessFacade.getProducts(cartProductIds)));
             return PAGE_REGISTRY;
         } else {
@@ -117,6 +148,12 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         }
     }
 
+    /**
+     * Handler for fetching the orders for a specific user
+     * @param request
+     * @param response
+     * @param authToken
+     */
     public void setOrders(HttpServletRequest request, HttpServletResponse response, String authToken) {
         int userid = BusinessFacade.getUserId(authToken);
         System.out.println("UserId: " + userid);
@@ -129,7 +166,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
 
 
     public Collection<Integer> addToCart(HttpServletRequest request, HttpServletResponse response) {
-        String productToAdd = request.getParameter("productToAdd");
+        String productToAdd = request.getParameter(PRODUCT_TO_ADD);
 
         Cookie newCartCookie = addProductToCartCookie(request.getCookies(), productToAdd);
         if (newCartCookie == null) {
@@ -142,7 +179,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
     }
 
     public Collection<Integer> removeFromCart(HttpServletRequest request, HttpServletResponse response) {
-        String productToRemove = request.getParameter("productToRemove");
+        String productToRemove = request.getParameter(PRODUCT_TO_REMOVE);
 
         Cookie newCartCookie = removeProductFromCartCookie(request.getCookies(), productToRemove);
         if (newCartCookie == null) {
@@ -161,7 +198,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         boolean weFoundShoppingCart = false;
 
         for (Cookie c : cookies) {
-            if (c.getName().equals("shoppingcart")) {
+            if (c.getName().equals(COOKIE_SHOPPING_CART)) {
                 weFoundShoppingCart = true;
 
                 String productIDs = c.getValue();
@@ -177,18 +214,24 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
                 }
                 System.out.println(TAG + " after append new value" + productIDs);
 
-                newCookie = new Cookie("shoppingcart", productIDs);
+                newCookie = new Cookie(COOKIE_SHOPPING_CART, productIDs);
                 newCookie.setMaxAge(1000);
             }
         }
         if (!weFoundShoppingCart) {
-            newCookie = new Cookie("shoppingcart", value);
+            newCookie = new Cookie(COOKIE_SHOPPING_CART, value);
             newCookie.setMaxAge(1000);
         }
 
         return newCookie;
     }
 
+    /**
+     * Removes the productID from the shopping cart cookie
+     * @param cookies
+     * @param idToRemove
+     * @return
+     */
     public Cookie removeProductFromCartCookie(Cookie[] cookies, String idToRemove) {
         String TAG = "RemoveProductFromCartCookie";
         String delimiter = ":";
@@ -197,7 +240,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         boolean removedProduct = false;
 
         for (Cookie c : cookies) {
-            if (c.getName().equals("shoppingcart")) {
+            if (c.getName().equals(COOKIE_SHOPPING_CART)) {
 
                 String productIDs = c.getValue();
                 System.out.println(TAG + " Products before removal: " + productIDs);
@@ -223,13 +266,18 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
                 System.out.println(TAG + " Products after removal: " + newValue);
 
 
-                newCookie = new Cookie("shoppingcart", newValue);
+                newCookie = new Cookie(COOKIE_SHOPPING_CART, newValue);
                 newCookie.setMaxAge(1000);
             }
         }
         return newCookie;
     }
 
+    /**
+     * Handler to get all of the productID's in the shopping cart cookie;
+     * @param cookie
+     * @return
+     */
     public Collection<Integer> parseShoppingCartCookie(Cookie cookie) {
         String TAG = "parseShoppingCartCookie:";
         String delimiter = ":";
@@ -239,7 +287,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         }
 
         //System.out.println("name: " +cookie.getName() + " value:" + cookie.getValue());
-        if (cookie.getName().equals("shoppingcart")) {
+        if (cookie.getName().equals(COOKIE_SHOPPING_CART)) {
             String productIDs = cookie.getValue();
             if (productIDs == null) {
                 return result;
@@ -258,13 +306,18 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         return result;
     }
 
+    /**
+     * gets the shopping cart cookie and runs it through parseShoppingCartCookie(Cookie cookie). Simple.
+     * @param cookies
+     * @return
+     */
     public Collection<Integer> parseShoppingCartCookie(Cookie[] cookies) {
         Collection<Integer> result = new ArrayList<>();
         if (cookies == null) {
             return result;
         }
         for (Cookie c : cookies) {
-            if (c.getName().equals("shoppingcart")) {
+            if (c.getName().equals(COOKIE_SHOPPING_CART)) {
                 result = parseShoppingCartCookie(c);
             }
         }
@@ -279,14 +332,21 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         }
     }
 
+    /**
+     * Handler to set up the destination to when client invokes buy request, checks for authentication.
+     * @param request
+     * @param response
+     * @param cartProductIds
+     * @return
+     */
     private String handleBuyRequest(HttpServletRequest request, HttpServletResponse response, Collection<Integer> cartProductIds) {
         String dest = PAGE_LOGIN;
-        Cookie authTokenCookie = UIProtocol.getCookieWithName("authToken", request);
+        Cookie authTokenCookie = UIProtocol.getCookieWithName(COOKIE_AUTH_TOKEN, request);
         String authToken = null;
         if (authTokenCookie == null ||
                 (authToken = authTokenCookie.getValue()) == null
                 || BusinessFacade.isValidToken(authToken) == false) {
-            request.setAttribute("lastPage", "ClientServlet");
+            request.setAttribute(PAGE_PARAM_LAST_PAGE, "ClientServlet");
 
             request.setAttribute(REDIRECT, GO_TO_PRODUCTS);
             System.out.println("Failed to buy");
@@ -302,7 +362,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
             System.out.println("buying products done");
         }
 
-        Cookie shoppingcart = new Cookie("shoppingcart", "");
+        Cookie shoppingcart = new Cookie(COOKIE_SHOPPING_CART, "");
         shoppingcart.setMaxAge(0);
 
         response.addCookie(shoppingcart);

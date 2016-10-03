@@ -30,11 +30,11 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
          *  valid the client is redirected to the index page.
          */
 
-        if (UIProtocol.getCookieWithName("authToken",request) == null) {
-            request.getRequestDispatcher("login.jsp").forward(request,response);
+        if (UIProtocol.getCookieWithName(COOKIE_AUTH_TOKEN,request) == null) {
+            request.getRequestDispatcher(PAGE_LOGIN).forward(request,response);
             return;
         }
-        String authToken = UIProtocol.getCookieWithName("authToken", request).getValue();
+        String authToken = UIProtocol.getCookieWithName(COOKIE_AUTH_TOKEN, request).getValue();
         if (AdminBusinessFacade.isValidToken(authToken) == false ||
                 AdminBusinessFacade.checkValidSession(authToken,request.getRequestedSessionId())) {
             request.getRequestDispatcher(PAGE_INDEX).forward(request,response);
@@ -96,7 +96,7 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
             dest = PAGE_ADMIN_PRODUCT;
         }
         if (false == dest.equals(equals(PAGE_INDEX))) {
-            request.setAttribute("products", AdminBusinessFacade.getProducts());
+            request.setAttribute(PAGE_PARAM_PRODUCTS, AdminBusinessFacade.getProducts());
         }
         return dest;
     }
@@ -110,7 +110,7 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
      */
     private String userPageHandler(HttpServletRequest request, HttpServletResponse response,String authToken) {
         String dest = PAGE_INDEX;
-        request.setAttribute("users", AdminBusinessFacade.getUsers(authToken));
+        request.setAttribute(PAGE_PARAM_USERS, AdminBusinessFacade.getUsers(authToken));
         if (request.getParameter(ADD_USER) != null) {
             addUser(request, response, authToken);
             dest = PAGE_USERS;
@@ -123,7 +123,7 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
         }
 
         if (false == dest.equals(equals(PAGE_INDEX))) {
-            request.setAttribute("users", AdminBusinessFacade.getUsers(authToken));
+            request.setAttribute(PAGE_PARAM_USERS, AdminBusinessFacade.getUsers(authToken));
         }
         return dest;
     }
