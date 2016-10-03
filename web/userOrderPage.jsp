@@ -18,9 +18,9 @@
 </head>
 
 <body>
-<h2>Employee</h2>
+<h2>User</h2>
 <form action="ClientServlet" method="get">
-    <input name="redirect" type="hidden" value="goToEmployeePage">
+    <input name="redirect" type="hidden" value="goToProducts">
     <input type="submit" value="Back">
 </form>
 
@@ -41,6 +41,7 @@
         <tr>
             <td><c:out value="${product.productTitle}"/></td>
             <td><c:out value="${product.description}"/></td>
+            <td><c:out value="${product.category}"/></td>
             <td><c:out value="${product.price}"/></td>
         </tr>
     </c:forEach>

@@ -48,6 +48,10 @@
             </td>
 
             <td>
+                <input name="productCategory" value="">
+            </td>
+
+            <td>
                 <input name="productPrice" value="">
             </td>
 
@@ -71,6 +75,9 @@
                 </td>
                 <td>
                     <input name="productDescription" value="${product.description}">
+                </td>
+                <td>
+                    <input name="productDescription" value="${product.category}">
                 </td>
 
                 <td>

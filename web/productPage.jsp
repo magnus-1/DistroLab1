@@ -52,6 +52,7 @@
         <tr>
             <td><c:out value="${product.productTitle}"/></td>
             <td><c:out value="${product.description}"/></td>
+            <td><c:out value="${product.category}"/></td>
             <td><c:out value="${product.price}"/></td>
             <td><c:out value="${product.quantity}"/></td>
             <td>
@@ -82,6 +83,7 @@
     <c:forEach items="${shoppingcart}" var="cart">
         <tr>
             <td><c:out value="${cart.productTitle}"/></td>
+            <td><c:out value="${product.category}"/></td>
             <td><c:out value="${cart.price}"/></td>
             <td>
                 <form action="ClientServlet">
@@ -102,6 +104,7 @@
     <tr>
            
         <th align="left">Orders</th>
+        <th align="left">Packed</th>
 
         <th align="left"></th>
 
@@ -113,6 +116,7 @@
     <c:forEach items="${orders}" var="order">
         <tr>
             <td><c:out value="${order.orderID}"/></td>
+            <td><c:out value="${order.packed}"/></td>
             <td>
                 <form action="ClientServlet">
                     <input name="redirect" type="hidden" value="goToShowOrder">

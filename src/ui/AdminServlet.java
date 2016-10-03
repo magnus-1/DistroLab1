@@ -164,6 +164,7 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
         return new ProductInfo(
                 request.getParameter("productTitle"),
                 request.getParameter("productDescription"),
+                request.getParameter("productCategory"),
                 productId,
                 Double.parseDouble(request.getParameter("productPrice")),
                 Integer.parseInt(request.getParameter("productQuantity")));

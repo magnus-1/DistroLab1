@@ -11,15 +11,6 @@ import java.util.Collection;
  * Created by o_0 on 2016-09-22.
  */
 public class BusinessFacade {
-//    static public Collection<ItemInfo> getInventory() {
-//        ArrayList<ItemInfo> itemInfos = new ArrayList<>();
-//        Collection<BoItem> currentInventory = DatabasFacade.getCurrentInventory(BoItem.getBuilder());
-//        for (BoItem boitem : currentInventory) {
-//            itemInfos.add(new ItemInfo(boitem.getName(),boitem.getLast()));
-//        }
-//        BoProduct.getBuilder();
-//        return itemInfos;
-//    }
 
     public static Collection<ProductInfo> getProducts() {
         ArrayList<ProductInfo> productInfos = new ArrayList<>();

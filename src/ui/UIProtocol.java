@@ -11,6 +11,7 @@ public class UIProtocol {
     public static final String PACK_ORDER = "packOrder";
     public static final String PAGE_EMPLOYEE = "employeePage.jsp";
     public static final String PAGE_ORDER = "orderPage.jsp";
+    public static final String PAGE_USER_ORDER = "userOrderPage.jsp";
     public static final String PAGE_INDEX = "index.jsp";
     public static final String PAGE_ADMIN_PRODUCT = "adminProductPage.jsp";
     public static final String PAGE_USERS = "adminUserPage.jsp";

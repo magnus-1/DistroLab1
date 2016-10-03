@@ -24,6 +24,7 @@
     <c:forEach items="${shoppingcart}" var="cart">
         <tr>
             <td><c:out value="${cart.productTitle}"/></td>
+            <td><c:out value="${cart.category}"/></td>
             <td><c:out value="${cart.price}"/></td>
             <td>
                 <form action="ClientServlet">

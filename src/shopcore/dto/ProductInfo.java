@@ -7,25 +7,31 @@ package shopcore.dto;
 public class ProductInfo {
     private String productTitle;
     private String description;
+    private String category;
     private int productId;
     private double price;
     private int quantity;
 
-    public ProductInfo(String productTitle, String description, int productId, double price, int quantity) {
+    public ProductInfo(String productTitle, String description,String category, int productId, double price, int quantity) {
         this.productTitle = productTitle;
         this.description = description;
+        this.category = category;
         this.productId = productId;
         this.price = price;
         this.quantity = quantity;
     }
-    public ProductInfo(String productTitle, String description, double price, int quantity) {
+    public ProductInfo(String productTitle, String description,String category, double price, int quantity) {
         this.productTitle = productTitle;
         this.description = description;
+        this.category = category;
         this.price = price;
         this.productId = 0;
         this.quantity = quantity;
     }
 
+    public String getCategory() {
+        return category;
+    }
 
     public String getProductTitle() {
         return productTitle;

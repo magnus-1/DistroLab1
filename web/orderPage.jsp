@@ -41,6 +41,7 @@
         <tr>
             <td><c:out value="${product.productTitle}"/></td>
             <td><c:out value="${product.description}"/></td>
+            <td><c:out value="${product.category}"/></td>
             <td><c:out value="${product.quantity}"/></td>
             <td><c:out value="${product.price}"/></td>
         </tr>
