@@ -98,7 +98,7 @@ public class UserView {
             }
         });
 
-        buttonField.getChildren().addAll(goToProducts,logout,update,delete);
+        buttonField.getChildren().addAll(goToProducts,logout);
         buttonField.setSpacing(3);
 
 
@@ -114,7 +114,7 @@ public class UserView {
 
         initTextFields();
 
-        addUserField.getChildren().addAll(userEmail,userPassword,userType,createAddButton());
+        addUserField.getChildren().addAll(userEmail,userPassword,userType,createAddButton(),update,delete);
         addUserField.setSpacing(3);
 
 

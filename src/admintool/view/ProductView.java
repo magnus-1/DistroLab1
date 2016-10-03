@@ -102,7 +102,7 @@ public class ProductView {
             }
         });
 
-        buttonField.getChildren().addAll(goToUsers,logout,update,delete);
+        buttonField.getChildren().addAll(goToUsers,logout);
         buttonField.setSpacing(3);
 
 
@@ -118,7 +118,7 @@ public class ProductView {
 
         initTextFields();
 
-        addProductField.getChildren().addAll(pTitle,pDesc,pCategory,pPrice,pQuantity,createAddButton());
+        addProductField.getChildren().addAll(pTitle,pDesc,pCategory,pPrice,pQuantity,createAddButton(),update,delete);
         addProductField.setSpacing(3);
 
 
