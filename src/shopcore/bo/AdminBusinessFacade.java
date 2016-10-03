@@ -68,6 +68,13 @@ public class AdminBusinessFacade {
         return false;
     }
 
+    /**
+     * Delete a product from the web shop
+     * @param productId the product id
+     * @param authToken the security token for this operation
+     * @param sessionId the session id  used to login with
+     * @return if this operation finished
+     */
     static public boolean deleteProduct(int productId, String authToken,String sessionId) {
         if (isValidToken(authToken) && Authentication.isSameSession(authToken,sessionId,BoUser.ADMIN)) {
             DatabasFacade.deleteProduct(productId);
@@ -76,6 +83,13 @@ public class AdminBusinessFacade {
         return false;
     }
 
+    /**
+     * Update a product from the web shop
+     * @param productInfo DTO
+     * @param authToken the security token for this operation
+     * @param sessionId the session id  used to login with
+     * @return if this operation finished
+     */
     static public boolean updateProduct(ProductInfo productInfo, String authToken, String sessionId) {
         if (isValidToken(authToken) && Authentication.isSameSession(authToken,sessionId,BoUser.ADMIN)) {
             DatabasFacade.updateProduct(buildBoProduct(productInfo));
@@ -85,7 +99,12 @@ public class AdminBusinessFacade {
     }
 
 
-
+    /**
+     * Get all users
+     * @param authToken the security token for this operation
+     * @param sessionId the session id  used to login with
+     * @return a list of users for the webshop
+     */
     public static Collection<UserInfo> getUsers(String authToken, String sessionId) {
         if ((isValidToken(authToken) == false) || !Authentication.isSameSession(authToken, sessionId, BoUser.ADMIN)) {
             System.out.println("getUsers: invalid token");
@@ -100,6 +119,13 @@ public class AdminBusinessFacade {
         return userInfos;
     }
 
+    /**
+     * add a new user to the web shop
+     * @param userInfo DTO
+     * @param authToken the security token for this operation
+     * @param sessionId the session id  used to login with
+     * @return
+     */
     static public boolean addUser(UserInfo userInfo, String authToken, String sessionId) {
         if (isValidToken(authToken) && Authentication.isSameSession(authToken,sessionId,BoUser.ADMIN)){
             DatabasFacade.addUser(buildBoUser(userInfo));
@@ -108,6 +134,13 @@ public class AdminBusinessFacade {
         return false;
     }
 
+    /**
+     * delete a new user on the web shop
+     * @param userID to delete
+     * @param authToken the security token for this operation
+     * @param sessionId the session id  used to login with
+     * @return
+     */
     static public boolean deleteUser(int userID, String authToken, String sessionId) {
         if (isValidToken(authToken) && Authentication.isSameSession(authToken,sessionId,BoUser.ADMIN)){
             DatabasFacade.deleteUser(userID);
@@ -116,6 +149,13 @@ public class AdminBusinessFacade {
         return false;
     }
 
+    /**
+     * update a user in the web shop
+     * @param userInfo DTO
+     * @param authToken the security token for this operation
+     * @param sessionId the session id  used to login with
+     * @return
+     */
     static public boolean updateUser(UserInfo userInfo, String authToken, String sessionId) {
         if (isValidToken(authToken) && Authentication.isSameSession(authToken,sessionId,BoUser.ADMIN)){
             DatabasFacade.updateUser(buildBoUser(userInfo));
@@ -124,6 +164,11 @@ public class AdminBusinessFacade {
         return false;
     }
 
+    /**
+     * Helper funtion to convert a prorduct DTO to a Business object
+     * @param productInfo
+     * @return
+     */
     static private BoProduct buildBoProduct(ProductInfo productInfo) {
         return BoProduct.getBuilder()
                 .productId(productInfo.getProductId())
@@ -134,6 +179,12 @@ public class AdminBusinessFacade {
                 .quantity(productInfo.getQuantity())
                 .build();
     }
+
+    /**
+     * Helper funtion to convert a user DTO to a Business object
+     * @param productInfo
+     * @return
+     */
     static private BoUser buildBoUser(UserInfo userInfo) {
         return BoUser.getBuilder()
                 .userType(userInfo.getUserType())
