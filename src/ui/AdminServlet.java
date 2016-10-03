@@ -13,30 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static ui.UIProtocol.*;
+
 /**
  * Created by cj on 2016-09-29.
  */
 @WebServlet(description = "AdminServlet thingy", urlPatterns = {"/AdminServlet"})
 public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
-    public static final String PAGE_INDEX = "index.jsp";
-    public static final String PAGE_ADMIN_PRODUCT = "adminProductPage.jsp";
-    public static final String PAGE_USERS = "adminUserPage.jsp";
-    public static final String PAGE_ADMIN_INDEX = "adminIndex.jsp";
-    public static final String ADD_PRODUCT = "addProduct";
-    public static final String DELETE_PRODUCT = "deleteProduct";
-    public static final String UPDATE_PRODUCT = "updateProduct";
-    public static final String PRODUCT_TO_DELETE = "productToDelete";
-    public static final String ADD_USER = "addUser";
-    public static final String DELETE_USER = "deleteUser";
-    public static final String UPDATE_USER = "updateUser";
-    public static final String USER_TO_DELETE = "userToDelete";
-    public static final String GO_TO_PRODUCTS = "goToProducts";
-    public static final String GO_TO_USERS = "goToUsers";
-    public static final String GO_TO_INDEX = "goToIndex";
-    public static final String REDIRECT = "redirect";
-    public static final String IS_ADMIN_USERPAGE = "adminUsers";
-    public static final String IS_ADMIN_PRODUCTRPAGE = "adminProduct";
-    public static final String CURRENT_PAGE = "currentPage";
+
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -71,12 +55,12 @@ public class AdminServlet extends HttpServlet implements javax.servlet.Servlet {
         }
 
         String currentPage = request.getParameter(CURRENT_PAGE);
-        if (currentPage != null && currentPage.equals(IS_ADMIN_PRODUCTRPAGE)) {
+        if (currentPage != null && currentPage.equals(IS_ADMIN_PRODUCT_PAGE)) {
             String destination = productPageHandler(request, response,authToken);
             request.getRequestDispatcher(destination).forward(request, response);
         }
 
-        if (currentPage != null && currentPage.equals(IS_ADMIN_USERPAGE)) {
+        if (currentPage != null && currentPage.equals(IS_ADMIN_USER_PAGE)) {
             String destination = userPageHandler(request,response,authToken);
             request.getRequestDispatcher(destination).forward(request, response);
         }

@@ -93,7 +93,8 @@
     </c:forEach>
 </table>
 <form action="ClientServlet">
-    <input name="goToRegestry" type="hidden" value="buy">
+    <input name="redirect" type="hidden" value="goToRegistry">
+    <input name="goToRegistry" type="hidden" value="buy">
     <input name="registry" type="submit" value="Goto Registry"/>
 </form>
 
