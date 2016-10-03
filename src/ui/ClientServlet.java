@@ -1,6 +1,5 @@
 package ui;
 
-import shopcore.bo.AdminBusinessFacade;
 import shopcore.bo.BusinessFacade;
 import shopcore.dto.ProductInfo;
 
@@ -12,9 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.StringTokenizer;
 
-import static ui.UIProtocol.CLEAR_COOKIES;
-import static ui.UIProtocol.CREATE_BUY_ORDER;
-import static ui.UIProtocol.GO_TO_REGESTRY;
+import static ui.UIProtocol.*;
 
 
 /**
@@ -22,31 +19,7 @@ import static ui.UIProtocol.GO_TO_REGESTRY;
  */
 @WebServlet(description = "ClientServlet thingy", urlPatterns = {"/ClientServlet"})
 public class ClientServlet extends HttpServlet implements javax.servlet.Servlet {
-    public static final String PAGE_PRODUCT = "productPage.jsp";
-    public static final String ADMIN_PAGE = "adminProductPage.jsp";
 
-    public static final String PAGE_LOGIN = "login.jsp";
-    public static final String PAGE_INDEX = "index.jsp";
-    public static final String PAGE_ADMIN_PRODUCT = "adminProductPage.jsp";
-    public static final String PAGE_USERS = "adminUserPage.jsp";
-    public static final String PAGE_ADMIN_INDEX = "adminIndex.jsp";
-    public static final String ADD_PRODUCT = "addProduct";
-    public static final String DELETE_PRODUCT = "deleteProduct";
-    public static final String UPDATE_PRODUCT = "updateProduct";
-    public static final String PRODUCT_TO_DELETE = "productToDelete";
-    public static final String ADD_USER = "addUser";
-    public static final String DELETE_USER = "deleteUser";
-    public static final String UPDATE_USER = "updateUser";
-    public static final String USER_TO_DELETE = "userToDelete";
-    public static final String GO_TO_PRODUCTS = "goToProducts";
-    public static final String GO_TO_USERS = "goToUsers";
-    public static final String GO_TO_INDEX = "goToIndex";
-    public static final String REDIRECT = "redirect";
-    public static final String IS_ADMIN_USERPAGE = "adminUsers";
-    public static final String IS_ADMIN_PRODUCTRPAGE = "adminProduct";
-    public static final String CURRENT_PAGE = "currentPage";
-    private static final String PAGE_REGISTRY = "registry.jsp";
-    private static final String GO_TO_SHOW_ORDER = "goToShowOrder";
 
 
     @Override
@@ -72,9 +45,9 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
                 request.setAttribute("products", BusinessFacade.getProducts());
                 request.getRequestDispatcher(PAGE_PRODUCT).forward(request, response);
 
-            } else if (redirectDestination.equals(GO_TO_REGESTRY)) {
+            } else if (redirectDestination.equals(GO_TO_REGISTRY)) {
                 request.setAttribute("shoppingcart", BusinessFacade.getProducts(cartProductIds));
-                request.setAttribute("totalPrice", BusinessFacade.getProducts(cartProductIds));
+                request.setAttribute("totalPrice", BusinessFacade.totalShoppingPrice(BusinessFacade.getProducts(cartProductIds)));
                 request.getRequestDispatcher(PAGE_REGISTRY).forward(request, response);
 
             } else if (redirectDestination.equals(GO_TO_SHOW_ORDER)) {
@@ -101,9 +74,6 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
             return;
         }
 
-        Cookie authToken1 = UIProtocol.getCookieWithName("authToken", request);
-        int userId = BusinessFacade.getUserId(authToken1.getValue());
-
         if (request.getParameter(UIProtocol.ADD_TO_CART) != null) {
             cartProductIds = addToCart(request, response);
         } else if (request.getParameter(UIProtocol.REMOVE_FROM_CART) != null) {
@@ -112,7 +82,8 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
             cartProductIds = parseShoppingCartCookie(request.getCookies());
         }
 
-        if (request.getParameter(GO_TO_REGESTRY) != null) {
+        /*
+        if (request.getParameter(GO_TO_REGISTRY) != null) {
             cartProductIds = addToCart(request, response);
             Collection<ProductInfo> products = BusinessFacade.getProducts(cartProductIds);
             request.setAttribute("shoppingcart", products);
@@ -120,17 +91,9 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
             request.getRequestDispatcher("registry.jsp").forward(request, response);
             return;
         }
-
-        String dest = request.getParameter("destination");
-        System.out.println(dest);
-
+        */
 
         request.setAttribute("products", BusinessFacade.getProducts());
-        if (dest != null) {
-            request.getRequestDispatcher(ADMIN_PAGE).forward(request, response);
-            return;
-
-        }
         request.setAttribute("shoppingcart", BusinessFacade.getProducts(cartProductIds));
         request.getRequestDispatcher(PAGE_PRODUCT).forward(request, response);
 
