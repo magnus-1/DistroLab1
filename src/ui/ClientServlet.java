@@ -54,13 +54,19 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
 
         Cookie cartCookie = UIProtocol.getCookieWithName("shoppingcart", request);
         Collection<Integer> cartProductIds = parseShoppingCartCookie(cartCookie);
-        String authToken = UIProtocol.getCookieWithName("authToken", request).getValue();
+        String authToken = null;
+        Cookie authCookie = UIProtocol.getCookieWithName("authToken", request);
+        if (authCookie != null) {
+            authToken = authCookie.getValue();
+        }
 
         String redirectDestination = request.getParameter(REDIRECT);
-        if (UIProtocol.getCookieWithName("authToken", request) == null) {
-            request.getRequestDispatcher("login.jsp").forward(request, response);
-            return;
-        }
+
+        System.out.println("ClientServlet redirevt: " + redirectDestination);
+//        if (UIProtocol.getCookieWithName("authToken", request) == null) {
+//            request.getRequestDispatcher("login.jsp").forward(request, response);
+//            return;
+//        }
 
         // TODO: check security level
 
@@ -73,6 +79,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
                 request.getRequestDispatcher(PAGE_PRODUCT).forward(request, response);
 
             } else if (redirectDestination.equals(GO_TO_REGESTRY)) {
+                System.out.println("Now in: " + GO_TO_REGESTRY);
                 request.setAttribute("shoppingcart", BusinessFacade.getProducts(cartProductIds));
                 request.setAttribute("totalPrice", BusinessFacade.getProducts(cartProductIds));
                 request.getRequestDispatcher(PAGE_REGISTRY).forward(request, response);
@@ -101,8 +108,8 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
             return;
         }
 
-        Cookie authToken1 = UIProtocol.getCookieWithName("authToken", request);
-        int userId = BusinessFacade.getUserId(authToken1.getValue());
+//        Cookie authToken1 = UIProtocol.getCookieWithName("authToken", request);
+//        int userId = BusinessFacade.getUserId(authToken1.getValue());
 
         if (request.getParameter(UIProtocol.ADD_TO_CART) != null) {
             cartProductIds = addToCart(request, response);
@@ -121,16 +128,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
             return;
         }
 
-        String dest = request.getParameter("destination");
-        System.out.println(dest);
-
-
         request.setAttribute("products", BusinessFacade.getProducts());
-        if (dest != null) {
-            request.getRequestDispatcher(ADMIN_PAGE).forward(request, response);
-            return;
-
-        }
         request.setAttribute("shoppingcart", BusinessFacade.getProducts(cartProductIds));
         request.getRequestDispatcher(PAGE_PRODUCT).forward(request, response);
 
@@ -294,9 +292,14 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
     private String handleBuyRequest(HttpServletRequest request, HttpServletResponse response, Collection<Integer> cartProductIds) {
         String dest = PAGE_LOGIN;
         Cookie authTokenCookie = UIProtocol.getCookieWithName("authToken", request);
-        String authToken = authTokenCookie.getValue();
-        if (authTokenCookie == null || BusinessFacade.isValidToken(authToken) == false) {
-            request.setAttribute("lastPage", "registry.jsp");
+        String authToken = null;
+        if (authTokenCookie == null ||
+                (authToken = authTokenCookie.getValue()) == null
+                || BusinessFacade.isValidToken(authToken) == false) {
+            request.setAttribute("lastPage", "ClientServlet");
+
+            request.setAttribute(REDIRECT,GO_TO_PRODUCTS);
+            System.out.println("Failed to buy");
             return dest;
         }
 

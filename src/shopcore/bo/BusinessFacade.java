@@ -4,7 +4,6 @@ import shopcore.DB.DatabasFacade;
 import shopcore.dto.OrderInfo;
 import shopcore.dto.ProductInfo;
 
-import javax.persistence.criteria.Order;
 import java.util.ArrayList;
 import java.util.Collection;
 
