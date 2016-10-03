@@ -1,6 +1,7 @@
-package shopcore.bo;
+package test;
 
 import org.junit.Test;
+import shopcore.bo.WebUserTokens;
 
 import static org.junit.Assert.*;
 

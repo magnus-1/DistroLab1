@@ -31,7 +31,7 @@ public class LoginView {
 
     private Label loginStatus;
 
-    HBox createUserLoginBox(){
+    private  HBox createUserLoginBox(){
         TextField userName = new TextField("username");
         TextField password = new TextField("password");
         Button loginButton = new Button();

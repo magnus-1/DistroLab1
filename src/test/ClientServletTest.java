@@ -1,7 +1,8 @@
-package ui;
+package test;
 
 import org.junit.Before;
 import org.junit.Test;
+import ui.ClientServlet;
 
 import javax.servlet.http.Cookie;
 import java.util.ArrayList;
