@@ -18,11 +18,6 @@ public class BoOrder {
 
     }
 
-
-    public static BoOrderBuilder<BoOrder> getBuilder() {
-        return new BoBuilder();
-    }
-
     public boolean isPacked() {
         return packed;
     }
@@ -45,8 +40,16 @@ public class BoOrder {
     }
 
 
-
-
+    /**
+     * Get BoOrderBuilder
+     * @return BoOrderBuilder
+     */
+    public static BoOrderBuilder<BoOrder> getBuilder() {
+        return new BoBuilder();
+    }
+    /**
+     * Builder for BoOder. This is used by the DB layer to build this object.
+     */
     private static class BoBuilder implements BoOrderBuilder<BoOrder> {
         private boolean packed = false;
         private int orderID = 0;

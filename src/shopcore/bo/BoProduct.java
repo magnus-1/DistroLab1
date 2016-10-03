@@ -46,10 +46,17 @@ public class BoProduct {
         return quantity;
     }
 
+    /**
+     * Get BoProductBuilder
+     * @return BoProductBuilder
+     */
     public static BoProductBuilder<BoProduct> getBuilder() {
         return new BoBuilder();
     }
 
+    /**
+     * Builder for BoProduct. This is used by the DB layer to build this object.
+     */
     private static class BoBuilder implements BoProductBuilder<BoProduct> {
         private String productTitle = "";
         private String description = "";

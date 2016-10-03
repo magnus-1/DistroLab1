@@ -182,7 +182,7 @@ public class AdminBusinessFacade {
 
     /**
      * Helper funtion to convert a user DTO to a Business object
-     * @param productInfo
+     * @param userInfo
      * @return
      */
     static private BoUser buildBoUser(UserInfo userInfo) {
