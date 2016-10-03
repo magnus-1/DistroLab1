@@ -11,7 +11,10 @@ import java.util.Collection;
  * Created by cj on 2016-09-29.
  */
 public class AdminBusinessFacade {
-
+    /**
+     * Gets all available products
+     * @return a collection of productInfo
+     */
     public static Collection<ProductInfo> getProducts() {
         ArrayList<ProductInfo> productInfos = new ArrayList<>();
         Collection<BoProduct> currentInventory = DatabasFacade.getProducts(BoProduct.getBuilder());
@@ -21,46 +24,60 @@ public class AdminBusinessFacade {
         return productInfos;
     }
 
+    /**
+     * Login the admin user, and checks security level
+     * @param user the usernam
+     * @param pass password for the user
+     * @param sessionId a unique session id
+     * @return the authUser if success, null if failed or wrong security level
+     */
     public static AuthUser loginUser(String user, String pass, String sessionId) {
         return Authentication.loginWebUser(user, pass, sessionId,BoUser.ADMIN);
     }
 
+    /**
+     * Checks if the token is a valid token
+     * @param authToken the token to be checked
+     * @return if its vaild
+     */
     public static boolean isValidToken(String authToken) {
         return Authentication.isValidToken(authToken,BoUser.ADMIN);
     }
 
+    /**
+     * Checks that the session id is the same as the one encoded in the token
+     * @param authToken the authtoken
+     * @param sessionId the session id
+     * @return if they match
+     */
     public static boolean checkValidSession(String authToken,String sessionId) {
         return Authentication.isSameSession(authToken,sessionId, BoUser.ADMIN);
     }
 
-    public static Collection<ProductInfo> getProducts(Collection<Integer> productIDs) {
-        ArrayList<ProductInfo> productInfos = new ArrayList<>();
-        Collection<BoProduct> currentInventory = DatabasFacade.getProducts(BoProduct.getBuilder(), productIDs);
-        for (BoProduct p : currentInventory) {
-            productInfos.add(new ProductInfo(p.getProductTitle(), p.getDescription(),p.getCategory(), p.getProductId(), p.getPrice(), p.getQuantity()));
-        }
-        System.out.println("productsInfos form getProducts: " + productInfos.toString());
-        return productInfos;
-    }
-
-    static public boolean addProduct(ProductInfo productInfo, String authToken) {
-        if (isValidToken(authToken)) {
+    /**
+     * Add a new product ot the web shop
+     * @param productInfo the dto for the new product
+     * @param authToken the token to check that the user has the right
+     * @return
+     */
+    static public boolean addProduct(ProductInfo productInfo, String authToken, String sessionId) {
+        if (isValidToken(authToken) && Authentication.isSameSession(authToken,sessionId,BoUser.ADMIN)) {
             DatabasFacade.addProduct(buildBoProduct(productInfo));
             return true;
         }
         return false;
     }
 
-    static public boolean deleteProduct(int productId, String authToken) {
-        if (isValidToken(authToken)) {
+    static public boolean deleteProduct(int productId, String authToken,String sessionId) {
+        if (isValidToken(authToken) && Authentication.isSameSession(authToken,sessionId,BoUser.ADMIN)) {
             DatabasFacade.deleteProduct(productId);
             return true;
         }
         return false;
     }
 
-    static public boolean updateProduct(ProductInfo productInfo, String authToken) {
-        if (isValidToken(authToken)) {
+    static public boolean updateProduct(ProductInfo productInfo, String authToken, String sessionId) {
+        if (isValidToken(authToken) && Authentication.isSameSession(authToken,sessionId,BoUser.ADMIN)) {
             DatabasFacade.updateProduct(buildBoProduct(productInfo));
             return true;
         }
@@ -69,8 +86,8 @@ public class AdminBusinessFacade {
 
 
 
-    public static Collection<UserInfo> getUsers(String authToken) {
-        if (isValidToken(authToken) == false) {
+    public static Collection<UserInfo> getUsers(String authToken, String sessionId) {
+        if ((isValidToken(authToken) == false) || !Authentication.isSameSession(authToken, sessionId, BoUser.ADMIN)) {
             System.out.println("getUsers: invalid token");
             return new ArrayList<>();
         }
@@ -83,24 +100,24 @@ public class AdminBusinessFacade {
         return userInfos;
     }
 
-    static public boolean addUser(UserInfo userInfo, String authToken) {
-        if (isValidToken(authToken)) {
+    static public boolean addUser(UserInfo userInfo, String authToken, String sessionId) {
+        if (isValidToken(authToken) && Authentication.isSameSession(authToken,sessionId,BoUser.ADMIN)){
             DatabasFacade.addUser(buildBoUser(userInfo));
             return true;
         }
         return false;
     }
 
-    static public boolean deleteUser(int userID, String authToken) {
-        if (isValidToken(authToken)) {
+    static public boolean deleteUser(int userID, String authToken, String sessionId) {
+        if (isValidToken(authToken) && Authentication.isSameSession(authToken,sessionId,BoUser.ADMIN)){
             DatabasFacade.deleteUser(userID);
             return true;
         }
         return false;
     }
 
-    static public boolean updateUser(UserInfo userInfo, String authToken) {
-        if (isValidToken(authToken)) {
+    static public boolean updateUser(UserInfo userInfo, String authToken, String sessionId) {
+        if (isValidToken(authToken) && Authentication.isSameSession(authToken,sessionId,BoUser.ADMIN)){
             DatabasFacade.updateUser(buildBoUser(userInfo));
             return true;
         }
