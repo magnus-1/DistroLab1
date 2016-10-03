@@ -20,6 +20,10 @@ public class UIProtocol {
     public static final String REDIRECT = "redirect";
     public static final String CURRENT_PAGE = "currentPage";
 
+    public static final String CLIENT_SERVLET = "ClientServlet";
+    public static final String ADMIN_SERVLET = "AdminServlet";
+    public static final String EMPLOYEE_SERVLET = "EmployeeServlet";
+
 
 
     public static final String CREATE_BUY_ORDER="createBuyOrder";

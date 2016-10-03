@@ -24,7 +24,11 @@ public class EmployeeServlet extends HttpServlet implements javax.servlet.Servle
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        /**
+         *  Checking authentication cookie, and if it's = to "null" we redirect to login page.
+         *  If it is not = to "null" we validate the authentication token in the cookie and if it's not
+         *  valid the client is redirected to the index page.
+         */
         if (UIProtocol.getCookieWithName(COOKIE_AUTH_TOKEN,request) == null) {
             request.getRequestDispatcher(PAGE_LOGIN).forward(request,response);
             return;
@@ -37,7 +41,9 @@ public class EmployeeServlet extends HttpServlet implements javax.servlet.Servle
         }
 
 
-        // TODO: check security level
+        /**
+         * Checking for the REDIRECT parameter in the request, should there be one we redirect to the page. Simple.
+         */
         String redirectDestination = request.getParameter(REDIRECT);
         if (redirectDestination != null) {
             if (redirectDestination.equals(GO_TO_EMPLOYEE_PAGE)) {
@@ -50,6 +56,9 @@ public class EmployeeServlet extends HttpServlet implements javax.servlet.Servle
             return;
         }
 
+        /**
+         * Checking for the CURRENT PAGE parameter to se which of admin pages that are sending the request. Simple.
+         */
         String currentPage = request.getParameter(CURRENT_PAGE);
         if (currentPage != null && currentPage.equals(IS_EMPLOYEE_PAGE)) {
             if (request.getParameter(SHOW_ORDER) != null) {
@@ -58,13 +67,12 @@ public class EmployeeServlet extends HttpServlet implements javax.servlet.Servle
                 return;
             } else if (request.getParameter(PACK_ORDER) != null) {
                 packOrder(request, response, "insert Auth here");
+                request.setAttribute(PAGE_PARAM_ORDERS, EmployeeBusinessFacade.getOrders());
+                request.getRequestDispatcher(PAGE_EMPLOYEE).forward(request, response);
             }
 
-            request.setAttribute(PAGE_PARAM_ORDERS, EmployeeBusinessFacade.getOrders());
-            request.getRequestDispatcher(PAGE_EMPLOYEE).forward(request, response);
-
         } else if (currentPage != null && currentPage.equals(IS_ORDER_PAGE)) {
-
+            // room for awesome features
         }
     }
 

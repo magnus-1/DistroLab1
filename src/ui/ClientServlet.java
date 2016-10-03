@@ -164,7 +164,11 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         }
     }
 
-
+    /**
+     * Handler for adding product request
+     * @param request
+     * @param response
+     */
     public Collection<Integer> addToCart(HttpServletRequest request, HttpServletResponse response) {
         String productToAdd = request.getParameter(PRODUCT_TO_ADD);
 
@@ -177,7 +181,11 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         return parseShoppingCartCookie(newCartCookie);
 
     }
-
+    /**
+     * Handler for removing product request
+     * @param request
+     * @param response
+     */
     public Collection<Integer> removeFromCart(HttpServletRequest request, HttpServletResponse response) {
         String productToRemove = request.getParameter(PRODUCT_TO_REMOVE);
 
@@ -191,6 +199,12 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
 
     }
 
+    /**
+     * adds a productID to the shopping cart cookie
+     * @param cookies
+     * @param value
+     * @return
+     */
 
     public Cookie addProductToCartCookie(Cookie[] cookies, String value) {
         String TAG = "AddProductToCartCookie";
@@ -346,7 +360,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         if (authTokenCookie == null ||
                 (authToken = authTokenCookie.getValue()) == null
                 || BusinessFacade.isValidToken(authToken) == false) {
-            request.setAttribute(PAGE_PARAM_LAST_PAGE, "ClientServlet");
+            request.setAttribute(PAGE_PARAM_LAST_PAGE, CLIENT_SERVLET);
 
             request.setAttribute(REDIRECT, GO_TO_PRODUCTS);
             System.out.println("Failed to buy");
