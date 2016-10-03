@@ -1,7 +1,7 @@
 package ui;
 
 import shopcore.bo.BusinessFacade;
-import shopcore.bo.EmployeeBuissnessFacade;
+import shopcore.bo.EmployeeBusinessFacade;
 import shopcore.dto.OrderInfo;
 import shopcore.dto.ProductInfo;
 
@@ -61,7 +61,7 @@ public class EmployeeServlet extends HttpServlet implements javax.servlet.Servle
             return;
         }
         String authToken = UIProtocol.getCookieWithName("authToken", request).getValue();
-        if (EmployeeBuissnessFacade.isValidToken(authToken) == false) {
+        if (EmployeeBusinessFacade.isValidToken(authToken) == false) {
             request.getRequestDispatcher(PAGE_INDEX).forward(request,response);
             return;
         }
@@ -70,7 +70,7 @@ public class EmployeeServlet extends HttpServlet implements javax.servlet.Servle
 
         if (redirectDestination != null) {
             if (redirectDestination.equals(GO_TO_EMPLOYEE_PAGE)) {
-                request.setAttribute("orders", EmployeeBuissnessFacade.getOrders());
+                request.setAttribute("orders", EmployeeBusinessFacade.getOrders());
                 request.getRequestDispatcher(PAGE_EMPLOYEE).forward(request, response);
 
             } else {
@@ -89,7 +89,7 @@ public class EmployeeServlet extends HttpServlet implements javax.servlet.Servle
                 packOrder(request, response, "insert Auth here");
             }
 
-            request.setAttribute("orders", EmployeeBuissnessFacade.getOrders());
+            request.setAttribute("orders", EmployeeBusinessFacade.getOrders());
             request.getRequestDispatcher(PAGE_EMPLOYEE).forward(request, response);
 
         } else if (currentPage != null && currentPage.equals(IS_ORDER_PAGE)) {
@@ -99,14 +99,14 @@ public class EmployeeServlet extends HttpServlet implements javax.servlet.Servle
 
 
     private void handleShowOrder(HttpServletRequest request, HttpServletResponse response) {
-        Collection<Integer> productsInOrder = EmployeeBuissnessFacade.getProductIDsByOrder(buildOrderInfo(request));
+        Collection<Integer> productsInOrder = EmployeeBusinessFacade.getProductIDsByOrder(buildOrderInfo(request));
         Collection<ProductInfo> products = BusinessFacade.getProducts(productsInOrder);
         request.setAttribute("productsInOrder", products);
         request.setAttribute("totalPrice", BusinessFacade.totalShoppingPrice(products));
     }
 
     private void packOrder(HttpServletRequest request, HttpServletResponse response, String authToken) {
-        EmployeeBuissnessFacade.packOrder(buildOrderInfo(request));
+        EmployeeBusinessFacade.packOrder(buildOrderInfo(request));
     }
 
     private OrderInfo buildOrderInfo(HttpServletRequest request) {

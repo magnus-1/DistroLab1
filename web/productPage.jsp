@@ -114,6 +114,7 @@
             <td><c:out value="${order.orderID}"/></td>
             <td>
                 <form action="ClientServlet">
+                    <input name="redirect" type="hidden" value="goToShowOrder">
                     <input name="orderID" type="hidden" value="${order.orderID}">
                     <input name="showOrder" type="submit" value="Show"/>
                 </form>

@@ -29,7 +29,7 @@
         <th align="left">ItemTitle</th>
            
         <th align="left">Description</th>
-        <th align="left">Quantity</th>
+        <th align="left">Quantityt</th>
            
         <th align="left">Price</th>
            

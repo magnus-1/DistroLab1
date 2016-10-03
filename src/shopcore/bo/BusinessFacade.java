@@ -1,8 +1,10 @@
 package shopcore.bo;
 
 import shopcore.DB.DatabasFacade;
+import shopcore.dto.OrderInfo;
 import shopcore.dto.ProductInfo;
 
+import javax.persistence.criteria.Order;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -45,7 +47,10 @@ public class BusinessFacade {
     }
 
     public static int getUserId(String authToken) {
-        int userId = 0;
+        int userId = -1;
+        if (authToken == null)
+            return userId;
+
         try {
             AuthUser authUser= new WebUserTokens(authToken);
             userId = authUser.getUserId();
@@ -85,5 +90,20 @@ public class BusinessFacade {
     }
     static public Collection<ProductInfo> getShoppingCart() {
         return new ArrayList<ProductInfo>();
+    }
+
+    public static Collection<OrderInfo> getOrders(int userId) {
+        if (userId < 0)
+            return new ArrayList<OrderInfo>();
+
+        Collection<BoOrder> boOders = DatabasFacade.getOrdersByUser(BoOrder.getBuilder(),userId);
+        Collection<OrderInfo> orderInfos = new ArrayList<>();
+        for (BoOrder bo:boOders) {
+            orderInfos.add(new OrderInfo(bo.getOrderID(),bo.getUserID(),bo.isPacked()));
+        }
+        return orderInfos;
+    }
+    public static Collection<Integer> getProductIDsByOrder(int orderID) {
+        return DatabasFacade.getProductIDsByOrderID(orderID);
     }
 }

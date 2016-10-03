@@ -9,7 +9,7 @@ import java.util.Collection;
 /**
  * Created by cj on 2016-09-30.
  */
-public class EmployeeBuissnessFacade {
+public class EmployeeBusinessFacade {
     public static AuthUser loginUser(String user, String pass, String sessionId) {
         return Authentication.loginWebUser(user, pass, sessionId,BoUser.EMPLOYEE);
     }
