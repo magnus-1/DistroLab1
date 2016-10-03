@@ -47,22 +47,11 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         if (redirectDestination != null) {
             if (redirectDestination.equals(GO_TO_PRODUCTS)) {
                 setOrders(request, response, authToken);
-                request.setAttribute("shoppingcart", BusinessFacade.getProducts(cartProductIds));
-                request.setAttribute("products", BusinessFacade.getProducts());
+                request.setAttribute(PAGE_PARAM_SHOPING_CART, BusinessFacade.getProducts(cartProductIds));
+                request.setAttribute(PAGE_PARAM_PRODUCTS, BusinessFacade.getProducts());
                 request.getRequestDispatcher(PAGE_PRODUCT).forward(request, response);
 
             } else if (redirectDestination.equals(GO_TO_REGISTRY)) {
-                System.out.println("Now in: " + GO_TO_REGISTRY);
-                Collection<ProductInfo> cart = BusinessFacade.getProducts(cartProductIds);
-                if (cart.isEmpty() == false) {
-                    request.setAttribute("shoppingcart", cart);
-                    request.setAttribute("totalPrice", BusinessFacade.totalShoppingPrice(BusinessFacade.getProducts(cartProductIds)));
-                    request.getRequestDispatcher(PAGE_REGISTRY).forward(request, response);
-                } else {
-                    defaultProductPage(request, response, cartProductIds, authToken);
-
-
-                }
                 String destination = handleGoToREgistry(request,response,cartProductIds,authToken);
                 request.getRequestDispatcher(destination).forward(request, response);
             } else if (redirectDestination.equals(GO_TO_SHOW_ORDER)) {
