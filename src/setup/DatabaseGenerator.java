@@ -14,7 +14,6 @@ import java.sql.*;
 public class DatabaseGenerator {
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost:3306/";
-
     static final String USERNAME = "webshopapp";
     static final String PASSWORD = "password";
 
@@ -117,11 +116,6 @@ public class DatabaseGenerator {
 
             createTabels(stmt);
             populateTables();
-
-
-
-
-
 
         }catch(SQLException e){
             e.printStackTrace();
