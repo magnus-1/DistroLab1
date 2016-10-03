@@ -42,3 +42,5 @@ Betyg 5
 * Lagerpersonal ska kunna titta på ordrar och 'packa' dem.
 * Naturligtvis måste man för dessa saker ha behörighet.
 ? Ni ska även implementera en MVC struktur i kombination med 3 lagers arkitekturen.
+
+Kolla session id på authToken mot servlet requesten

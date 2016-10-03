@@ -25,8 +25,12 @@ public class AdminBuissnessFacade {
         return Authentication.loginWebUser(user, pass, sessionId,BoUser.ADMIN);
     }
 
-    public static Boolean isValidToken(String authToken) {
+    public static boolean isValidToken(String authToken) {
         return Authentication.isValidToken(authToken,BoUser.ADMIN);
+    }
+
+    public static boolean checkValidSession(String authToken,String sessionId) {
+        return Authentication.isSameSession(authToken,sessionId, BoUser.ADMIN);
     }
 
     public static Collection<ProductInfo> getProducts(Collection<Integer> productIDs) {

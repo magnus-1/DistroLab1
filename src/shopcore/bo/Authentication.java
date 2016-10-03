@@ -42,4 +42,18 @@ class Authentication {
 
         return flag;
     }
+
+    static Boolean isSameSession(String authToken,String sessionId, int securityLevel) {
+        boolean isSame = false;
+        try {
+            WebUserTokens tt = new WebUserTokens(authToken);
+            if (tt.getSecurityLevel() < securityLevel) {
+                return false;
+            }
+            isSame = tt.getSession().equals(sessionId);
+        }catch (SecurityException ex) {
+            System.out.println("SecurityException thrown , invalid authToken");
+        }
+        return isSame;
+    }
 }
