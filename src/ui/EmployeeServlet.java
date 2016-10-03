@@ -36,7 +36,8 @@ public class EmployeeServlet extends HttpServlet implements javax.servlet.Servle
             return;
         }
         String authToken = UIProtocol.getCookieWithName("authToken", request).getValue();
-        if (EmployeeBusinessFacade.isValidToken(authToken) == false) {
+        if (EmployeeBusinessFacade.isValidToken(authToken) == false ||
+                EmployeeBusinessFacade.checkValidSession(authToken,request.getRequestedSessionId())) {
             request.getRequestDispatcher(PAGE_INDEX).forward(request,response);
             return;
         }

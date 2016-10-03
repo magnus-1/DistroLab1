@@ -36,7 +36,7 @@ Betyg 5
 * Här ska vi skriva en del av det administrativa i systemet,
 * som kan implementeras både som HTML eller vanligt grafiskt gränssnitt.
 * Man ska kunna lägga till och editera varor
-
+-
  och varukategorier.
 
 * Lagerpersonal ska kunna titta på ordrar och 'packa' dem.

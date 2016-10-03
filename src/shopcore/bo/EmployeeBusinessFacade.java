@@ -18,6 +18,10 @@ public class EmployeeBusinessFacade {
         return Authentication.isValidToken(authToken,BoUser.EMPLOYEE);
     }
 
+    public static boolean checkValidSession(String authToken,String sessionId) {
+        return Authentication.isSameSession(authToken,sessionId, BoUser.EMPLOYEE);
+    }
+
     static public void packOrder(OrderInfo orderInfo) {DatabasFacade.packOrder(orderInfo.getOrderID());}
 
     public static Collection<OrderInfo> getOrders() {
