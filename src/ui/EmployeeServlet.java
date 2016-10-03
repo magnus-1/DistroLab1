@@ -35,7 +35,7 @@ public class EmployeeServlet extends HttpServlet implements javax.servlet.Servle
         }
         String authToken = UIProtocol.getCookieWithName(COOKIE_AUTH_TOKEN, request).getValue();
         if (EmployeeBusinessFacade.isValidToken(authToken) == false ||
-                EmployeeBusinessFacade.checkValidSession(authToken,request.getRequestedSessionId())) {
+                EmployeeBusinessFacade.checkValidSession(authToken,request.getRequestedSessionId()) == false) {
             request.getRequestDispatcher(PAGE_INDEX).forward(request,response);
             return;
         }
@@ -66,7 +66,7 @@ public class EmployeeServlet extends HttpServlet implements javax.servlet.Servle
                 request.getRequestDispatcher(PAGE_ORDER).forward(request, response);
                 return;
             } else if (request.getParameter(PACK_ORDER) != null) {
-                packOrder(request, response, "insert Auth here");
+                packOrder(request, response, authToken);
                 request.setAttribute(PAGE_PARAM_ORDERS, EmployeeBusinessFacade.getOrders());
                 request.getRequestDispatcher(PAGE_EMPLOYEE).forward(request, response);
             }
@@ -85,7 +85,7 @@ public class EmployeeServlet extends HttpServlet implements javax.servlet.Servle
     }
 
     private void packOrder(HttpServletRequest request, HttpServletResponse response, String authToken) {
-        EmployeeBusinessFacade.packOrder(buildOrderInfo(request));
+        EmployeeBusinessFacade.packOrder(buildOrderInfo(request),authToken);
     }
 
     private OrderInfo buildOrderInfo(HttpServletRequest request) {

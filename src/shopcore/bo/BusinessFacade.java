@@ -51,11 +51,15 @@ public class BusinessFacade {
     }
 
     public static AuthUser loginUser(String user, String pass, String sessionId) {
-        return Authentication.loginWebUser(user, pass, sessionId,BoUser.CUSTOMER);
+        return Authentication.loginWebUser(user, pass, sessionId);
     }
 
     public static Boolean isValidToken(String authToken) {
         return Authentication.isValidToken(authToken,BoUser.CUSTOMER);
+    }
+
+    public static boolean checkValidSession(String authToken,String sessionId) {
+        return Authentication.isSameSession(authToken,sessionId, BoUser.EMPLOYEE);
     }
 
     public static Collection<ProductInfo> getProducts(Collection<Integer> productIDs){
