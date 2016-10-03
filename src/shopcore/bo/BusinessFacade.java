@@ -16,7 +16,7 @@ public class BusinessFacade {
         ArrayList<ProductInfo> productInfos = new ArrayList<>();
         Collection<BoProduct> currentInventory = DatabasFacade.getProducts(BoProduct.getBuilder());
         for (BoProduct p : currentInventory) {
-            productInfos.add(new ProductInfo(p.getProductTitle(),p.getDescription(),p.getProductId(),p.getPrice(),p.getQuantity()));
+            productInfos.add(new ProductInfo(p.getProductTitle(),p.getDescription(),p.getCategory(),p.getProductId(),p.getPrice(),p.getQuantity()));
         }
         return productInfos;
     }

@@ -30,6 +30,8 @@
            
         <th align="left">Description</th>
            
+        <th align="left">Category</th>
+           
         <th align="left">Price</th>
 
         <th align="left">Quantity</th>

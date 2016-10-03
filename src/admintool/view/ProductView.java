@@ -35,6 +35,7 @@ public class ProductView {
 
     private TextField pTitle = new TextField();
     private TextField pDesc = new TextField();
+    private TextField pCategory = new TextField();
     private TextField pPrice = new TextField();
     private TextField pQuantity = new TextField();
 
@@ -95,7 +96,7 @@ public class ProductView {
                     price = selectedProduct.getPrice();
                     qunt = selectedProduct.getQuantity();
                 }
-                ProductInfo productInfo = new ProductInfo(pTitle.getText(), pDesc.getText(), selectedProduct.getProductId(), price, qunt);
+                ProductInfo productInfo = new ProductInfo(pTitle.getText(), pDesc.getText(),pCategory.getText(), selectedProduct.getProductId(), price, qunt);
                 controllerDelegate.updateProduct(productInfo);
                 updateProducts();
             }
@@ -117,7 +118,7 @@ public class ProductView {
 
         initTextFields();
 
-        addProductField.getChildren().addAll(pTitle,pDesc,pPrice,pQuantity,createAddButton());
+        addProductField.getChildren().addAll(pTitle,pDesc,pCategory,pPrice,pQuantity,createAddButton());
         addProductField.setSpacing(3);
 
 
@@ -149,6 +150,7 @@ public class ProductView {
     private void fillTextField() {
         this.pTitle.setText(selectedProduct.getProductTitle());
         this.pDesc.setText(selectedProduct.getDescription());
+        this.pCategory.setText(selectedProduct.getCategory());
         this.pPrice.setText("" + selectedProduct.getPrice());
         this.pQuantity.setText("" + selectedProduct.getQuantity());
     }
@@ -160,6 +162,7 @@ public class ProductView {
         table1.getColumns().setAll(
                 createColumn("Product Title", "productTitle"),
                 createColumn("Description", "description"),
+                createColumn("Category", "category"),
                 createColumn("Price","price"),
                 createColumn("Quantity","quantity"));
         table1.setEditable(true);
@@ -185,6 +188,8 @@ public class ProductView {
         pTitle.setMaxWidth(200);
         pDesc.setPromptText("Description");
         pDesc.setMaxWidth(200);
+        pCategory.setPromptText("Category");
+        pCategory.setMaxWidth(200);
         pPrice.setPromptText("Price");
         pPrice.setMaxWidth(100);
         pQuantity.setPromptText("Quantity");
@@ -203,6 +208,7 @@ public class ProductView {
                 controllerDelegate.addProduct(new ProductInfo(
                         pTitle.getText(),
                         pDesc.getText(),
+                        pCategory.getText(),
                         Integer.parseInt(pPrice.getText()),
                         Integer.parseInt(pQuantity.getText())));
                 } catch (NumberFormatException ex){
@@ -212,6 +218,7 @@ public class ProductView {
 
                 pTitle.clear();
                 pDesc.clear();
+                pCategory.clear();
                 pPrice.clear();
                 pQuantity.clear();
                 updateProducts();

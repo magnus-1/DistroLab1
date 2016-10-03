@@ -54,9 +54,14 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
 
             } else if (redirectDestination.equals(GO_TO_REGISTRY)) {
                 System.out.println("Now in: " + GO_TO_REGISTRY);
-                request.setAttribute("shoppingcart", BusinessFacade.getProducts(cartProductIds));
-                request.setAttribute("totalPrice", BusinessFacade.totalShoppingPrice(BusinessFacade.getProducts(cartProductIds)));
-                request.getRequestDispatcher(PAGE_REGISTRY).forward(request, response);
+                Collection<ProductInfo> cart = BusinessFacade.getProducts(cartProductIds);
+                if (cart.isEmpty() == false) {
+                    request.setAttribute("shoppingcart", cart);
+                    request.setAttribute("totalPrice", BusinessFacade.totalShoppingPrice(BusinessFacade.getProducts(cartProductIds)));
+                    request.getRequestDispatcher(PAGE_REGISTRY).forward(request, response);
+                }else {
+                    defualtProductPage(request,response,cartProductIds,authToken);
+                }
 
             } else if (redirectDestination.equals(GO_TO_SHOW_ORDER)) {
                 // TODO: 2016-10-03 numberformatexeption
@@ -103,13 +108,20 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
         }
         */
 
+        defualtProductPage(request,response,cartProductIds,authToken);
+//        setOrders(request,response,authToken);
+//        request.setAttribute("products", BusinessFacade.getProducts());
+//        request.setAttribute("shoppingcart", BusinessFacade.getProducts(cartProductIds));
+//        request.getRequestDispatcher(PAGE_PRODUCT).forward(request, response);
+
+    }
+
+    private void defualtProductPage(HttpServletRequest request, HttpServletResponse response,Collection<Integer> cartProductIds,String authToken) throws ServletException, IOException {
         setOrders(request,response,authToken);
         request.setAttribute("products", BusinessFacade.getProducts());
         request.setAttribute("shoppingcart", BusinessFacade.getProducts(cartProductIds));
         request.getRequestDispatcher(PAGE_PRODUCT).forward(request, response);
-
     }
-
 
     private void handleShowOrder(HttpServletRequest request, HttpServletResponse response) {
         int orderID = Integer.parseInt(request.getParameter("orderID"));

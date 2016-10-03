@@ -19,8 +19,8 @@ public class ProductDAO {
 
     private static final String COLUMN_PRODUCT_ID = "productID";
     private static final String COLUMN_PRODUCT_TITLE = "productTitle";
-    private static final String COLUMN_CATEGORY = "description";
-    private static final String COLUMN_DESCRIPTION = "category";
+    private static final String COLUMN_CATEGORY = "category";
+    private static final String COLUMN_DESCRIPTION = "description";
     private static final String COLUMN_PRICE = "price";
     private static final String COLUMN_QUANTITY = "quantity";
 
