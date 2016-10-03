@@ -10,18 +10,42 @@ import java.util.Collection;
  * Created by cj on 2016-09-30.
  */
 public class EmployeeBusinessFacade {
+
+    /**
+     * For future use if employee tool is to be developed, this is the method for login.
+     * @param user
+     * @param pass
+     * @param sessionId
+     * @return
+     */
     public static AuthUser loginUser(String user, String pass, String sessionId) {
         return Authentication.loginWebUser(user, pass, sessionId,BoUser.EMPLOYEE);
     }
 
+    /**
+     * Validates authentication token
+     * @param authToken
+     * @return
+     */
     public static Boolean isValidToken(String authToken) {
         return Authentication.isValidToken(authToken,BoUser.EMPLOYEE);
     }
 
+    /**
+     * Validates session
+     * @param authToken
+     * @param sessionId
+     * @return
+     */
     public static boolean checkValidSession(String authToken,String sessionId) {
         return Authentication.isSameSession(authToken,sessionId, BoUser.EMPLOYEE);
     }
 
+    /**
+     * Calling DatabaseFacade to pack order, checks for authentication
+     * @param orderInfo
+     * @param authToken
+     */
     static public void packOrder(OrderInfo orderInfo,String authToken) {
         if (isValidToken(authToken)) {
             DatabasFacade.packOrder(orderInfo.getOrderID());
@@ -30,6 +54,10 @@ public class EmployeeBusinessFacade {
         }
     }
 
+    /**
+     * Get all orders from database
+     * @return
+     */
     public static Collection<OrderInfo> getOrders() {
         Collection<BoOrder> orders = DatabasFacade.getOrders(BoOrder.getBuilder());
         Collection<OrderInfo> orderInfos = new ArrayList<>();
@@ -39,16 +67,11 @@ public class EmployeeBusinessFacade {
         return orderInfos;
     }
 
-
-
-    static private BoOrder buildBoOrder(OrderInfo orderInfo) {
-        return BoOrder.getBuilder()
-                .orderID(orderInfo.getOrderID())
-                .userID(orderInfo.getUserID())
-                .packed(orderInfo.isPacked())
-                .build();
-    }
-
+    /**
+     * Get all products in order by orderID
+     * @param orderInfo
+     * @return
+     */
     public static Collection<Integer> getProductIDsByOrder(OrderInfo orderInfo) {
         return DatabasFacade.getProductIDsByOrderID(orderInfo.getOrderID());
     }

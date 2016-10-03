@@ -129,12 +129,6 @@ public class UserView {
         ((Group) scene.getRoot()).getChildren().addAll(vbox);
     }
 
-
-
-
-
-
-
     public void showScene() {
         primaryStage.setTitle("Hello World!");
         updateUsers();
