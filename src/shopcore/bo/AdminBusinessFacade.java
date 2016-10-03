@@ -67,30 +67,7 @@ public class AdminBusinessFacade {
         return false;
     }
 
-    static private BoProduct buildBoProduct(ProductInfo productInfo) {
-        return BoProduct.getBuilder()
-                .productId(productInfo.getProductId())
-                .productTitle(productInfo.getProductTitle())
-                .description(productInfo.getDescription())
-                .category(productInfo.getCategory())
-                .price(productInfo.getPrice())
-                .quantity(productInfo.getQuantity())
-                .build();
-    }
 
-
-
-
-
-
-    static private BoUser buildBoUser(UserInfo userInfo) {
-        return BoUser.getBuilder()
-                .userType(userInfo.getUserType())
-                .userID(userInfo.getUserID())
-                .userEmail(userInfo.getEmail())
-                .userPassword(userInfo.getPassword())
-                .build();
-    }
 
     public static Collection<UserInfo> getUsers(String authToken) {
         if (isValidToken(authToken) == false) {
@@ -128,6 +105,25 @@ public class AdminBusinessFacade {
             return true;
         }
         return false;
+    }
+
+    static private BoProduct buildBoProduct(ProductInfo productInfo) {
+        return BoProduct.getBuilder()
+                .productId(productInfo.getProductId())
+                .productTitle(productInfo.getProductTitle())
+                .description(productInfo.getDescription())
+                .category(productInfo.getCategory())
+                .price(productInfo.getPrice())
+                .quantity(productInfo.getQuantity())
+                .build();
+    }
+    static private BoUser buildBoUser(UserInfo userInfo) {
+        return BoUser.getBuilder()
+                .userType(userInfo.getUserType())
+                .userID(userInfo.getUserID())
+                .userEmail(userInfo.getEmail())
+                .userPassword(userInfo.getPassword())
+                .build();
     }
 
 }
