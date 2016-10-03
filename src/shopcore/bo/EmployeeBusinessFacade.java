@@ -32,7 +32,7 @@ public class EmployeeBusinessFacade {
     }
 
     /**
-     * Validates session in authentication token
+     * Validates session
      * @param authToken
      * @param sessionId
      * @return
@@ -55,7 +55,7 @@ public class EmployeeBusinessFacade {
     }
 
     /**
-     * Get all orders form database
+     * Get all orders from database
      * @return
      */
     public static Collection<OrderInfo> getOrders() {
