@@ -55,7 +55,7 @@ public class UIProtocol {
     public static final String PAGE_PARAM_PRODUCTS = "products";
     public static final String PAGE_PARAM_SHOPPING_CART = "shoppingcart";
     public static final String PAGE_PARAM_ORDERS = "orders";
-    public static final String PAGE_PARAM_USERS = "USERS";
+    public static final String PAGE_PARAM_USERS = "users";
     public static final String PAGE_PARAM_TOTAL_PRICE = "totalPrice";
     public static final String PAGE_PARAM_PRODUCT_IN_ORDER = "productsInOrder";
     public static final String PAGE_PARAM_LAST_PAGE = "lastPage";
