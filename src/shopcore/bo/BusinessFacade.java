@@ -46,11 +46,14 @@ public class BusinessFacade {
      * @param authToken
      * @return
      */
-    public static int getUserId(String authToken) {
+    public static int getUserId(String authToken,String sessionId) {
         int userId = -1;
         if (authToken == null)
             return userId;
 
+        if (!checkValidSession(authToken,sessionId)) {
+            return userId;
+        }
         try {
             AuthUser authUser= new WebUserTokens(authToken);
             userId = authUser.getUserId();
@@ -77,16 +80,18 @@ public class BusinessFacade {
      * Triggers the transaction to insert an order into the database
      * @param productIDs
      * @param authToken
+     * @param sessionId
      * @return
      */
-    public static boolean buyProducts(Collection<Integer> productIDs,String authToken) {
+    public static boolean buyProducts(Collection<Integer> productIDs,String authToken,String sessionId) {
         boolean flag = false;
         try {
             WebUserTokens auth = new WebUserTokens(authToken);
             int userId = auth.getUserId();
-
-            DatabasFacade.addOrder(BoOrder.getBuilder().userID(userId).build(),productIDs);
-            flag = true;
+            if (auth.getSession().equals(sessionId)) {
+                DatabasFacade.addOrder(BoOrder.getBuilder().userID(userId).build(),productIDs);
+                flag = true;
+            }
         }catch (SecurityException ex) {
             System.out.println("SecurityException thrown , invalid authToken");
             flag = false;
@@ -125,9 +130,14 @@ public class BusinessFacade {
 
     /**
      * Get all orders matching user from database
-     * @return
+     * @param authToken
+     * @param sessionId
      */
-    public static Collection<OrderInfo> getOrders(int userId) {
+    public static Collection<OrderInfo> getOrders(String authToken, String sessionId) {
+        if (!checkValidSession(authToken,sessionId)) {
+            return new ArrayList<OrderInfo>();
+        }
+        int userId = getUserId(authToken,sessionId);
         if (userId < 0)
             return new ArrayList<OrderInfo>();
 
