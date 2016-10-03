@@ -25,11 +25,17 @@ public class BoUser {
 
     }
 
-
+    /**
+     * Get BoUserBuilder
+     * @return BoUserBuilder
+     */
     public static BoUserBuilder<BoUser> getBuilder() {
         return new BoBuilder();
     }
 
+    /**
+     * Builder for BoUser. This is used by the DB layer to build this object.
+     */
     private static class BoBuilder implements BoUserBuilder<BoUser> {
         private String email = "";
         private String password = "";
