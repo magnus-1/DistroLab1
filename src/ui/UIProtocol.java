@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class UIProtocol {
     public static final String PAGE_PRODUCT = "productPage.jsp";
-    public static final String PACK_ORDER = "packOrder";
     public static final String PAGE_EMPLOYEE = "employeePage.jsp";
     public static final String PAGE_ORDER = "orderPage.jsp";
     public static final String PAGE_INDEX = "index.jsp";
@@ -17,6 +16,7 @@ public class UIProtocol {
     public static final String PAGE_ADMIN_INDEX = "adminIndex.jsp";
     public static final String ADD_TO_CART="addToCart";
     public static final String REMOVE_FROM_CART="removeFromCart";
+    public static final String PACK_ORDER = "packOrder";
     public static final String GO_TO_REGISTRY ="goToRegistry";
     public static final String CREATE_BUY_ORDER="createBuyOrder";
     public static final String CLEAR_COOKIES="clearCookies";

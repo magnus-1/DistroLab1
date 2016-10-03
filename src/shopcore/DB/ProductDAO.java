@@ -19,15 +19,16 @@ public class ProductDAO {
 
     private static final String COLUMN_PRODUCT_ID = "productID";
     private static final String COLUMN_PRODUCT_TITLE = "productTitle";
-    private static final String COLUMN_DESCRIPTION = "description";
+    private static final String COLUMN_CATEGORY = "description";
+    private static final String COLUMN_DESCRIPTION = "category";
     private static final String COLUMN_PRICE = "price";
     private static final String COLUMN_QUANTITY = "quantity";
 
     private static final String sqlGetProductById = "SELECT * FROM T_PRODUCT WHERE productID = ?";
     private static final String sqlGetAllProduct = "SELECT * FROM T_PRODUCT";
-    private static final String sqlInsertProduct = "INSERT INTO T_PRODUCT (productTitle,description,price,quantity) VALUES (?,?,?,?)";
+    private static final String sqlInsertProduct = "INSERT INTO T_PRODUCT (productTitle,description,category,price,quantity) VALUES (?,?,?,?,?)";
     private static final String SQL_DELETE_PRODUCT = "DELETE FROM T_PRODUCT WHERE productID = ?";
-    private static final String SQL_UPDATE_PRODUCT = "UPDATE T_PRODUCT SET productTitle = ?,description = ?,price = ?,quantity = ? WHERE productID = ?";
+    private static final String SQL_UPDATE_PRODUCT = "UPDATE T_PRODUCT SET productTitle = ?,description = ?,category = ?,price = ?,quantity = ? WHERE productID = ?";
 
 
 //    productID INT N
@@ -45,8 +46,9 @@ public class ProductDAO {
             ps = dbConn.prepareStatement(sqlInsertProduct);
             ps.setString(1, product.getProductTitle());
             ps.setString(2, product.getDescription());
-            ps.setDouble(3, product.getPrice());
-            ps.setInt(4, product.getQuantity());
+            ps.setString(3, product.getCategory());
+            ps.setDouble(4, product.getPrice());
+            ps.setInt(5, product.getQuantity());
             ps.execute();
 
         } catch (SQLException e) {
@@ -93,9 +95,10 @@ public class ProductDAO {
             ps = dbConn.prepareStatement(SQL_UPDATE_PRODUCT);
             ps.setString(1, boProduct.getProductTitle());
             ps.setString(2, boProduct.getDescription());
-            ps.setDouble(3, boProduct.getPrice());
-            ps.setInt(4, boProduct.getQuantity());
-            ps.setInt(5, boProduct.getProductId());
+            ps.setString(3, boProduct.getCategory());
+            ps.setDouble(4, boProduct.getPrice());
+            ps.setInt(5, boProduct.getQuantity());
+            ps.setInt(6, boProduct.getProductId());
             ps.execute();
             dbConn.commit();
 
@@ -148,6 +151,7 @@ public class ProductDAO {
                 builder.productId(resultSet.getInt(COLUMN_PRODUCT_ID))
                         .productTitle(resultSet.getString(COLUMN_PRODUCT_TITLE))
                         .description(resultSet.getString(COLUMN_DESCRIPTION))
+                        .category(resultSet.getString(COLUMN_CATEGORY))
                         .price(resultSet.getDouble(COLUMN_PRICE))
                         .quantity(resultSet.getInt(COLUMN_QUANTITY));
                 foundIt = true;
@@ -193,6 +197,7 @@ public class ProductDAO {
                 builder.productId(resultSet.getInt(COLUMN_PRODUCT_ID))
                         .productTitle(resultSet.getString(COLUMN_PRODUCT_TITLE))
                         .description(resultSet.getString(COLUMN_DESCRIPTION))
+                        .category(resultSet.getString(COLUMN_CATEGORY))
                         .price(resultSet.getDouble(COLUMN_PRICE))
                         .quantity(resultSet.getInt(COLUMN_QUANTITY));
                 boProducts.add(builder.build());

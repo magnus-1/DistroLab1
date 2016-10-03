@@ -31,6 +31,7 @@ public class DatabaseGenerator {
                 "productID INT NOT NULL AUTO_INCREMENT," +
                 " productTitle VARCHAR(50) NOT NULL," +
                 " description VARCHAR(300) NOT NULL," +
+                " category VARCHAR(300) NOT NULL," +
                 " price REAL NOT NULL," +
                 " quantity INT NOT NULL," +
                 " PRIMARY KEY(productID)" +
