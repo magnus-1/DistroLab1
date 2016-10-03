@@ -16,7 +16,7 @@ public class AdminBusinessFacade {
         ArrayList<ProductInfo> productInfos = new ArrayList<>();
         Collection<BoProduct> currentInventory = DatabasFacade.getProducts(BoProduct.getBuilder());
         for (BoProduct p : currentInventory) {
-            productInfos.add(new ProductInfo(p.getProductTitle(), p.getDescription(), p.getProductId(), p.getPrice(), p.getQuantity()));
+            productInfos.add(new ProductInfo(p.getProductTitle(), p.getDescription(),p.getCategory(), p.getProductId(), p.getPrice(), p.getQuantity()));
         }
         return productInfos;
     }
@@ -37,7 +37,7 @@ public class AdminBusinessFacade {
         ArrayList<ProductInfo> productInfos = new ArrayList<>();
         Collection<BoProduct> currentInventory = DatabasFacade.getProducts(BoProduct.getBuilder(), productIDs);
         for (BoProduct p : currentInventory) {
-            productInfos.add(new ProductInfo(p.getProductTitle(), p.getDescription(), p.getProductId(), p.getPrice(), p.getQuantity()));
+            productInfos.add(new ProductInfo(p.getProductTitle(), p.getDescription(),p.getCategory(), p.getProductId(), p.getPrice(), p.getQuantity()));
         }
         System.out.println("productsInfos form getProducts: " + productInfos.toString());
         return productInfos;
@@ -72,6 +72,7 @@ public class AdminBusinessFacade {
                 .productId(productInfo.getProductId())
                 .productTitle(productInfo.getProductTitle())
                 .description(productInfo.getDescription())
+                .category(productInfo.getCategory())
                 .price(productInfo.getPrice())
                 .quantity(productInfo.getQuantity())
                 .build();

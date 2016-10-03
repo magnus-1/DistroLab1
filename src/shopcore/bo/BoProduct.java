@@ -9,6 +9,7 @@ import shopcore.DB.ProductInterface;
 public class BoProduct implements ProductInterface {
     private String productTitle;
     private String description;
+    private String category;
     private int productId;
     private double price;
     private int quantity;
@@ -16,6 +17,7 @@ public class BoProduct implements ProductInterface {
     private BoProduct(BoBuilder builder) {
         this.productTitle = builder.productTitle;
         this.description = builder.description;
+        this.category = builder.category;
         this.productId = builder.productId;
         this.price = builder.price;
         this.quantity = builder.quantity;
@@ -27,6 +29,10 @@ public class BoProduct implements ProductInterface {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getCategory() {
+        return category;
     }
 
     public int getProductId() {
@@ -48,6 +54,7 @@ public class BoProduct implements ProductInterface {
     private static class BoBuilder implements BoProductBuilder<BoProduct> {
         private String productTitle = "";
         private String description = "";
+        private String category = "lethal";
         private int productId = 0;
         private double price = 0.0;
         private int quantity = 0;
@@ -64,6 +71,12 @@ public class BoProduct implements ProductInterface {
         @Override
         public BoBuilder description(String text) {
             this.description = text;
+            return this;
+        }
+
+        @Override
+        public BoProductBuilder<BoProduct> category(String category) {
+            this.category = category;
             return this;
         }
 

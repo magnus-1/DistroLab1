@@ -6,6 +6,7 @@ package shopcore.DB;
 public interface BoProductBuilder<T> {
     BoProductBuilder<T> productTitle(String title);
     BoProductBuilder<T> description(String text);
+    BoProductBuilder<T> category(String category);
     BoProductBuilder<T> productId(int id);
     BoProductBuilder<T> price(double price);
     BoProductBuilder<T> quantity(int quantity);
