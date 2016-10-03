@@ -13,9 +13,10 @@ import java.util.List;
  */
 public class WebShopModel {
     private AuthUser authUser = null;
+    private static final String sessionId = "adminTool";
 
     public List<UserInfo> getUsers() {
-        return (List<UserInfo>) AdminBusinessFacade.getUsers(authUser.getAuthToken());
+        return (List<UserInfo>) AdminBusinessFacade.getUsers(authUser.getAuthToken(),sessionId);
     }
 
     public List<ProductInfo> getProducts() {
@@ -23,32 +24,32 @@ public class WebShopModel {
     }
 
     public boolean loginUser(String user,String pass) {
-        AuthUser adminTool = AdminBusinessFacade.loginUser(user, pass, "adminTool");
+        AuthUser adminTool = AdminBusinessFacade.loginUser(user, pass, sessionId);
         this.authUser =  adminTool;
         return (authUser != null);
     }
 
     public void addProduct(ProductInfo productInfo) {
-        AdminBusinessFacade.addProduct(productInfo,authUser.getAuthToken());
+        AdminBusinessFacade.addProduct(productInfo,authUser.getAuthToken(),sessionId);
     }
 
     public void addUser(UserInfo userInfo) {
-        AdminBusinessFacade.addUser(userInfo,authUser.getAuthToken());
+        AdminBusinessFacade.addUser(userInfo,authUser.getAuthToken(),sessionId);
     }
 
     public void deleteProduct(ProductInfo productInfo) {
-        AdminBusinessFacade.deleteProduct(productInfo.getProductId(), authUser.getAuthToken());
+        AdminBusinessFacade.deleteProduct(productInfo.getProductId(), authUser.getAuthToken(),sessionId);
     }
 
     public void updateProduct(ProductInfo productInfo) {
-        AdminBusinessFacade.updateProduct(productInfo,authUser.getAuthToken());
+        AdminBusinessFacade.updateProduct(productInfo,authUser.getAuthToken(),sessionId);
     }
 
     public void deleteUser(UserInfo userInfo) {
-        AdminBusinessFacade.deleteUser(userInfo.getUserID(),authUser.getAuthToken());
+        AdminBusinessFacade.deleteUser(userInfo.getUserID(),authUser.getAuthToken(),sessionId);
     }
 
     public void updateUser(UserInfo userInfo) {
-        AdminBusinessFacade.updateUser(userInfo,authUser.getAuthToken());
+        AdminBusinessFacade.updateUser(userInfo,authUser.getAuthToken(),sessionId);
     }
 }
