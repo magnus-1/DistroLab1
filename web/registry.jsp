@@ -23,8 +23,8 @@
 
     <c:forEach items="${shoppingcart}" var="cart">
         <tr>
-            <td><c:out value="${cart.productTitle}" /></td>
-            <td><c:out value="${cart.price}" /></td>
+            <td><c:out value="${cart.productTitle}"/></td>
+            <td><c:out value="${cart.price}"/></td>
             <td>
                 <form action="ClientServlet">
                     <input name="productToRemove" type="hidden" value="${cart.productId}">
@@ -33,13 +33,16 @@
             </td>
         </tr>
     </c:forEach>
-    <tr><td><c:out value="${totalPrice}" /></td></tr>
+    <tr>
+        <td><c:out value="${totalPrice}"/></td>
+    </tr>
 
 </table>
 <form action="ClientServlet">
     <input name="lastPage" type="hidden" value="registry.jsp">
-<input name="createBuyOrder" type="hidden" value="buy">
-<input name="buy" type="submit" value="Buy"/>
+    <input name="redirect" type="hidden" value="createBuyOrder">
+    <input name="createBuyOrder" type="hidden" value="buy">
+    <input name="buy" type="submit" value="Buy"/>
 </form>
 </body>
 </html>

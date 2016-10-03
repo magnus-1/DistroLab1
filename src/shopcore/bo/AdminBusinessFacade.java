@@ -10,7 +10,7 @@ import java.util.Collection;
 /**
  * Created by cj on 2016-09-29.
  */
-public class AdminBuissnessFacade {
+public class AdminBusinessFacade {
 
     public static Collection<ProductInfo> getProducts() {
         ArrayList<ProductInfo> productInfos = new ArrayList<>();
