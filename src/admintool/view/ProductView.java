@@ -189,11 +189,11 @@ public class ProductView {
         pDesc.setPromptText("Description");
         pDesc.setMaxWidth(200);
         pCategory.setPromptText("Category");
-        pCategory.setMaxWidth(200);
+        pCategory.setMaxWidth(100);
         pPrice.setPromptText("Price");
-        pPrice.setMaxWidth(100);
+        pPrice.setMaxWidth(50);
         pQuantity.setPromptText("Quantity");
-        pQuantity.setMaxWidth(100);
+        pQuantity.setMaxWidth(50);
 
     }
 

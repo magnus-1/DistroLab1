@@ -58,8 +58,10 @@ public class ProductInfo {
         return "ProductInfo{" +
                 "productTitle='" + productTitle + '\'' +
                 ", description='" + description + '\'' +
-                ", price=" + price +
+                ", category='" + category + '\'' +
                 ", productId=" + productId +
+                ", price=" + price +
+                ", quantity=" + quantity +
                 '}';
     }
 }

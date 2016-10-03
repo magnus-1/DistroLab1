@@ -59,7 +59,7 @@ public class BusinessFacade {
     }
 
     public static boolean checkValidSession(String authToken,String sessionId) {
-        return Authentication.isSameSession(authToken,sessionId, BoUser.EMPLOYEE);
+        return Authentication.isSameSession(authToken,sessionId, BoUser.CUSTOMER);
     }
 
     public static Collection<ProductInfo> getProducts(Collection<Integer> productIDs){

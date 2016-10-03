@@ -18,7 +18,7 @@
     <input name="lastPage" type="hidden" value="${lastPage}">
     <input name="redirect" type="hidden" value="${redirect}">
     <input name="username" type="" value="">
-    <input name="password" type="" value="">
+    <input name="password" type="password" value="">
     <input name="loginFields" type="submit" value="Login"/>
 </form>
 

@@ -79,7 +79,7 @@
                     <input name="productDescription" value="${product.description}">
                 </td>
                 <td>
-                    <input name="productDescription" value="${product.category}">
+                    <input name="productCategory" value="${product.category}">
                 </td>
 
                 <td>

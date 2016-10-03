@@ -1,12 +1,11 @@
 package shopcore.bo;
 
 import shopcore.DB.BoProductBuilder;
-import shopcore.DB.ProductInterface;
 
 /**
  * Created by o_0 on 2016-09-26.
  */
-public class BoProduct implements ProductInterface {
+public class BoProduct {
     private String productTitle;
     private String description;
     private String category;
@@ -114,8 +113,10 @@ public class BoProduct implements ProductInterface {
         return "BoProduct{" +
                 "productTitle='" + productTitle + '\'' +
                 ", description='" + description + '\'' +
+                ", category='" + category + '\'' +
                 ", productId=" + productId +
                 ", price=" + price +
+                ", quantity=" + quantity +
                 '}';
     }
 }

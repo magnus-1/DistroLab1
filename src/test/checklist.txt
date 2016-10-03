@@ -29,18 +29,18 @@ Betyg 4
 * Här ska varulager finnas så man vet om varan finns i lager eller inte.
 * Man ska kunna skicka ordrar som ska vara inom en transaktion.
 * Användarhanteringen ska vara utbyggd så att man kan administrera dem.
-- Olika behörighets klasser ska även det introduceras. (kund, admin, lager personal)
+* Olika behörighets klasser ska även det introduceras. (kund, admin, lager personal)
 * En bra 3 lagersstruktur måste vara tydlig.
 
 Betyg 5
 * Här ska vi skriva en del av det administrativa i systemet,
 * som kan implementeras både som HTML eller vanligt grafiskt gränssnitt.
 * Man ska kunna lägga till och editera varor
--
- och varukategorier.
+
+* och varukategorier.
 
 * Lagerpersonal ska kunna titta på ordrar och 'packa' dem.
 * Naturligtvis måste man för dessa saker ha behörighet.
 ? Ni ska även implementera en MVC struktur i kombination med 3 lagers arkitekturen.
 
-Kolla session id på authToken mot servlet requesten
+* Kolla session id på authToken mot servlet requesten

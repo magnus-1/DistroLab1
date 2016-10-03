@@ -80,10 +80,12 @@ public class DatabaseGenerator {
 
     public static void populateTables() {
         BoProductBuilder<BoProduct> builder = BoProduct.getBuilder();
+        String[] cate = new String[]{"toy","lethal","vardagsrum"};
         for (int i = 1; i < 10; i++) {
             builder.productTitle("item" + i)
                     .description("discp" + i)
                     .price(22 * i)
+                    .category(cate[i%3])
                     .quantity(i+5);
             DatabasFacade.addProduct(builder.build());
             builder.clear();
@@ -92,7 +94,7 @@ public class DatabaseGenerator {
         BoUserBuilder<BoUser> build = BoUser.getBuilder();
         for (int i = 1; i < 10; i++) {
             build.userEmail("mail" + i)
-                    .userType(i)
+                    .userType(i % 4)
                     .userPassword("pass" + i);
             DatabasFacade.addUser(build.build());
             build.clear();
