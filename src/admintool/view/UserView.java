@@ -49,10 +49,6 @@ public class UserView {
         this.controllerDelegate = delegate;
     }
 
-    private void printUsers(Collection<UserInfo> users) {
-        System.out.println("Users" + users);
-    }
-
     public void start() {
         Button goToProducts = new Button();
         goToProducts.setText("Go To Products");
