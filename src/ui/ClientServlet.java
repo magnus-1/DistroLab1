@@ -155,10 +155,10 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
      * @param authToken
      */
     public void setOrders(HttpServletRequest request, HttpServletResponse response, String authToken) {
-        int userid = BusinessFacade.getUserId(authToken);
+        int userid = BusinessFacade.getUserId(authToken,request.getRequestedSessionId());
         System.out.println("UserId: " + userid);
         if (userid >= 0) {
-            Collection<OrderInfo> orders = BusinessFacade.getOrders(userid);
+            Collection<OrderInfo> orders = BusinessFacade.getOrders(authToken,request.getRequestedSessionId());
             System.out.println("Orders: " + orders);
             request.setAttribute(PAGE_PARAM_ORDERS, orders);
         }
@@ -378,7 +378,7 @@ public class ClientServlet extends HttpServlet implements javax.servlet.Servlet 
 
         System.out.println("buying products...");
 
-        if (BusinessFacade.buyProducts(cartProductIds, authToken) == false) {
+        if (BusinessFacade.buyProducts(cartProductIds, authToken,request.getRequestedSessionId()) == false) {
             // TODO: handle failed shopping
             System.out.println("buying products failed");
         } else {
