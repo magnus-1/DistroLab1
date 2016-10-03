@@ -14,10 +14,8 @@ import java.sql.Statement;
 public final class DBManager {
     private static volatile DBManager db = null;
     private DataSource dataSource;
-    private Connection con;
-    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost:3306/";
 
+    static final String DB_URL = "jdbc:mysql://localhost:3306/";
     static final String USERNAME = "webshopapp";
     static final String PASSWORD = "password";
 
@@ -31,37 +29,14 @@ public final class DBManager {
         return ds;
     }
 
-    private Connection connectServer() {
-        Connection mycon = null;
-        try {
-            Class.forName(JDBC_DRIVER).newInstance();
-
-            System.out.println("Connecting to database...");
-            mycon = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            System.out.println("Database connected!");
-            Statement stmt = mycon.createStatement();
-            String useShop = "USE Webshop;";
-            stmt.execute(useShop);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            System.out.println("driver fail");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        return mycon;
-    }
-
     private DBManager(){
-        //this.con = connectServer();
         this.dataSource = newMysqlDataSource();
-        System.out.println("con: " + this.con );
     }
 
-    // dubble check looking
+    /**
+     * Double checking singleton getInstance method.
+     * @return
+     */
     public static DBManager getInstance() {
         DBManager current = db;
         if (current == null) {
@@ -76,17 +51,35 @@ public final class DBManager {
         return current;
     }
 
-
+    /**
+     * Get a ProductDAO
+     * @return new ProductDAO instance
+     */
     public ProductDAO getProductDAO() {
         return new ProductDAO();
     }
+
+    /**
+     * Get a UserDAO
+     * @return new UserDAO instance
+     */
     public UserDAO getUserDAO(){
         return new UserDAO();
     }
+
+    /**
+     * Get a OrderDAO
+     * @return new OrderDAO instance
+     */
     public OrderDAO getOrderDAO(){
         return new OrderDAO();
     }
 
+    /**
+     * Get connection to database
+     * @return connection to database
+     * @throws SQLException
+     */
     public Connection getConnection() throws SQLException {
         Connection connection = this.dataSource.getConnection();
         Statement stmt = connection.createStatement();
@@ -94,5 +87,4 @@ public final class DBManager {
         stmt.execute(useShop);
         return connection;
     }
-
 }

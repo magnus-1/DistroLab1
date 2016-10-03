@@ -1,7 +1,8 @@
 package shopcore.DB;
 
 /**
- * Created by o_0 on 2016-09-26.
+ * Builder interface for BoProduct. This is used so that the DB layer
+ * doesn't need to know how to build the BoProduct.
  */
 public interface BoProductBuilder<T> {
     BoProductBuilder<T> productTitle(String title);

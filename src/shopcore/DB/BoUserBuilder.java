@@ -1,7 +1,9 @@
 package shopcore.DB;
 
+
 /**
- * Created by cj on 2016-09-29.
+ * Builder interface for BoUser. This is used so that the DB layer
+ * doesn't need to know how to build the BoUser.
  */
 public interface BoUserBuilder<T> {
     BoUserBuilder<T> userEmail(String email);
