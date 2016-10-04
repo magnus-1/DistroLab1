@@ -21,6 +21,11 @@ public class AdminTool extends Application {
     }
     private AdminToolController controler;
 
+    /**
+     * This starts the javafx app, and creates all views and models and connect them together
+     * with a controller, MVC
+     * @param primaryStage javafx stage
+     */
     @Override
     public void start(Stage primaryStage) {
         ProductView productView = new ProductView(primaryStage);

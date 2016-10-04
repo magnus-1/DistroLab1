@@ -42,7 +42,7 @@ public class AdminToolController {
         productView.setControllerDelegate(this);
         userView.setControllerDelegate(this);
 
-        loginView.start();
+        loginView.init();
         userView.start();
         productView.start();
 

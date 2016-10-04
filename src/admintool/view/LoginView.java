@@ -21,14 +21,25 @@ public class LoginView {
     private Stage primaryStage;
     private Scene scene;
 
+    /**
+     * Java Login view constructor
+     * @param primaryStage the stage used by the javafx
+     */
     public LoginView(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
+    /**
+     * Set the controller delegate in the mvc
+     * @param delegate the controller used
+     */
     public void setControlerDelegate(AdminToolController delegate) {
         this.controlerDelegate = delegate;
     }
 
+    /**
+     * Login status field
+     */
     private Label loginStatus;
 
     private  HBox createUserLoginBox(){
@@ -55,14 +66,20 @@ public class LoginView {
         return loginBox;
     }
 
-    public void start(){
+    /**
+     * This init the scene for this view and build the the gui elements
+     */
+    public void init(){
         StackPane root = new StackPane();
         root.getChildren().add(createUserLoginBox());
         scene = new Scene(root, AdminTool.width, AdminTool.height);
     }
 
+    /**
+     * Displayes this view on the connected stage
+     */
     public void showScene(){
-        primaryStage.setTitle("Hello World!");
+        primaryStage.setTitle("Login screen");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
