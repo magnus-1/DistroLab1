@@ -9,7 +9,7 @@ import shopcore.bo.BoUser;
 import java.sql.*;
 
 /**
- * Created by cj on 2016-09-28.
+ * This class generates the database for the application.
  */
 public class DatabaseGenerator {
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -77,6 +77,9 @@ public class DatabaseGenerator {
 
     }
 
+    /**
+     * generates som sample data
+     */
     public static void populateTables() {
         BoProductBuilder<BoProduct> builder = BoProduct.getBuilder();
         String[] cate = new String[]{"toy","lethal","vardagsrum"};
