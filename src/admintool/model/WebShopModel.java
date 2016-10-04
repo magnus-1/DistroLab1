@@ -25,7 +25,7 @@ public class WebShopModel {
 
     /**
      * Get the products in the webapp
-     * @return
+     * @return  list of products
      */
     public List<ProductInfo> getProducts() {
         return (List<ProductInfo>) AdminBusinessFacade.getProducts();
