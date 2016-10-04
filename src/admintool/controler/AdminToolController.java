@@ -68,7 +68,7 @@ public class AdminToolController {
         userView.setControllerDelegate(this);
 
         loginView.init();
-        userView.start();
+        userView.init();
         productView.init();
 
         loginView.showScene();
