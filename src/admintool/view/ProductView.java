@@ -18,11 +18,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import shopcore.dto.ProductInfo;
+import sun.security.x509.AVA;
 
 import java.util.ArrayList;
 
 /**
- * Created by cj on 2016-10-01.
+ * The admin user interface for the product view
  */
 public class ProductView {
     private AdminToolController controllerDelegate;
@@ -41,98 +42,56 @@ public class ProductView {
 
     private HBox buttonField = new HBox();
     private HBox addProductField = new HBox();
+    private VBox mainBox = new VBox();
 
+    private Button add;
+    private Button delete;
+    private Button goToUsers;
+    private Button logout;
+    private Button update;
 
+    /**
+     * These steps initializes the product view. Creating buttons, Vboxes,hboxes... etc.
+     * No rocket science here really.
+     * @param primaryStage
+     */
     public ProductView(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
-
     public void setControllerDelegate(AdminToolController delegate) {
         this.controllerDelegate = delegate;
     }
+    public void init(){
+        Label pageTitle = new Label("Admin/Products");
+        pageTitle.setFont(new Font("Arial", 20));
 
-    public void start(){
-        Button goToUsers = new Button();
-        goToUsers.setText("Go To Users");
-        goToUsers.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                controllerDelegate.goToUserView();
-                updateProducts();
-            }
-        });
-        Button logout = new Button();
-        logout.setText("Logout");
-        logout.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                controllerDelegate.goToLoginView();
-            }
-        });
-
-        Button delete = new Button();
-        delete.setText("Delete");
-        delete.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Product To delete: "+selectedProduct);
-                controllerDelegate.deleteProduct(selectedProduct);
-                updateProducts();
-            }
-        });
-
-        Button update = new Button();
-        update.setText("Update");
-        update.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Product To update: "+selectedProduct);
-                double price;
-                int qunt;
-                try {
-                    price = Double.parseDouble(pPrice.getText());
-                    qunt = Integer.parseInt(pQuantity.getText());
-                }catch (NumberFormatException ex) {
-                    price = selectedProduct.getPrice();
-                    qunt = selectedProduct.getQuantity();
-                }
-                ProductInfo productInfo = new ProductInfo(pTitle.getText(), pDesc.getText(),pCategory.getText(), selectedProduct.getProductId(), price, qunt);
-                controllerDelegate.updateProduct(productInfo);
-                updateProducts();
-            }
-        });
+        initButtons();
 
         buttonField.getChildren().addAll(goToUsers,logout);
         buttonField.setSpacing(3);
 
-
-        Label pageTitle = new Label("Admin/Products");
-        pageTitle.setFont(new Font("Arial", 20));
-
         productTable = createProductTable();
-
-        productTable.setEditable(true);
-
         products = FXCollections.observableList(new ArrayList<>());
         productTable.setItems(products);
 
         initTextFields();
 
-        addProductField.getChildren().addAll(pTitle,pDesc,pCategory,pPrice,pQuantity,createAddButton(),update,delete);
+        addProductField.getChildren().addAll(pTitle,pDesc,pCategory,pPrice,pQuantity,add,update,delete);
         addProductField.setSpacing(3);
 
-
-        VBox vbox = new VBox();
-        vbox.setSpacing(6);
-        vbox.setPadding(new Insets(10, 0, 0, 10));
-        vbox.getChildren().addAll(pageTitle,buttonField, productTable,addProductField);
+        mainBox.setSpacing(6);
+        mainBox.setPadding(new Insets(10, 0, 0, 10));
+        mainBox.getChildren().addAll(pageTitle,buttonField, productTable,addProductField);
 
         Group root = new Group();
         scene = new Scene(root, AdminTool.width, AdminTool.height);
 
-        ((Group) scene.getRoot()).getChildren().addAll(vbox);
+        ((Group) scene.getRoot()).getChildren().addAll(mainBox);
     }
 
+    /**
+     * Sets the productView in the primaryStage
+     */
     public void showScene(){
         primaryStage.setTitle("Hello World!");
         updateProducts();
@@ -140,6 +99,12 @@ public class ProductView {
         primaryStage.show();
     }
 
+    /**
+     * Creator for table columns
+     * @param title
+     * @param propertyName
+     * @return TableColumn
+     */
     private TableColumn createColumn(String title,String propertyName){
         TableColumn tCol = new TableColumn(title);
         tCol.setCellValueFactory(new PropertyValueFactory(propertyName));
@@ -147,6 +112,11 @@ public class ProductView {
         return tCol;
     }
 
+
+
+    /**
+     * fills the textFields with the data in the selected table item
+     */
     private void fillTextField() {
         this.pTitle.setText(selectedProduct.getProductTitle());
         this.pDesc.setText(selectedProduct.getDescription());
@@ -155,6 +125,10 @@ public class ProductView {
         this.pQuantity.setText("" + selectedProduct.getQuantity());
     }
 
+    /**
+     * Creator for the product table
+     * @return TableView
+     */
     private TableView createProductTable() {
         TableView table1 = new TableView();
 
@@ -176,13 +150,13 @@ public class ProductView {
                 }
             }
         };
-
+        table1.setEditable(true);
         table1.getSelectionModel().selectedIndexProperty().addListener(cl);
         return table1;
     }
-
-
-
+    /**
+     * TextFields init method
+     */
     private void initTextFields(){
         pTitle.setPromptText("Title");
         pTitle.setMaxWidth(200);
@@ -196,26 +170,86 @@ public class ProductView {
         pQuantity.setMaxWidth(50);
 
     }
+    /**
+     * Method call to update selected product
+     */
+    private void updateProducts() {
+        this.products.clear();
+        this.products.addAll(controllerDelegate.getProducts());
+        productTable.refresh();
+    }
 
+    /**
+     * Creator for buttons
+     * @param lable
+     * @param eventEventhandler
+     * @return Button
+     */
+    private Button createButton(String lable, EventHandler<ActionEvent> eventEventhandler){
+        Button button = new Button();
+        button.setText(lable);
+        button.setOnAction(eventEventhandler);
+        return button;
+    }
 
-    private Button createAddButton(){
-        Button addButton = new Button("Add");
-        addButton.setOnAction(new EventHandler<ActionEvent>() {
+    /**
+     * Initiate all the buttons!!
+     */
+    private void initButtons(){
+        goToUsers = createButton("Go To Users",new EventHandler<ActionEvent>(){
             @Override
-            public void handle(ActionEvent e) {
+            public void handle(ActionEvent event){
+                controllerDelegate.goToUserView();
+                updateProducts();
+            }
+        });
+        logout = createButton("Logout", new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                controllerDelegate.goToLoginView();
+            }
+        });
+
+        delete = createButton("Delete", new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                controllerDelegate.deleteProduct(selectedProduct);
+                updateProducts();
+            }
+        });
+
+        update = createButton("Update", new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                double price;
+                int qunt;
+                try {
+                    price = Double.parseDouble(pPrice.getText());
+                    qunt = Integer.parseInt(pQuantity.getText());
+                }catch (NumberFormatException ex) {
+                    price = selectedProduct.getPrice();
+                    qunt = selectedProduct.getQuantity();
+                }
+                ProductInfo productInfo = new ProductInfo(pTitle.getText(), pDesc.getText(),pCategory.getText(), selectedProduct.getProductId(), price, qunt);
+                controllerDelegate.updateProduct(productInfo);
+                updateProducts();
+            }
+        });
+
+        add = createButton("Add", new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
                 try {
                     System.out.println("Butten: " + pTitle.getText() + ":"+ pDesc.getText() + ":"+ pCategory.getText() +":"+ pPrice.getText() + ":" +pQuantity.getText());
-                controllerDelegate.addProduct(new ProductInfo(
-                        pTitle.getText(),
-                        pDesc.getText(),
-                        pCategory.getText(),
-                        Double.parseDouble(pPrice.getText()),
-                        Integer.parseInt(pQuantity.getText())));
+                    controllerDelegate.addProduct(new ProductInfo(
+                            pTitle.getText(),
+                            pDesc.getText(),
+                            pCategory.getText(),
+                            Double.parseDouble(pPrice.getText()),
+                            Integer.parseInt(pQuantity.getText())));
                 } catch (NumberFormatException ex){
                     ex.printStackTrace();
                 }
-
-
                 pTitle.clear();
                 pDesc.clear();
                 pCategory.clear();
@@ -224,15 +258,5 @@ public class ProductView {
                 updateProducts();
             }
         });
-        return addButton;
-    }
-
-
-    private void updateProducts() {
-       // this.products = FXCollections.observableList(controllerDelegate.getProducts());
-        this.products.clear();
-        this.products.addAll(controllerDelegate.getProducts());
-        //this.products.notifyAll();
-        productTable.refresh();
     }
 }

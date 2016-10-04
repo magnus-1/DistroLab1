@@ -17,7 +17,7 @@ import javafx.stage.Stage;
  * Created by cj on 2016-10-01.
  */
 public class LoginView {
-    private AdminToolController controlerDelegate;
+    private AdminToolController controllerDelegate;
     private Stage primaryStage;
     private Scene scene;
 
@@ -25,8 +25,8 @@ public class LoginView {
         this.primaryStage = primaryStage;
     }
 
-    public void setControlerDelegate(AdminToolController delegate) {
-        this.controlerDelegate = delegate;
+    public void setControllerDelegate(AdminToolController delegate) {
+        this.controllerDelegate = delegate;
     }
 
     private Label loginStatus;
@@ -40,9 +40,9 @@ public class LoginView {
         loginButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                boolean sucess = controlerDelegate.loginUser(userName.getText(), password.getText());
+                boolean sucess = controllerDelegate.loginUser(userName.getText(), password.getText());
                 if (sucess) {
-                    controlerDelegate.goToProductView();
+                    controllerDelegate.goToProductView();
                 }else {
                     loginStatus.setText("Login Failed");
                 }

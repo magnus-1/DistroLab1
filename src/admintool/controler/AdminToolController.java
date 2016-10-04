@@ -38,13 +38,13 @@ public class AdminToolController {
     }
 
     public void startApp() {
-        loginView.setControlerDelegate(this);
+        loginView.setControllerDelegate(this);
         productView.setControllerDelegate(this);
         userView.setControllerDelegate(this);
 
         loginView.start();
         userView.start();
-        productView.start();
+        productView.init();
 
         loginView.showScene();
     }
