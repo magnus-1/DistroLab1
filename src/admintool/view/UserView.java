@@ -200,8 +200,6 @@ public class UserView {
                 } catch (NumberFormatException ex) {
                     ex.printStackTrace();
                 }
-
-
                 userPassword.clear();
                 userEmail.clear();
                 userType.clear();
