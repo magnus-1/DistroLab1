@@ -34,16 +34,21 @@ public final class DBManager {
     }
 
     /**
+     * This is based on the recommendation for the singleton pattern from :
+     * https://github.com/iluwatar/java-design-patterns/blob/master/singleton/src/main/java/com/iluwatar/singleton/ThreadSafeDoubleCheckLocking.java
      * Double checking singleton getInstance method.
-     * @return
+     * @return the new database managern
      */
     public static DBManager getInstance() {
         DBManager current = db;
+        // fast check to see if already created
         if (current == null) {
-
+            // sync so not more then one creates it
             synchronized (DBManager.class) {
                 current = db;
+                // check if between first check and sync if someone has created it
                 if (current == null) {
+                    //create it
                     db = current = new DBManager();
                 }
             }
