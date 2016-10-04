@@ -17,7 +17,7 @@ public class DatabaseGenerator {
     static final String USERNAME = "webshopapp";
     static final String PASSWORD = "password";
 
-    public static void createTabels(Statement stmt) throws SQLException {
+    public static void createTables(Statement stmt) throws SQLException {
         String database = "CREATE DATABASE IF NOT EXISTS Webshop;";
         stmt.execute(database);
         String useShop = "USE Webshop;";
@@ -114,7 +114,7 @@ public class DatabaseGenerator {
             System.out.println("Creating database...");
             stmt = connection.createStatement();
 
-            createTabels(stmt);
+            createTables(stmt);
             populateTables();
 
         }catch(SQLException e){
