@@ -40,95 +40,56 @@ public class UserView {
 
     private HBox buttonField = new HBox();
     private HBox addUserField = new HBox();
+    private VBox mainBox = new VBox();
 
+    private Button goToProducts;
+    private Button logout;
+    private Button delete;
+    private Button update;
+    private Button add;
+
+
+    /**
+     * These steps initializes the admin user view. Creating buttons, Vboxes,hboxes... etc.
+     * No rocket science here really.
+     * @param stage
+     */
     public UserView(Stage stage) {
         this.primaryStage = stage;
     }
-
     public void setControllerDelegate(AdminToolController delegate) {
         this.controllerDelegate = delegate;
     }
-
-    public void start() {
-        Button goToProducts = new Button();
-        goToProducts.setText("Go To Products");
-        goToProducts.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                controllerDelegate.goToProductView();
-            }
-        });
-        Button logout = new Button();
-        logout.setText("Logout");
-        logout.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                controllerDelegate.goToLoginView();
-            }
-        });
-
-        Button delete = new Button();
-        delete.setText("Delete");
-        delete.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("User To delete: "+selectedUser);
-                controllerDelegate.deleteUser(selectedUser);
-                updateUsers();
-            }
-        });
-
-        Button update = new Button();
-        update.setText("Update");
-        update.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("User To update: "+selectedUser);
-                int type;
-                int userid;
-                try {
-                    type = Integer.parseInt(userType.getText());
-                }catch (NumberFormatException ex) {
-                    type = selectedUser.getUserType();
-                }
-                UserInfo userInfo = new UserInfo(userEmail.getText(), userPassword.getText(),type,selectedUser.getUserID());
-
-                controllerDelegate.updateUser(userInfo);
-                updateUsers();
-            }
-        });
-
-        buttonField.getChildren().addAll(goToProducts,logout);
-        buttonField.setSpacing(3);
-
-
+    public void init() {
 
         Label pageTitle = new Label("Admin/Users");
         pageTitle.setFont(new Font("Arial", 20));
 
-        userTable = createUserTable();
-        userTable.setEditable(true);
-
-        users = FXCollections.observableList(new ArrayList<>());
-        userTable.setItems(users);
-
+        initButtons();
         initTextFields();
 
-        addUserField.getChildren().addAll(userEmail,userPassword,userType,createAddButton(),update,delete);
+        buttonField.getChildren().addAll(goToProducts, logout);
+        buttonField.setSpacing(3);
+
+        users = FXCollections.observableList(new ArrayList<>());
+        userTable = createUserTable();
+        userTable.setItems(users);
+
+        addUserField.getChildren().addAll(userEmail, userPassword, userType, add, update, delete);
         addUserField.setSpacing(3);
 
-
-        VBox vbox = new VBox();
-        vbox.setSpacing(6);
-        vbox.setPadding(new Insets(10, 0, 0, 10));
-        vbox.getChildren().addAll(pageTitle, buttonField, userTable, addUserField);
+        mainBox.setSpacing(6);
+        mainBox.setPadding(new Insets(10, 0, 0, 10));
+        mainBox.getChildren().addAll(pageTitle, buttonField, userTable, addUserField);
 
         Group root = new Group();
         scene = new Scene(root, AdminTool.width, AdminTool.height);
 
-        ((Group) scene.getRoot()).getChildren().addAll(vbox);
+        ((Group) scene.getRoot()).getChildren().addAll(mainBox);
     }
-
+    /**
+     * Sets the userView in the primaryStage
+     */
     public void showScene() {
         primaryStage.setTitle("Hello World!");
         updateUsers();
@@ -136,20 +97,30 @@ public class UserView {
         primaryStage.show();
     }
 
-
+    /**
+     * Creator for table columns
+     * @param title
+     * @param propertyName
+     * @return TableColumn
+     */
     private TableColumn createColumn(String title, String propertyName) {
         TableColumn tCol = new TableColumn(title);
         tCol.setCellValueFactory(new PropertyValueFactory(propertyName));
         tCol.setEditable(true);
         return tCol;
     }
-
+    /**
+     * fills the textFields with the data in the selected table item
+     */
     private void fillTextField() {
         this.userPassword.setText(selectedUser.getPassword());
         this.userEmail.setText(selectedUser.getEmail());
         this.userType.setText("" + selectedUser.getUserType());
     }
-
+    /**
+     * Creator for the product table
+     * @return TableView
+     */
     private TableView createUserTable() {
         TableView table1 = new TableView();
         users = FXCollections.observableList(new ArrayList<UserInfo>());
@@ -169,11 +140,13 @@ public class UserView {
                 }
             }
         };
-
+        table1.setEditable(true);
         table1.getSelectionModel().selectedIndexProperty().addListener(cl);
         return table1;
     }
-
+    /**
+     * TextFields init method
+     */
     private void initTextFields() {
         userEmail.setPromptText("Email");
         userEmail.setMaxWidth(200);
@@ -184,12 +157,74 @@ public class UserView {
 
     }
 
+    /**
+     * Method call to get fresh list of users from database
+     */
+    private void updateUsers() {
+        this.users.clear();
+        this.users.addAll(controllerDelegate.getUsers());
+        //this.products.notifyAll();
+        userTable.refresh();
+    }
 
-    private Button createAddButton() {
-        Button addButton = new Button("Add");
-        addButton.setOnAction(new EventHandler<ActionEvent>() {
+    /**
+     * Creator for buttons
+     *
+     * @param lable
+     * @param eventEventhandler
+     * @return Button
+     */
+    private Button createButton(String lable, EventHandler<ActionEvent> eventEventhandler) {
+        Button button = new Button();
+        button.setText(lable);
+        button.setOnAction(eventEventhandler);
+        return button;
+    }
+
+    /**
+     * Initiate all the buttons!!
+     */
+    private void initButtons() {
+        goToProducts = createButton("Go To Products", new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent e) {
+            public void handle(ActionEvent event) {
+                controllerDelegate.goToProductView();
+            }
+        });
+        logout = createButton("Logout", new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                controllerDelegate.goToLoginView();
+            }
+        });
+
+        delete = createButton("Delete", new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                controllerDelegate.deleteUser(selectedUser);
+                updateUsers();
+            }
+        });
+
+        update = createButton("Update", new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                int type;
+                try {
+                    type = Integer.parseInt(userType.getText());
+                } catch (NumberFormatException ex) {
+                    type = selectedUser.getUserType();
+                }
+                UserInfo userInfo = new UserInfo(userEmail.getText(), userPassword.getText(), type, selectedUser.getUserID());
+
+                controllerDelegate.updateUser(userInfo);
+                updateUsers();
+            }
+        });
+
+        add = createButton("Add", new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
                 try {
 
                     controllerDelegate.addUser(new UserInfo(
@@ -206,13 +241,5 @@ public class UserView {
                 updateUsers();
             }
         });
-        return addButton;
-    }
-
-    private void updateUsers() {
-        this.users.clear();
-        this.users.addAll(controllerDelegate.getUsers());
-        //this.products.notifyAll();
-        userTable.refresh();
     }
 }

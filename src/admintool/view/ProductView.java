@@ -171,7 +171,7 @@ public class ProductView {
 
     }
     /**
-     * Method call to update selected product
+     * Method call to get fresh list of product from database
      */
     private void updateProducts() {
         this.products.clear();
